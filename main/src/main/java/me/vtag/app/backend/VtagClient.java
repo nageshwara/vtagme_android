@@ -30,8 +30,8 @@ import me.vtag.app.pages.LoginPageFragment;
  * Created by nmannem on 30/10/13.
  */
 public class VtagClient {
-    private static final String BASE_URL = "http://10.63.8.119:8080";
-    //private static final String BASE_URL = "https://vtag.me";
+    //private static final String BASE_URL = "http://192.168.0.4:8080";
+    private static final String BASE_URL = "http://www.vtag.me";
 
     private AsyncHttpClient client;
     private static VtagClient instance = null;
