@@ -64,6 +64,7 @@ public class WelcomeActivity extends ActionBarActivity
         mTitle = getTitle();
         mHashtags = new LruCache<String, BaseTagModel>(100);
 
+        VtagClient.getInstance().initalize(this);
         accountManager = AccountManager.get(this);
         authPreferences = new AuthPreferences(this);
         if (authPreferences.getUser() != null
@@ -118,6 +119,7 @@ public class WelcomeActivity extends ActionBarActivity
     }
 
     public void showLoginPage() {
+        mTitle = "Login";
         // Now show list of tags.
         LoginPageFragment loginPage = new LoginPageFragment();
         // update the main content by replacing fragments
@@ -128,6 +130,7 @@ public class WelcomeActivity extends ActionBarActivity
     }
 
     public void showSignupPage(String email, String username) {
+        mTitle = "Signup";
         // Now show list of tags.
         FinishSignupPageFragment signupPageFragment = new FinishSignupPageFragment(email, username);
         // update the main content by replacing fragments

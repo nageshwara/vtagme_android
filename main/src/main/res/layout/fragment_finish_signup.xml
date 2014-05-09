@@ -38,7 +38,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,7 +54,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/username_input"
-            android:layout_margin="5dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="0dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +74,10 @@
             android:ems="10"
             android:id="@+id/email_input"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="5dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="0dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -86,7 +94,11 @@
             android:ems="10"
             android:id="@+id/password_input"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="5dp" />
+            android:layout_margin="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="0dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -96,4 +108,5 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp" />
     </LinearLayout>
+
 </RelativeLayout>

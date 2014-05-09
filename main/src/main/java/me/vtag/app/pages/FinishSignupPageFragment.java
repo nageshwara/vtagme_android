@@ -16,13 +16,20 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.TextHttpResponseHandler;
 
+import org.apache.http.Header;
+
+import java.lang.reflect.Type;
 import java.util.Arrays;
 
 import me.vtag.app.BasePageFragment;
 import me.vtag.app.R;
 import me.vtag.app.WelcomeActivity;
 import me.vtag.app.backend.VtagClient;
+import me.vtag.app.backend.vos.LoginVO;
 
 /**
  * Created by nageswara on 5/5/14.
@@ -54,11 +61,13 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
         username = (EditText)rootView.findViewById(R.id.username_input);
         password = (EditText)rootView.findViewById(R.id.password_input);
 
-        if (savedInstanceState.containsKey(EMAIL_TEXT)) {
-            email_text = savedInstanceState.getString(EMAIL_TEXT);
-        }
-        if (savedInstanceState.containsKey(USERNAME_TEXT)) {
-            username_text = savedInstanceState.getString(USERNAME_TEXT);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(EMAIL_TEXT)) {
+                email_text = savedInstanceState.getString(EMAIL_TEXT);
+            }
+            if (savedInstanceState.containsKey(USERNAME_TEXT)) {
+                username_text = savedInstanceState.getString(USERNAME_TEXT);
+            }
         }
 
         email.setText(email_text);
@@ -78,7 +87,23 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
 
     @Override
     public void onClick(View view) {
-
         // Finish the sign up..
+        VtagClient.getInstance().finishSignup(username.getText().toString(),
+                email.getText().toString(),
+                password.getText().toString(),
+                new LoginPageFragment.VtagAuthCallback() {
+                    @Override
+                    public void onSuccess(LoginVO loginDetails) {
+                        if (loginDetails.loggedin) {
+                            ((WelcomeActivity) getActivity()).browseHomePage();
+                        } else {
+                            // Show Error Message..
+                        }
+                    }
+                    @Override
+                    public void onFailure() {
+                        // Show Error
+                    }
+                });
     }
 }

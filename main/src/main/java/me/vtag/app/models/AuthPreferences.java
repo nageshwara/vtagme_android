@@ -18,7 +18,7 @@ public class AuthPreferences {
 
     public AuthPreferences(Context context) {
         preferences = context
-                .getSharedPreferences("newauth", Context.MODE_PRIVATE);
+                .getSharedPreferences("auth21", Context.MODE_PRIVATE);
     }
 
     public void setUser(String user, String provider) {
