@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="2dp"
+    android:clickable="false">
+<!--    <View
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:layout_margin="0dp"
+        android:background="@drawable/rounded_corner" />
+-->
+    <me.vtag.app.CustomImageView
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/white"
+    />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/tagTitleView"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_alignBottom="@+id/tagOptionsButton"
+        android:layout_toLeftOf="@+id/tagOptionsButton" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tagOptionsButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/abc_ic_menu_moreoverflow_normal_holo_light"
+        android:onClick="openContextMenu" />
+
+</RelativeLayout><!-- From: file:/home/anuraag/vtagme_android/main/src/main/res/layout/tagcard.xml -->
