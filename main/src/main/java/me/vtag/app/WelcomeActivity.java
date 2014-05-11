@@ -217,7 +217,7 @@ public class WelcomeActivity extends ActionBarActivity
 
     private void showProgressMessage() {
         progressDialog = ProgressDialog.show(this, "Loading..",
-                "Please wait..", true);
+                "Please wait,,,,,,....", true);
     }
 
     private void hideProgressMessage() {

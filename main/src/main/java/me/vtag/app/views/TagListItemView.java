@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import me.vtag.app.CustomImageView;
 import me.vtag.app.R;
 import me.vtag.app.WelcomeActivity;
 import me.vtag.app.backend.models.BaseTagModel;

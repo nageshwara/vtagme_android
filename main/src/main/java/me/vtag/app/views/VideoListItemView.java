@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import me.vtag.app.CustomImageView;
 import me.vtag.app.R;
 import me.vtag.app.backend.models.VideoMetaModel;
 import me.vtag.app.pages.VideoPlayerActivity;
@@ -47,10 +48,17 @@ public class VideoListItemView extends FrameLayout implements View.OnClickListen
     public void setModel(VideoMetaModel model) {
         this.model = model;
 
-        ImageView image = (ImageView) view.findViewById(R.id.imageView);
+        ImageView image = (CustomImageView) view.findViewById(R.id.imageView1);
         TextView text = (TextView) view.findViewById(R.id.videoTitleView);
+        TextView text1 = (TextView) view.findViewById(R.id.views);
+        TextView text2 = (TextView) view.findViewById(R.id.likes);
+        TextView text3 = (TextView) view.findViewById(R.id.duration);
+
 
         text.setText(model.title);
+        text1.setText("Views: "+Integer.toString(model.views));
+        text2.setText( " . "+Integer.toString(model.likes));
+        text3.setText(Integer.toString((model.duration) / 3600)+":"+Integer.toString(((model.duration) % 3600)/60)+":"+Integer.toString(((model.duration) % 3600) %60) );
         Picasso.with(this.getContext()).load(model.thumb)
                 .resizeDimen(R.dimen.videolist_thumb_width, R.dimen.videolist_thumb_height)
                 .centerInside()
