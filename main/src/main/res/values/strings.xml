@@ -18,6 +18,14 @@
         <item >What\'s Hot</item>
     </string-array>
 
+
+    <!-- Subscribe/unsubscribe spinner Items -->
+    <string name="apple">apple labs</string>
+    <string-array name="subscribe_unsubscribe">
+        <item >Subscribe</item>
+        <item >Unsubscribe</item>
+    </string-array>
+
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">

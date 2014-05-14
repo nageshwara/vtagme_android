@@ -12,6 +12,13 @@ import android.util.LruCache;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.PopupMenu;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -51,6 +58,17 @@ public class WelcomeActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+    class MyOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent,
+                                   View view, int pos, long id) {
+//            chunkSize = new Integer(parent.getItemAtPosition(pos).toString()).intValue();
+        }
+        public void onNothingSelected(AdapterView<?> parent) {
+            // Dummy
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,7 +238,7 @@ public class WelcomeActivity extends ActionBarActivity
 
     private void showProgressMessage() {
         progressDialog = ProgressDialog.show(this, "Loading..",
-                "Please wait..", true);
+                "Please wait,,,,,,....", true);
     }
 
     private void hideProgressMessage() {
