@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/vtagme2/vtagme2.iml" filepath="$PROJECT_DIR$/vtagme2/vtagme2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/vtagme2Project.iml" filepath="$PROJECT_DIR$/vtagme2Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/facebook/facebook.iml" filepath="$PROJECT_DIR$/facebook/facebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/main/main.iml" filepath="$PROJECT_DIR$/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vtagme_android.iml" filepath="$PROJECT_DIR$/vtagme_android.iml" />
     </modules>
   </component>
 </project>

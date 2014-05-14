@@ -26,6 +26,7 @@ public final class R {
          */
         public static final int nav_drawer_icons=0x7f050000;
         public static final int nav_drawer_items=0x7f050001;
+        public static final int subscribe_unsubscribe=0x7f050002;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -1445,6 +1446,7 @@ containing a value of this type.
         public static final int never=0x7f08001e;
         public static final int none=0x7f08001b;
         public static final int normal=0x7f080000;
+        public static final int one=0x7f080089;
         public static final int password_input=0x7f080072;
         public static final int password_label=0x7f080071;
         public static final int picker_subtitle=0x7f080062;
@@ -1479,9 +1481,11 @@ containing a value of this type.
         public static final int tagListView=0x7f080077;
         public static final int tagOptionsButton=0x7f08007f;
         public static final int tagTitleView=0x7f08007e;
+        public static final int three=0x7f08008b;
         public static final int title=0x7f08003e;
         public static final int top=0x7f08000d;
         public static final int top_action_bar=0x7f080033;
+        public static final int two=0x7f08008a;
         public static final int up=0x7f080034;
         public static final int useLogo=0x7f080003;
         public static final int username_input=0x7f08006e;
@@ -1553,7 +1557,8 @@ containing a value of this type.
     public static final class menu {
         public static final int global=0x7f0d0000;
         public static final int home_action_menu=0x7f0d0001;
-        public static final int videoplayer_action_menu=0x7f0d0002;
+        public static final int subscribe_menu=0x7f0d0002;
+        public static final int videoplayer_action_menu=0x7f0d0003;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f0b0000;
@@ -1572,38 +1577,39 @@ containing a value of this type.
         public static final int action_example=0x7f0b000d;
         public static final int action_settings=0x7f0b000e;
         public static final int app_name=0x7f0b000f;
-        public static final int com_facebook_choose_friends=0x7f0b0010;
-        public static final int com_facebook_dialogloginactivity_ok_button=0x7f0b0011;
-        public static final int com_facebook_internet_permission_error_message=0x7f0b0012;
-        public static final int com_facebook_internet_permission_error_title=0x7f0b0013;
-        public static final int com_facebook_loading=0x7f0b0014;
-        public static final int com_facebook_loginview_cancel_action=0x7f0b0015;
-        public static final int com_facebook_loginview_log_in_button=0x7f0b0016;
-        public static final int com_facebook_loginview_log_out_action=0x7f0b0017;
-        public static final int com_facebook_loginview_log_out_button=0x7f0b0018;
-        public static final int com_facebook_loginview_logged_in_as=0x7f0b0019;
-        public static final int com_facebook_loginview_logged_in_using_facebook=0x7f0b001a;
-        public static final int com_facebook_logo_content_description=0x7f0b001b;
-        public static final int com_facebook_nearby=0x7f0b001c;
-        public static final int com_facebook_picker_done_button_text=0x7f0b001d;
-        public static final int com_facebook_placepicker_subtitle_catetory_only_format=0x7f0b001e;
-        public static final int com_facebook_placepicker_subtitle_format=0x7f0b001f;
-        public static final int com_facebook_placepicker_subtitle_were_here_only_format=0x7f0b0020;
-        public static final int com_facebook_requesterror_password_changed=0x7f0b0021;
-        public static final int com_facebook_requesterror_permissions=0x7f0b0022;
-        public static final int com_facebook_requesterror_reconnect=0x7f0b0023;
-        public static final int com_facebook_requesterror_relogin=0x7f0b0024;
-        public static final int com_facebook_requesterror_web_login=0x7f0b0025;
-        public static final int com_facebook_tooltip_default=0x7f0b0026;
-        public static final int com_facebook_usersettingsfragment_log_in_button=0x7f0b0027;
-        public static final int com_facebook_usersettingsfragment_logged_in=0x7f0b0028;
-        public static final int com_facebook_usersettingsfragment_not_logged_in=0x7f0b0029;
-        public static final int desc_list_item_icon=0x7f0b002a;
-        public static final int drawer_close=0x7f0b002b;
-        public static final int drawer_open=0x7f0b002c;
-        public static final int facebook_app_id=0x7f0b002d;
-        public static final int hello_world=0x7f0b002e;
-        public static final int title_activity_youtube_video=0x7f0b002f;
+        public static final int apple=0x7f0b0010;
+        public static final int com_facebook_choose_friends=0x7f0b0011;
+        public static final int com_facebook_dialogloginactivity_ok_button=0x7f0b0012;
+        public static final int com_facebook_internet_permission_error_message=0x7f0b0013;
+        public static final int com_facebook_internet_permission_error_title=0x7f0b0014;
+        public static final int com_facebook_loading=0x7f0b0015;
+        public static final int com_facebook_loginview_cancel_action=0x7f0b0016;
+        public static final int com_facebook_loginview_log_in_button=0x7f0b0017;
+        public static final int com_facebook_loginview_log_out_action=0x7f0b0018;
+        public static final int com_facebook_loginview_log_out_button=0x7f0b0019;
+        public static final int com_facebook_loginview_logged_in_as=0x7f0b001a;
+        public static final int com_facebook_loginview_logged_in_using_facebook=0x7f0b001b;
+        public static final int com_facebook_logo_content_description=0x7f0b001c;
+        public static final int com_facebook_nearby=0x7f0b001d;
+        public static final int com_facebook_picker_done_button_text=0x7f0b001e;
+        public static final int com_facebook_placepicker_subtitle_catetory_only_format=0x7f0b001f;
+        public static final int com_facebook_placepicker_subtitle_format=0x7f0b0020;
+        public static final int com_facebook_placepicker_subtitle_were_here_only_format=0x7f0b0021;
+        public static final int com_facebook_requesterror_password_changed=0x7f0b0022;
+        public static final int com_facebook_requesterror_permissions=0x7f0b0023;
+        public static final int com_facebook_requesterror_reconnect=0x7f0b0024;
+        public static final int com_facebook_requesterror_relogin=0x7f0b0025;
+        public static final int com_facebook_requesterror_web_login=0x7f0b0026;
+        public static final int com_facebook_tooltip_default=0x7f0b0027;
+        public static final int com_facebook_usersettingsfragment_log_in_button=0x7f0b0028;
+        public static final int com_facebook_usersettingsfragment_logged_in=0x7f0b0029;
+        public static final int com_facebook_usersettingsfragment_not_logged_in=0x7f0b002a;
+        public static final int desc_list_item_icon=0x7f0b002b;
+        public static final int drawer_close=0x7f0b002c;
+        public static final int drawer_open=0x7f0b002d;
+        public static final int facebook_app_id=0x7f0b002e;
+        public static final int hello_world=0x7f0b002f;
+        public static final int title_activity_youtube_video=0x7f0b0030;
     }
     public static final class style {
         public static final int ActionBar_Solid_Vtagme=0x7f0c0000;
