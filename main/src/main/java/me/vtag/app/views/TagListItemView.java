@@ -3,14 +3,19 @@ package me.vtag.app.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import me.vtag.app.CustomImageView;
 import me.vtag.app.R;
 import me.vtag.app.WelcomeActivity;
 import me.vtag.app.backend.models.BaseTagModel;
@@ -46,6 +51,33 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
 
     public void setModel(BaseTagModel model) {
         this.model = model;
+
+        final Button button1 = (Button) findViewById(R.id.tagOptionsButton);
+        button1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(getContext(), button1);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.subscribe_menu, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(getContext(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+
+//                Toast.makeText(getContext(), "You Clicked the button Yea!!!", Toast.LENGTH_SHORT).show();
+
+
+                popup.show();//showing popup menu
+            }
+        });//closing the setOnClickListener method
+
 
         ImageView image = (ImageView) view.findViewById(R.id.imageView);
         TextView text = (TextView) view.findViewById(R.id.tagTitleView);

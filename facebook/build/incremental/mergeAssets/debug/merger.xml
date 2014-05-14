@@ -2,10 +2,10 @@
 <merger>
 
     <dataSet config="main" >
-        <source path="/Users/nageswara/Work/Personal/vtagme_android/facebook/src/main/assets" />
+        <source path="/home/anuraag/vtagme_android/facebook/src/main/assets" />
     </dataSet>
     <dataSet config="debug" >
-        <source path="/Users/nageswara/Work/Personal/vtagme_android/facebook/src/debug/assets" />
+        <source path="/home/anuraag/vtagme_android/facebook/src/debug/assets" />
     </dataSet>
 
 </merger>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="2dp"
+    android:clickable="false">
+<!--    <View
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:layout_margin="0dp"
+        android:background="@drawable/rounded_corner" />
+-->
+    <me.vtag.app.CustomImageView
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/white"
+    />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/tagTitleView"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_alignBottom="@+id/tagOptionsButton"
+        android:layout_toLeftOf="@+id/tagOptionsButton"
+        android:layout_marginLeft="8dp" />
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/tagOptionsButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/abc_ic_menu_moreoverflow_normal_holo_light"
+        android:entries="@array/subscribe_unsubscribe"/>
+
+<!--
+    <Spinner
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:prompt="@string/apple"
+        android:id="@+id/tagOptionsButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/abc_ic_menu_moreoverflow_normal_holo_light"
+        android:entries="@array/subscribe_unsubscribe"/>
+        -->
+<!--
+    <Spinnern
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="35dp"
+        android:entries="@array/subscribe_unsubscribe"
+        android:background="@drawable/abc_ic_menu_moreoverflow_normal_holo_light" />
+-->
+</RelativeLayout><!-- From: file:/home/anuraag/vtagme_android/main/src/main/res/layout/tagcard.xml -->
