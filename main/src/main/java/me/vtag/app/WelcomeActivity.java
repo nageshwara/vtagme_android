@@ -32,7 +32,7 @@ import me.vtag.app.pages.HomePageFragment;
 import me.vtag.app.pages.LoginPageFragment;
 import me.vtag.app.pages.TagPageFragment;
 
-
+///test commit
 public class WelcomeActivity extends ActionBarActivity
         implements LeftDrawerFragment.NavigationDrawerCallbacks {
 
