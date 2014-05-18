@@ -1,9 +1,7 @@
 package me.vtag.app;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -18,15 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import me.vtag.app.adapters.PanelListAdapter;
-import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.models.PanelListItemModel;
 
 public class RightDrawerFragment extends Fragment {
@@ -39,8 +29,8 @@ public class RightDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerListView;
     private View mFragmentContainerView;
+    private View mRightPanelContainerView;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -75,9 +65,15 @@ public class RightDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
+        mRightPanelContainerView = inflater.inflate(
                 R.layout.fragment_left_panel, container, false);
-        return mDrawerListView;
+        return mRightPanelContainerView;
+    }
+
+    public void closeDrawer() {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(mFragmentContainerView);
+        }
     }
 
     public boolean isDrawerOpen() {
@@ -186,12 +182,6 @@ public class RightDrawerFragment extends Fragment {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

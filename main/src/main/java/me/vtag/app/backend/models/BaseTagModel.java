@@ -13,11 +13,10 @@ public class BaseTagModel {
     public int videocount;
     public int followers;
     public String url;
+    public int tagtype; // 0 - hashtag, 1 - multitag, 2 - publictag, 3 - privatetag.
 
     public int updates;
     public boolean following;
-    public boolean isPrivate;
-    public boolean isMulti;
 
     public HashMap<String, Integer> contributors;
     public HashMap<String, UserModel> users;

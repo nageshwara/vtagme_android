@@ -1,10 +1,5 @@
 package me.vtag.app.backend.vos;
 
-import java.util.List;
-
-import me.vtag.app.backend.models.BaseTagModel;
-import me.vtag.app.backend.models.UserModel;
-
 /**
  * Created by nageswara on 5/1/14.
  */

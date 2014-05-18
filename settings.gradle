@@ -1,1 +1,1 @@
-include ':main', ':backend', ':facebook'
+include ':main', ':backend', ':facebook', ':AndroidBootstrap'

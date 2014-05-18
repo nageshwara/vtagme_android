@@ -24,5 +24,14 @@ public class BasePageFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        if (!supportsActionBar()) {
+            activity.getActionBar().hide();
+        } else {
+            activity.getActionBar().show();
+        }
+    }
+
+    protected boolean supportsActionBar() {
+        return true;
     }
 }

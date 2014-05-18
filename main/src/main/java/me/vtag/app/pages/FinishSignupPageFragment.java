@@ -1,29 +1,10 @@
 package me.vtag.app.pages;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.LoginButton;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.TextHttpResponseHandler;
-
-import org.apache.http.Header;
-
-import java.lang.reflect.Type;
-import java.util.Arrays;
 
 import me.vtag.app.BasePageFragment;
 import me.vtag.app.R;
@@ -53,6 +34,11 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
     }
 
     @Override
+    protected boolean supportsActionBar() {
+        return false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_finish_signup, container, false);
@@ -70,8 +56,13 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
             }
         }
 
-        email.setText(email_text);
-        username.setText(username_text);
+        if (email_text != null) {
+            email.setText(email_text);
+        }
+
+        if (username_text != null) {
+            username.setText(username_text);
+        }
         return rootView;
     }
 
@@ -91,7 +82,7 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
         VtagClient.getInstance().finishSignup(username.getText().toString(),
                 email.getText().toString(),
                 password.getText().toString(),
-                new LoginPageFragment.VtagAuthCallback() {
+                new BaseLoginPageFragment.VtagAuthCallback() {
                     @Override
                     public void onSuccess(LoginVO loginDetails) {
                         if (loginDetails.loggedin) {
@@ -101,7 +92,7 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
                         }
                     }
                     @Override
-                    public void onFailure() {
+                    public void onFailure(int statusCode, Throwable e) {
                         // Show Error
                     }
                 });

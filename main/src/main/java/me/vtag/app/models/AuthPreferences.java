@@ -12,7 +12,6 @@ public class AuthPreferences {
     private static final String KEY_USER = "user";
     private static final String KEY_TOKEN = "token";
     private static final String KEY_PROVIDER = "provider";
-    private static final String KEY_VTAG_ID = "vtagid";
 
     private SharedPreferences preferences;
 
@@ -34,12 +33,6 @@ public class AuthPreferences {
         editor.commit();
     }
 
-    public void setVTagId(String id) {
-        Editor editor = preferences.edit();
-        editor.putString(KEY_VTAG_ID, id);
-        editor.commit();
-    }
-
     public String getUser() {
         return preferences.getString(KEY_USER, null);
     }
@@ -50,9 +43,5 @@ public class AuthPreferences {
 
     public String getProvider() {
         return preferences.getString(KEY_PROVIDER, null);
-    }
-
-    public String getVtagId() {
-        return preferences.getString(KEY_VTAG_ID, null);
     }
 }

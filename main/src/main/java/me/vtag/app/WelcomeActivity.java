@@ -3,15 +3,19 @@ package me.vtag.app;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.util.LruCache;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -21,12 +25,12 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.vos.RootVO;
 import me.vtag.app.models.AuthPreferences;
-import me.vtag.app.models.PanelListItemModel;
 import me.vtag.app.pages.FinishSignupPageFragment;
 import me.vtag.app.pages.HomePageFragment;
 import me.vtag.app.pages.LoginPageFragment;
@@ -34,18 +38,20 @@ import me.vtag.app.pages.TagPageFragment;
 
 
 public class WelcomeActivity extends ActionBarActivity
-        implements LeftDrawerFragment.NavigationDrawerCallbacks {
+        implements SearchView.OnQueryTextListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private LeftDrawerFragment mLeftDrawerFragment;
     private RightDrawerFragment mRightDrawerFragment;
+    private DrawerLayout mDrawerLayout;
 
     public static AccountManager accountManager;
     public static AuthPreferences authPreferences;
 
     private ProgressDialog progressDialog;
+    private SearchView mSearchView;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -60,30 +66,25 @@ public class WelcomeActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mRightDrawerFragment = (RightDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_right_drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        mLeftDrawerFragment.setUp(R.id.navigation_drawer, mDrawerLayout);
+        mRightDrawerFragment.setUp(R.id.navigation_right_drawer, mDrawerLayout);
 
         mTitle = getTitle();
         mHashtags = new LruCache<String, BaseTagModel>(100);
+        mPrivatetags = new LruCache<String, BaseTagModel>(1000);
 
-        VtagClient.getInstance().initalize(this);
         accountManager = AccountManager.get(this);
         authPreferences = new AuthPreferences(this);
-        if (authPreferences.getUser() != null
-                && authPreferences.getToken() != null) {
+
+        VtagClient.getInstance().initalize(this);
+        if (authPreferences.getUser() != null) {
             browseHomePage();
         } else {
-            browseHomePage();
-            //showLoginPage();
+            showLoginPage();
         }
-    }
 
-    @Override
-    public void onNavigationDrawerItemSelected(PanelListItemModel data) {
-        if (data == null) return;
-        if (LeftDrawerFragment.LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerFragment.LeftDrawerItemType.HASHTAG) {
-            browseHashTag(data.getTitle());
-        } else if (LeftDrawerFragment.LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerFragment.LeftDrawerItemType.HOME) {
-            browseHomePage();
-        }
     }
 
     public void restoreActionBar() {
@@ -100,6 +101,10 @@ public class WelcomeActivity extends ActionBarActivity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.home_action_menu, menu);
+            MenuItem searchItem = menu.findItem(R.id.action_search);
+            mSearchView = (SearchView) searchItem.getActionView();
+            setupSearchView(searchItem);
+
             restoreActionBar();
             return true;
         }
@@ -118,6 +123,30 @@ public class WelcomeActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupSearchView(MenuItem searchItem) {
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        if (searchManager != null) {
+            List<SearchableInfo> searchables = searchManager.getSearchablesInGlobalSearch();
+            SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+            for (SearchableInfo inf : searchables) {
+                if (inf.getSuggestAuthority() != null
+                        && inf.getSuggestAuthority().startsWith("applications")) {
+                    info = inf;
+                }
+            }
+            mSearchView.setSearchableInfo(info);
+        }
+        mSearchView.setOnQueryTextListener(this);
+    }
+
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
     public void showLoginPage() {
         mTitle = "Login";
         // Now show list of tags.
@@ -127,8 +156,11 @@ public class WelcomeActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, loginPage)
                 .commit();
+        closeDrawers();
     }
 
+    public void showSignupPage() { showSignupPage(null, null); }
+    public void showSignupPage(String email) { showSignupPage(email, null); }
     public void showSignupPage(String email, String username) {
         mTitle = "Signup";
         // Now show list of tags.
@@ -138,6 +170,7 @@ public class WelcomeActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, signupPageFragment)
                 .commit();
+        closeDrawers();
     }
 
 
@@ -150,12 +183,16 @@ public class WelcomeActivity extends ActionBarActivity
                 Gson gson = new Gson();
                 Type listType = new TypeToken<RootVO>(){}.getType();
                 RootVO rootData = gson.fromJson(responseBody, listType);
-                // Set up the drawer.
-                mLeftDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-                mLeftDrawerFragment.addPrivateTags(rootData.privatetags);
-                mLeftDrawerFragment.addFollowingTags(rootData.followingtags);
-                mLeftDrawerFragment.addPublicTags(rootData.publictags);
-
+                if (rootData.user == null) {
+                    authPreferences.setUser(null, null); // Next time shows login page.
+                    mLeftDrawerFragment.setLoggedIn(null, rootData);
+                } else {
+                    mLeftDrawerFragment.setLoggedIn(rootData.user, rootData);
+                    // Store private and public tags in LRU cache..
+                    for (BaseTagModel tagModel : rootData.privatetags) {
+                        mPrivatetags.put(tagModel.tag, tagModel);
+                    }
+                }
                 // Now show list of tags.
                 HomePageFragment homepage = new HomePageFragment(rootData.toptags.tagcards);
                 // update the main content by replacing fragments
@@ -173,15 +210,20 @@ public class WelcomeActivity extends ActionBarActivity
                 System.out.println("wow " + e.getMessage());
             }
         });
+        closeDrawers();
     }
 
+    private void closeDrawers() {
+        mLeftDrawerFragment.closeDrawer();
+        mRightDrawerFragment.closeDrawer();
+    }
 
     private LruCache<String, BaseTagModel> mHashtags;
+    private LruCache<String, BaseTagModel> mPrivatetags;
     public void browseHashTag(String tag) {
         mTitle = tag;
         final Activity activity = this;
         BaseTagModel tagModel = mHashtags.get(tag);
-
         if (tagModel == null) {
             showProgressMessage();
             VtagClient.getInstance().getTagDetails(tag, new TextHttpResponseHandler() {
@@ -204,9 +246,11 @@ public class WelcomeActivity extends ActionBarActivity
         } else {
             browseHashTag(tagModel);
         }
+        closeDrawers();
     }
 
     private void browseHashTag(BaseTagModel tagModel) {
+        closeDrawers();
         mHashtags.put(tagModel.tag, tagModel);
 
         TagPageFragment tagpage = new TagPageFragment(tagModel);
@@ -217,6 +261,29 @@ public class WelcomeActivity extends ActionBarActivity
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    public void browsePrivateTag(String tag) {
+        mTitle = tag;
+        BaseTagModel tagModel = mPrivatetags.get(tag);
+        closeDrawers();
+        if (tagModel == null) {
+            return;
+        } else {
+            browsePrivateTag(tagModel);
+        }
+    }
+
+    private void browsePrivateTag(BaseTagModel tagModel) {
+        TagPageFragment tagpage = new TagPageFragment(tagModel);
+        // update the main content by replacing fragments
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.container, tagpage);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+
 
     private void showProgressMessage() {
         progressDialog = ProgressDialog.show(this, "Loading..",

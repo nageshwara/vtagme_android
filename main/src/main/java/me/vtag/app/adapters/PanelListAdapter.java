@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,7 +54,7 @@ public class PanelListAdapter extends ArrayAdapter<PanelListItemModel> {
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
         TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
 
-        imgIcon.setImageResource(panelListItemModels.get(position).getIcon());
+        //imgIcon.setImageResource(panelListItemModels.get(position).getIcon());
         txtTitle.setText(panelListItemModels.get(position).getTitle());
 
         // displaying count

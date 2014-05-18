@@ -1,33 +1,28 @@
 package me.vtag.app;
 
-import android.content.res.TypedArray;
-import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import me.vtag.app.adapters.PanelListAdapter;
-import me.vtag.app.backend.models.BaseTagModel;
-import me.vtag.app.models.PanelListItemModel;
+import me.vtag.app.backend.models.UserModel;
+import me.vtag.app.backend.vos.RootVO;
+import me.vtag.app.views.leftpanel.LoggedInFragment;
+import me.vtag.app.views.leftpanel.NonLoggedInFragment;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -48,31 +43,56 @@ public class LeftDrawerFragment extends Fragment {
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
     /**
-     * A pointer to the current callbacks instance (the Activity).
-     */
-    private NavigationDrawerCallbacks mCallbacks;
-
-    ArrayList<PanelListItemModel> listItemModelArrayList;
-
-    ArrayList<PanelListItemModel> privateTagListItemModels = new ArrayList<>();
-    ArrayList<PanelListItemModel> publicTagListItemModels = new ArrayList<>();
-    ArrayList<PanelListItemModel> followingTagListItemModels = new ArrayList<>();
-
-
-    /**
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerListView;
     private View mFragmentContainerView;
-
-    private int mCurrentSelectedPosition = 0;
-    private boolean mFromSavedInstanceState;
+    private View mLeftPanelContainerView;
     private boolean mUserLearnedDrawer;
 
+    private LoggedInFragment mLoggedInFragment;
+    private NonLoggedInFragment mNonLoggedInFragment;
+
+    private UserModel mLoggedInUser;
+    private RootVO mRootData;
+
     public LeftDrawerFragment() {
+        mLoggedInUser = null;
+    }
+
+    public void setLoggedIn(UserModel user, RootVO rootData) {
+        mLoggedInUser = user;
+        mRootData = rootData;
+        refresh();
+    }
+
+
+    private void refresh() {
+        Fragment activeFragment;
+        if (mLoggedInUser != null) {
+            // Now show list of tags.
+            if (mLoggedInFragment == null) {
+                mLoggedInFragment = new LoggedInFragment();
+            }
+            mLoggedInFragment.setProfile(mRootData.user);
+            mLoggedInFragment.addPrivateTags(mRootData.privatetags);
+            mLoggedInFragment.addFollowingTags(mRootData.followingtags);
+            mLoggedInFragment.addPublicTags(mRootData.publictags);
+            activeFragment = mLoggedInFragment;
+        } else {
+            if (mNonLoggedInFragment == null) {
+                mNonLoggedInFragment = new NonLoggedInFragment();
+            }
+            activeFragment = mNonLoggedInFragment;
+        }
+
+        if (getActivity() == null) return;
+
+        // update the main content by replacing fragments
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.left_panel_container, activeFragment).commit();
     }
 
     @Override
@@ -83,42 +103,6 @@ public class LeftDrawerFragment extends Fragment {
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
-
-        if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-            mFromSavedInstanceState = true;
-        }
-    }
-
-    public void addPrivateTags(List<BaseTagModel> privatetags) {
-        if (privatetags == null) return;
-
-        // nav drawer icons from resources
-        TypedArray navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
-        for (BaseTagModel privatetag : privatetags) {
-            privateTagListItemModels.add(new PanelListItemModel(LeftDrawerItemType.PRIVATE_TAG.toString(), privatetag.tag, navMenuIcons.getResourceId(0, -1)));
-        }
-    }
-    public void addPublicTags(List<BaseTagModel> publictags) {
-        if (publictags == null) return;
-
-        TypedArray navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
-
-        for (BaseTagModel publictag : publictags) {
-            publicTagListItemModels.add(new PanelListItemModel(LeftDrawerItemType.PRIVATE_TAG.toString(), publictag.tag, navMenuIcons.getResourceId(0, -1)));
-        }
-    }
-    public void addFollowingTags(List<BaseTagModel> followingtags) {
-        if (followingtags == null) return;
-
-        TypedArray navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
-
-        for (BaseTagModel followingtag : followingtags) {
-            followingTagListItemModels.add(new PanelListItemModel(LeftDrawerItemType.PRIVATE_TAG.toString(), followingtag.tag, navMenuIcons.getResourceId(0, -1)));
-        }
     }
 
     @Override
@@ -131,30 +115,15 @@ public class LeftDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
+        mLeftPanelContainerView = inflater.inflate(
                 R.layout.fragment_left_panel, container, false);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position, listItemModelArrayList.get(position));
-            }
-        });
+        return mLeftPanelContainerView;
+    }
 
-        TypedArray navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
-
-        listItemModelArrayList = new ArrayList<>();
-        listItemModelArrayList.add(new PanelListItemModel(LeftDrawerItemType.HOME.toString(), "Home", navMenuIcons.getResourceId(0, -1)));
-        listItemModelArrayList.add(new PanelListItemModel(LeftDrawerItemType.PROFILE.toString(), "My Profile", navMenuIcons.getResourceId(0, -1)));
-        listItemModelArrayList.add(new PanelListItemModel(LeftDrawerItemType.FRIENDS.toString(), "Friends", navMenuIcons.getResourceId(0, -1)));
-
-        listItemModelArrayList.addAll(privateTagListItemModels);
-        listItemModelArrayList.addAll(publicTagListItemModels);
-        listItemModelArrayList.addAll(followingTagListItemModels);
-
-        mDrawerListView.setAdapter(new PanelListAdapter(getActionBar().getThemedContext(), 0, listItemModelArrayList));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+    public void closeDrawer() {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(mFragmentContainerView);
+        }
     }
 
     public boolean isDrawerOpen() {
@@ -220,7 +189,7 @@ public class LeftDrawerFragment extends Fragment {
 
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
         // per the navigation drawer design guidelines.
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+        if (!mUserLearnedDrawer) {
             mDrawerLayout.openDrawer(mFragmentContainerView);
         }
 
@@ -235,39 +204,15 @@ public class LeftDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void selectItem(int position, PanelListItemModel listItemModel) {
-        mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
-        }
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(mFragmentContainerView);
-        }
-        if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(listItemModel);
-        }
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            mCallbacks = (NavigationDrawerCallbacks) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-        }
+        refresh();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallbacks = null;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
     }
 
     @Override
@@ -294,11 +239,6 @@ public class LeftDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -315,25 +255,5 @@ public class LeftDrawerFragment extends Fragment {
 
     private ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
-    }
-
-    /**
-     * Callbacks interface that all activities using this fragment must implement.
-     */
-    public static interface NavigationDrawerCallbacks {
-        /**
-         * Called when an item in the navigation drawer is selected.
-         */
-        void onNavigationDrawerItemSelected(PanelListItemModel data);
-    }
-
-    public static enum LeftDrawerItemType {
-        HOME,
-        PROFILE,
-        FRIENDS,
-        DIVIDER,
-        PRIVATE_TAG,
-        PUBLIC_TAG,
-        HASHTAG
     }
 }

@@ -1,46 +1,50 @@
 package me.vtag.app.pages;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.app.Activity;
-import android.content.Intent;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.facebook.widget.LoginButton;
 
 import java.util.Arrays;
+import java.util.List;
 
-import me.vtag.app.BasePageFragment;
 import me.vtag.app.R;
 import me.vtag.app.WelcomeActivity;
-import me.vtag.app.backend.VtagClient;
-import me.vtag.app.backend.vos.LoginVO;
+import me.vtag.app.pages.social.GooglePlus;
+import me.vtag.app.pages.social.SocialUser;
 
 /**
  * Created by nageswara on 5/5/14.
  */
-public class LoginPageFragment extends BasePageFragment implements View.OnClickListener {
+public class LoginPageFragment extends BaseLoginPageFragment implements View.OnClickListener {
     public static final int ID = 3;
-    private static final int AUTHORIZATION_CODE = 1993;
-    private static final int ACCOUNT_CODE = 1601;
-
-    private final String GOOGLE_SCOPE = "profile email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me";
-    private final String TWITTER_SCOPE = "https://www.googleapis.com/auth/googletalk";
-
-    public static String FACEBOOK = "facebook";
-    public static String GOOGLE = "google";
-    public static String TWITTER = "twitter";
+    private AutoCompleteTextView mEmailView;
+    private EditText mPasswordView;
+    private View mProgressView;
+    private View mLoginFormView;
 
     public LoginPageFragment() {
         super(ID);
+    }
+
+    @Override
+    protected boolean supportsActionBar() {
+        return false;
     }
 
     @Override
@@ -48,161 +52,156 @@ public class LoginPageFragment extends BasePageFragment implements View.OnClickL
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
-        rootView.findViewById(R.id.google_sign_in_button).setOnClickListener(this);
+        rootView.findViewById(R.id.plus_sign_in_button).setOnClickListener(this);
         LoginButton facebookLoginButton = (LoginButton) rootView.findViewById(R.id.facebook_sign_in_button);
         facebookLoginButton.setFragment(this);
         facebookLoginButton.setPublishPermissions(Arrays.asList("user_likes", "publish_actions"));
 
-        uiHelper = new UiLifecycleHelper(getActivity(), new FacebookTokenAcquired());
-        uiHelper.onCreate(savedInstanceState);
+        // Set up the login form.
+        mEmailView = (AutoCompleteTextView) rootView.findViewById(R.id.email);
+        populateAutoComplete();
+
+        mPasswordView = (EditText) rootView.findViewById(R.id.password);
+        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                    attemptLogin();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        BootstrapButton mSignInButton = (BootstrapButton) rootView.findViewById(R.id.sign_in_button);
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptLogin();
+            }
+        });
+
+        BootstrapButton mSignupButton = (BootstrapButton) rootView.findViewById(R.id.sign_up_button);
+        mSignupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cachedEmailAddressCollection != null && cachedEmailAddressCollection.size() > 0) {
+                    ((WelcomeActivity) getActivity()).showSignupPage(cachedEmailAddressCollection.get(0));
+                } else {
+                    ((WelcomeActivity) getActivity()).showSignupPage();
+                }
+            }
+        });
+
+        TextView mSkipSignupButton = (TextView) rootView.findViewById(R.id.skip_sign_in);
+        mSkipSignupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((WelcomeActivity) getActivity()).browseHomePage();
+            }
+        });
+
+
+        mLoginFormView = rootView.findViewById(R.id.login_form);
+        mProgressView = rootView.findViewById(R.id.login_progress);
         return rootView;
     }
 
-    public void onClick(View view) {
-        Intent intent = null;
-        if (view.getId() == R.id.google_sign_in_button) {
-            intent = AccountManager.newChooseAccountIntent(null, null,
-                    new String[] { "com.google" }, false, null, null, null, null);
-        }
-
-        startActivityForResult(intent, ACCOUNT_CODE);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        uiHelper.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        uiHelper.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        uiHelper.onDestroy();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        uiHelper.onSaveInstanceState(outState);
-    }
-
-    public static String  getProvider(String accountType) {
-        switch(accountType) {
-            case "com.google":
-                return GOOGLE;
-        }
-        return null;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == AUTHORIZATION_CODE) {
-                requestToken();
-            } else if (requestCode == ACCOUNT_CODE) {
-                String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                String accountType = data.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
-                WelcomeActivity.authPreferences.setUser(accountName, getProvider(accountType));
-
-                // invalidate old tokens which might be cached. we want a fresh
-                // one, which is guaranteed to work
-                invalidateToken(accountType);
-                requestToken();
-            }
-       }
-        uiHelper.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void requestToken() {
-        Account userAccount = null;
-        String user = WelcomeActivity.authPreferences.getUser();
-        Account[] accounts = WelcomeActivity.accountManager.getAccounts();
-        for (Account account : accounts) {
-            if (account.name.equals(user)) {
-                userAccount = account;
-                break;
-            }
-        }
-        if (getProvider(userAccount.type) == GOOGLE) {
-            WelcomeActivity.accountManager.getAuthToken(userAccount, "oauth2:" + GOOGLE_SCOPE, null, getActivity(), new AuthTokenAcquired(), null);
-        }
-    }
     /**
-     * call this method if your token expired, or you want to request a new
-     * token for whatever reason. call requestToken() again afterwards in order
-     * to get a new token.
+     * Attempts to sign in or register the account specified by the login form.
+     * If there are form errors (invalid email, missing fields, etc.), the
+     * errors are presented and no actual login attempt is made.
      */
-    private void invalidateToken(String accountType) {
-        WelcomeActivity.accountManager.invalidateAuthToken(accountType, WelcomeActivity.authPreferences.getToken());
-        WelcomeActivity.authPreferences.setToken(null);
-    }
+    public void attemptLogin() {
+        // Reset errors.
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
 
-    private void onLogin() {
-        VtagClient.getInstance().auth(new VtagAuthCallback(){
-            @Override
-            public void onSuccess(LoginVO loginDetails) {
-                if (loginDetails.loggedin) {
-                    ((WelcomeActivity) getActivity()).browseHomePage();
-                } else {
-                    ((WelcomeActivity) getActivity()).showSignupPage(loginDetails.email, loginDetails.username);
-                }
-            }
-            @Override
-            public void onFailure() {
-                ((WelcomeActivity) getActivity()).showLoginPage();
-            }
-        });
-    }
+        // Store values at the time of the login attempt.
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
 
-    private void onLogOut() {
-        ((WelcomeActivity) getActivity()).showLoginPage();
-    }
+        boolean cancel = false;
+        View focusView = null;
 
 
-    private UiLifecycleHelper uiHelper;
-    private class FacebookTokenAcquired implements Session.StatusCallback {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-            if (session.isOpened()) {
-                WelcomeActivity.authPreferences.setUser("facebookuser", FACEBOOK);
-                WelcomeActivity.authPreferences.setToken(session.getAccessToken());
-                LoginPageFragment.this.onLogin();
-            } else {
-                WelcomeActivity.authPreferences.setToken(null);
-                LoginPageFragment.this.onLogOut();
-            }
+        // Check for a valid password, if the user entered one.
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
+            cancel = true;
+        }
+
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            SocialUser user = new SocialUser();
+            user.id = email;
+            user.email = email;
+            user.provider = "own";
+            user.name = user.email;
+            user.access_token = password;
+            super.onLogin(user);
         }
     }
 
-    private class AuthTokenAcquired implements AccountManagerCallback<Bundle> {
-        @Override
-        public void run(AccountManagerFuture<Bundle> result) {
-            try {
-                Bundle bundle = result.getResult();
-                Intent launch = (Intent) bundle.get(AccountManager.KEY_INTENT);
-                if (launch != null) {
-                    startActivityForResult(launch, AUTHORIZATION_CODE);
-                } else {
-                    String token = bundle
-                            .getString(AccountManager.KEY_AUTHTOKEN);
-                    WelcomeActivity.authPreferences.setToken(token);
-                    LoginPageFragment.this.onLogin();
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    @Override
+    public void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
-    public static interface VtagAuthCallback {
-        void onSuccess(LoginVO loginDetails);
-        void onFailure();
+    @Override
+    protected ArrayAdapter<String> addEmailsToAutoComplete(List<String> emailAddressCollection) {
+        ArrayAdapter<String> adapter = super.addEmailsToAutoComplete(emailAddressCollection);
+        mEmailView.setAdapter(adapter);
+        return  adapter;
+    }
+
+    public void onClick(View view) {
+        if (view.getId() == R.id.plus_sign_in_button) {
+            login(GooglePlus.GOOGLE);
+        }
     }
 }
