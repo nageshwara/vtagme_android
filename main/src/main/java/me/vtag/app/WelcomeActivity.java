@@ -177,6 +177,7 @@ public class WelcomeActivity extends ActionBarActivity
     public void browseHomePage() {
         mTitle = "Home";
         final Activity activity = this;
+        showProgressMessage();
         VtagClient.getInstance().getRootDetails(new TextHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseBody) {

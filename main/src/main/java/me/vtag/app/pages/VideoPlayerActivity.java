@@ -21,13 +21,14 @@ public class VideoPlayerActivity extends ActionBarActivity {
         Intent i = getIntent();
         VideoMetaModel meta = i.getParcelableExtra("meta");
         BasePlayerFragment playerFragment = null;
-        if (meta.type == "youtube") {
+        if (meta.type.equals("youtube")) {
             playerFragment = new YoutubePlayerFragment(meta);
         } else {
             Toast.makeText(this, "Sorry, we dont support " + meta.type + " yet :(", Toast.LENGTH_LONG).show();
+            return;
         }
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.activity_container, playerFragment)
+                .replace(R.id.activity_container, playerFragment)
                 .commit();
     }
 

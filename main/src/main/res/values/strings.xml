@@ -10,7 +10,7 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
-    <string name="title_activity_youtube_video">Youtube</string>
+    <string name="title_activity_video">Video</string>
 
     <string name="friends_title">Friends</string>
     <string name="following_tags_title">Following Tags</string>
