@@ -7,9 +7,8 @@ import android.widget.ArrayAdapter;
 
 import java.util.List;
 
-import me.vtag.app.backend.models.VideoMetaModel;
 import me.vtag.app.backend.models.VideoModel;
-import me.vtag.app.views.VideoListItemView;
+import me.vtag.app.views.BaseVideoListItemView;
 
 /**
  * Created by nmannem on 30/10/13.
@@ -18,8 +17,8 @@ public class VideoListAdapter extends ArrayAdapter<VideoModel> {
     private final Activity context;
     private final List<VideoModel> objects;
 
-    public VideoListAdapter(Activity context, int textViewResourceId, List<VideoModel> objects) {
-        super(context, textViewResourceId, objects);
+    public VideoListAdapter(Activity context, int resourceId, List<VideoModel> objects) {
+        super(context, resourceId, objects);
         this.context = context;
         this.objects = objects;
     }
@@ -27,13 +26,17 @@ public class VideoListAdapter extends ArrayAdapter<VideoModel> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         VideoModel videoModel = objects.get(position);
-        VideoListItemView videoCardView = null;
+        BaseVideoListItemView videoCardView = null;
         if (convertView == null) {
-            videoCardView = new VideoListItemView(getContext());
+            videoCardView = createView();
         } else {
-            videoCardView = (VideoListItemView) convertView;
+            videoCardView = (BaseVideoListItemView) convertView;
         }
         videoCardView.setModel(videoModel);
         return videoCardView;                
+    }
+
+    protected BaseVideoListItemView createView() {
+        return new BaseVideoListItemView(getContext());
     }
 }

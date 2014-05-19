@@ -46,4 +46,5 @@ dependencies {
     compile project(':facebook')
     compile project(':AndroidBootstrap')
     compile 'com.sothree.slidinguppanel:library:+'
+    compile 'org.roboguice:roboguice:2.0'
 }

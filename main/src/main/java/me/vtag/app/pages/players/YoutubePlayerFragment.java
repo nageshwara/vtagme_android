@@ -29,12 +29,13 @@ public class YoutubePlayerFragment extends BasePlayerFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.youtubevideo_fragment, container, false);
+        player = new YouTubePlayerSupportFragment();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.videoplayer, player).commit();
         return rootView;
     }
 
     @Override
     public void onResume() {
-        player = (YouTubePlayerSupportFragment)getFragmentManager().findFragmentById(R.id.videoplayer);
         player.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener(){
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult error) {
             }

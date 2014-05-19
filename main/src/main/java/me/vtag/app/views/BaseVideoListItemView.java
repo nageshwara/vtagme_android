@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import me.vtag.app.R;
+import me.vtag.app.WelcomeActivity;
 import me.vtag.app.backend.models.VideoMetaModel;
 import me.vtag.app.backend.models.VideoModel;
 import me.vtag.app.pages.VideoPlayerActivity;
@@ -19,27 +20,27 @@ import me.vtag.app.pages.VideoPlayerActivity;
 /**
  * Created by nageswara on 5/3/14.
  */
-public class VideoListItemView extends FrameLayout implements View.OnClickListener {
+public class BaseVideoListItemView extends FrameLayout implements View.OnClickListener {
 
-    private View view;
-    private VideoModel model;
+    protected View view;
+    protected VideoModel model;
 
-    public VideoListItemView(Context context, AttributeSet attrs, int defStyle) {
+    public BaseVideoListItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initView();
     }
 
-    public VideoListItemView(Context context, AttributeSet attrs) {
+    public BaseVideoListItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public VideoListItemView(Context context) {
+    public BaseVideoListItemView(Context context) {
         super(context);
         initView();
     }
 
-    private void initView() {
+    protected void initView() {
         view = inflate(getContext(), R.layout.videocard, null);
         addView(view);
         this.setOnClickListener(this);
@@ -60,10 +61,9 @@ public class VideoListItemView extends FrameLayout implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        if (model != null) {
-            Intent intent = new Intent(getContext(), VideoPlayerActivity.class);
-            intent.putExtra("video", model);
-            ((Activity)getContext()).startActivity(intent);
-        }
+        /**
+         * If Tag is different, set the tag in the queue.
+         */
+        model.play(getContext());
     }
 }
