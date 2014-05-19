@@ -1,7 +1,6 @@
 package me.vtag.app.pages.players;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +34,16 @@ public class YoutubePlayerFragment extends BasePlayerFragment {
 
     @Override
     public void onResume() {
-        FragmentManager fragmentManager = getFragmentManager();
         player = (YouTubePlayerSupportFragment)getFragmentManager().findFragmentById(R.id.videoplayer);
         player.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener(){
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult error) {
             }
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean wasRestored) {
+                if (!wasRestored) {
+                    player.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION | YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE);
+                }
                 player.cueVideo(meta.typeid);
+                player.play();
             }
         });
         super.onResume();

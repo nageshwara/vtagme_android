@@ -6,7 +6,7 @@
 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#b0ffa0"
+    android:background="#b0ffac"
     android:orientation="vertical">
 
     <ScrollView
@@ -16,29 +16,39 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
-            <com.facebook.widget.LoginButton
-                android:id="@+id/facebook_sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="100dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="20dp">
 
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/plus_sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="32dp"
-                android:layout_marginTop="4dp" />
+                <com.facebook.widget.LoginButton
+                    android:id="@+id/facebook_sign_in_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/plus_sign_in_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
@@ -75,8 +85,8 @@
                         android:text="@string/action_sign_in"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/sign_up_button"
-                        bootstrapbutton:bb_icon_right="fa-android"
-                        bootstrapbutton:bb_type="success"/>
+                        bootstrapbutton:bb_type="success"
+                        android:layout_marginRight="4dp" />
 
                     <com.beardedhen.androidbootstrap.BootstrapButton
                         android:id="@+id/sign_up_button"
@@ -85,8 +95,8 @@
                         android:text="@string/action_sign_up"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        bootstrapbutton:bb_icon_right="fa-android"
-                        bootstrapbutton:bb_type="default"/>
+                        bootstrapbutton:bb_type="default"
+                        android:layout_marginLeft="4dp" />
                 </LinearLayout>
             </LinearLayout>
 

@@ -8,18 +8,23 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import me.vtag.app.R;
+import me.vtag.app.WelcomeActivity;
 import me.vtag.app.backend.models.VideoMetaModel;
+import me.vtag.app.backend.models.VideoModel;
 import me.vtag.app.pages.players.BasePlayerFragment;
 import me.vtag.app.pages.players.YoutubePlayerFragment;
+import me.vtag.app.views.VideoDetailsFragment;
 
 public class VideoPlayerActivity extends ActionBarActivity {
-
+    private VideoModel mVideoModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_activity);
         Intent i = getIntent();
-        VideoMetaModel meta = i.getParcelableExtra("meta");
+        mVideoModel = i.getParcelableExtra("video");
+
+        VideoMetaModel meta = mVideoModel.video;
         BasePlayerFragment playerFragment = null;
         if (meta.type.equals("youtube")) {
             playerFragment = new YoutubePlayerFragment(meta);
@@ -27,8 +32,12 @@ public class VideoPlayerActivity extends ActionBarActivity {
             Toast.makeText(this, "Sorry, we dont support " + meta.type + " yet :(", Toast.LENGTH_LONG).show();
             return;
         }
+
+        VideoDetailsFragment detailsFragment = new VideoDetailsFragment(mVideoModel);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_container, playerFragment)
+                .replace(R.id.video_details_container, detailsFragment)
+                .replace(R.id.video_queue_container, WelcomeActivity.mQueueFragment)
                 .commit();
     }
 

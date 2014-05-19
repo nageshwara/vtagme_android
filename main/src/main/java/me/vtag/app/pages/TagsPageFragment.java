@@ -16,12 +16,12 @@ import me.vtag.app.backend.models.BaseTagModel;
 /**
  * Created by nmannem on 30/10/13.
  */
-public class HomePageFragment extends BasePageFragment {
+public class TagsPageFragment extends BasePageFragment {
     public static final int ID = 2;
 
     private ListView tagListView;
     private List<BaseTagModel> tagModels;
-    public HomePageFragment(List<BaseTagModel> tagModels) {
+    public TagsPageFragment(List<BaseTagModel> tagModels) {
         super(ID);
         this.tagModels = tagModels;
     }

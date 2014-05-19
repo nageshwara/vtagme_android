@@ -32,9 +32,10 @@ import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.vos.RootVO;
 import me.vtag.app.models.AuthPreferences;
 import me.vtag.app.pages.FinishSignupPageFragment;
-import me.vtag.app.pages.HomePageFragment;
+import me.vtag.app.pages.TagsPageFragment;
 import me.vtag.app.pages.LoginPageFragment;
 import me.vtag.app.pages.TagPageFragment;
+import me.vtag.app.views.QueueFragment;
 
 
 public class WelcomeActivity extends ActionBarActivity
@@ -52,6 +53,7 @@ public class WelcomeActivity extends ActionBarActivity
 
     private ProgressDialog progressDialog;
     private SearchView mSearchView;
+    public static QueueFragment mQueueFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -66,6 +68,8 @@ public class WelcomeActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mRightDrawerFragment = (RightDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_right_drawer);
+        mQueueFragment = new QueueFragment();
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         mLeftDrawerFragment.setUp(R.id.navigation_drawer, mDrawerLayout);
@@ -80,7 +84,8 @@ public class WelcomeActivity extends ActionBarActivity
 
         VtagClient.getInstance().initalize(this);
         if (authPreferences.getUser() != null) {
-            browseHomePage();
+            //browseHomePage();
+            showLoginPage();
         } else {
             showLoginPage();
         }
@@ -195,7 +200,7 @@ public class WelcomeActivity extends ActionBarActivity
                     }
                 }
                 // Now show list of tags.
-                HomePageFragment homepage = new HomePageFragment(rootData.toptags.tagcards);
+                TagsPageFragment homepage = new TagsPageFragment(rootData.toptags.tagcards);
                 // update the main content by replacing fragments
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()

@@ -26,14 +26,14 @@ public class VideoListAdapter extends ArrayAdapter<VideoModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        VideoMetaModel meta = objects.get(position).video;
+        VideoModel videoModel = objects.get(position);
         VideoListItemView videoCardView = null;
         if (convertView == null) {
             videoCardView = new VideoListItemView(getContext());
         } else {
             videoCardView = (VideoListItemView) convertView;
         }
-        videoCardView.setModel(meta);
+        videoCardView.setModel(videoModel);
         return videoCardView;                
     }
 }

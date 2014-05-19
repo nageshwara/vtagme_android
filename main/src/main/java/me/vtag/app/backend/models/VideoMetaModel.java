@@ -29,6 +29,7 @@ public class VideoMetaModel implements Parcelable {
         out.writeString(title);
         out.writeString(thumb);
 
+        out.writeInt(duration);
         out.writeInt(views);
         out.writeInt(likes);
     }
@@ -50,6 +51,7 @@ public class VideoMetaModel implements Parcelable {
         title = in.readString();
         thumb = in.readString();
 
+        duration = in.readInt();
         views = in.readInt();
         likes = in.readInt();
     }    
