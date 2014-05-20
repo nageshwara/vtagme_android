@@ -47,4 +47,5 @@ dependencies {
     compile project(':AndroidBootstrap')
     compile 'com.sothree.slidinguppanel:library:+'
     compile 'org.roboguice:roboguice:2.0'
+    compile 'com.makeramen:roundedimageview:1.3.0'
 }

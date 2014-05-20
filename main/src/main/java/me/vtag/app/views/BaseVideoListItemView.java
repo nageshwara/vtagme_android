@@ -3,18 +3,26 @@ package me.vtag.app.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.beardedhen.androidbootstrap.BootstrapThumbnail;
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 
 import me.vtag.app.R;
 import me.vtag.app.WelcomeActivity;
 import me.vtag.app.backend.models.VideoMetaModel;
 import me.vtag.app.backend.models.VideoModel;
+import me.vtag.app.helpers.StringUtil;
 import me.vtag.app.pages.VideoPlayerActivity;
 
 /**
@@ -24,6 +32,7 @@ public class BaseVideoListItemView extends FrameLayout implements View.OnClickLi
 
     protected View view;
     protected VideoModel model;
+    private ImageView mThumbnail;
 
     public BaseVideoListItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -49,14 +58,23 @@ public class BaseVideoListItemView extends FrameLayout implements View.OnClickLi
     public void setModel(VideoModel model) {
         this.model = model;
 
-        ImageView image = (ImageView) view.findViewById(R.id.imageView);
-        TextView text = (TextView) view.findViewById(R.id.videoTitleView);
+        mThumbnail = (ImageView) view.findViewById(R.id.imageView);
+        TextView title = (TextView) view.findViewById(R.id.videoTitleView);
+        TextView likes = (TextView) view.findViewById(R.id.likesCount);
+        TextView views = (TextView) view.findViewById(R.id.viewsCount);
+        TextView duration = (TextView) view.findViewById(R.id.durationtxt);
 
-        text.setText(model.video.title);
-        Picasso.with(this.getContext()).load(model.video.thumb)
-                .resizeDimen(R.dimen.videolist_thumb_width, R.dimen.videolist_thumb_height)
-                .centerInside()
-                .into(image);
+        title.setText(model.video.title);
+        likes.setText(StringUtil.formatNumber(model.video.likes));
+        views.setText(StringUtil.formatNumber(model.video.views));
+        duration.setText(StringUtil.durationFromSeconds(model.video.duration));
+
+        Transformation transformation = new RoundedTransformationBuilder()
+                .cornerRadiusDp(8)
+                .scaleType(ImageView.ScaleType.CENTER_CROP)
+                .oval(false)
+                .build();
+        Picasso.with(this.getContext()).load(model.video.thumb).fit().centerCrop().transform(transformation).into(mThumbnail);
     }
 
     @Override

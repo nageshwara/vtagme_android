@@ -7,11 +7,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import me.vtag.app.R;
 import me.vtag.app.WelcomeActivity;
 import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.helpers.StringUtil;
 
 /**
  * Created by nageswara on 5/3/14.
@@ -46,12 +49,22 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
         this.model = model;
 
         ImageView image = (ImageView) view.findViewById(R.id.imageView);
-        TextView text = (TextView) view.findViewById(R.id.tagTitleView);
+        TextView title = (TextView) view.findViewById(R.id.tagTitleView);
+        TextView followers = (TextView) view.findViewById(R.id.followersCount);
+        TextView videos = (TextView) view.findViewById(R.id.videosCount);
 
-        text.setText(model.tag);
+        title.setText(model.tag);
+        followers.setText(StringUtil.formatNumber(model.followers));
+        videos.setText(StringUtil.formatNumber(model.videocount));
+
+        Transformation transformation = new RoundedTransformationBuilder()
+                .cornerRadiusDp(8)
+                .scaleType(ImageView.ScaleType.CENTER_CROP)
+                .oval(false)
+                .build();
         Picasso.with(this.getContext()).load(model.videodetails.get(0).video.thumb)
-                .resizeDimen(R.dimen.videolist_thumb_width, R.dimen.videolist_thumb_height)
-                .centerInside()
+                .fit().centerCrop()
+                .transform(transformation)
                 .into(image);
     }
 
