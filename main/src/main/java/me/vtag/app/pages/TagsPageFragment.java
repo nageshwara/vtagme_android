@@ -29,8 +29,8 @@ public class TagsPageFragment extends BasePageFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.home_page_fragment, container, false);
-        tagListView = (ListView) rootView.findViewById(R.id.tagListView);
+        View rootView = inflater.inflate(R.layout.right_panel, container, false);
+        tagListView = (ListView) rootView.findViewById(R.id.relatedtags);
         tagListView.setAdapter(new TagListAdapter(getActivity(), R.layout.tagcard, this.tagModels));
         return rootView;
     }

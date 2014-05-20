@@ -16,4 +16,6 @@
     <string name="following_tags_title">Following Tags</string>
     <string name="private_tags_title">Private Tags</string>
     <string name="public_tags_title">Public Tags</string>
+    <string name="related_tags">Related Tags</string>
+    <string name="Activities">Tag Activities</string>
 </resources>
