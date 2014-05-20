@@ -37,7 +37,7 @@ public class RightPanelViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.w("Came to onCreateView of RightPanelViewFragment","Myapp ");
+        Log.w("Came to onCreateView RightPanelViewFragment","Myapp ");
         mLeftPanelContainerView = inflater.inflate(R.layout.left_panel_list, container, false);
         Log.w("Came to onCreateView of RightPanelViewFragment after inflating left_panel_list","Myapp ");
         ListView relatedtags = (ListView) mLeftPanelContainerView.findViewById(R.id.related_tags_list);
@@ -59,6 +59,7 @@ public class RightPanelViewFragment extends Fragment {
     public void add_activities(BaseTagModel tag) {
         activities.clear();
         for (ActivityModel i:tag.activity){
+            Log.w(i.object.displayname,"");
             activities.add(new PanelListItemModel("activities",i.object.displayname,0));
         }
     }

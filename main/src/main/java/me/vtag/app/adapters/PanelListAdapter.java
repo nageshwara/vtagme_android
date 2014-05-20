@@ -2,6 +2,7 @@ package me.vtag.app.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class PanelListAdapter extends ArrayAdapter<PanelListItemModel> {
             convertView = mInflater.inflate(R.layout.panel_list_item, null);
         }
 
+        Log.w("Came to PanelListAdapter", "Myapp ");
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
         TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
