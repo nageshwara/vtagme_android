@@ -49,6 +49,12 @@ public class QueueFragment extends Fragment {
     public void play(VideoModel model) {
         playAt(mTagModel.videodetails.indexOf(model));
     }
+    public void next() {
+        playAt(mIndex+1);
+    }
+    public void prev() {
+        playAt(mIndex-1);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,14 +72,14 @@ public class QueueFragment extends Fragment {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playAt(mIndex+1);
+                next();
             }
         });
 
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playAt(mIndex-1);
+                prev();
             }
         });
         return mMainView;

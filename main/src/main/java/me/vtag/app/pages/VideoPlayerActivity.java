@@ -14,6 +14,7 @@ import me.vtag.app.WelcomeActivity;
 import me.vtag.app.backend.models.VideoMetaModel;
 import me.vtag.app.backend.models.VideoModel;
 import me.vtag.app.pages.players.BasePlayerFragment;
+import me.vtag.app.pages.players.OnPlayerStateChangedListener;
 import me.vtag.app.pages.players.YoutubePlayerFragment;
 import me.vtag.app.views.VideoDetailsFragment;
 
@@ -31,7 +32,7 @@ public class VideoPlayerActivity extends ActionBarActivity {
                 .replace(R.id.video_queue_container, WelcomeActivity.mQueueFragment)
                 .commit();
         Intent i = getIntent();
-        playVideo((VideoModel)i.getParcelableExtra("video"));
+        playVideo((VideoModel) i.getParcelableExtra("video"));
     }
 
     @Override
@@ -51,7 +52,19 @@ public class VideoPlayerActivity extends ActionBarActivity {
         mVideoModel = videoModel;
         VideoMetaModel meta = mVideoModel.video;
         if (meta.type.equals("youtube")) {
-            mCurrentPlayerFragment = new YoutubePlayerFragment(meta);
+            mCurrentPlayerFragment = new YoutubePlayerFragment(meta, new OnPlayerStateChangedListener() {
+                @Override
+                public void onVideoStarted() {
+                }
+                @Override
+                public void onVideoEnded() {
+                    WelcomeActivity.mQueueFragment.next();
+                }
+                @Override
+                public void onError(String mesg) {
+                    WelcomeActivity.mQueueFragment.next();
+                }
+            });
         } else {
             Toast.makeText(this, "Sorry, we dont support " + meta.type + " yet :(", Toast.LENGTH_LONG).show();
             return;

@@ -77,6 +77,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/videoListView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:background="@color/lightgray"
+        />
 
 </LinearLayout>
