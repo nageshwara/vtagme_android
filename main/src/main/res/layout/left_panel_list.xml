@@ -6,18 +6,14 @@
     android:layout_height="match_parent">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="fill_parent">
 
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/list_selector">
         <ImageView
             android:id="@+id/following_tags_icon"
             android:layout_width="32dp"
@@ -36,23 +32,17 @@
             android:textColor="@color/panel_list_item_title"
             android:gravity="center_vertical"
             android:text="@string/related_tags" />
-    </RelativeLayout>
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/related_tags_list"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="fill_parent"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
         android:background="#cccc"
         tools:context="me.vtag.app.LeftDrawerFragment" />
 
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/list_selector">
         <ImageView
             android:id="@+id/private_tags_icon"
             android:layout_width="32dp"
@@ -71,12 +61,11 @@
             android:textColor="@color/panel_list_item_title"
             android:gravity="center_vertical"
             android:text="@string/Activities" />
-    </RelativeLayout>
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activities_list"
         android:layout_width="match_parent"
-        android:layout_height="185dp"
+        android:layout_height="fill_parent"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
