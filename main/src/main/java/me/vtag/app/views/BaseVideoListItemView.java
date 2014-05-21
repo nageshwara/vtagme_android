@@ -1,29 +1,19 @@
 package me.vtag.app.views;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.beardedhen.androidbootstrap.BootstrapThumbnail;
 import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
 
 import me.vtag.app.R;
-import me.vtag.app.WelcomeActivity;
-import me.vtag.app.backend.models.VideoMetaModel;
 import me.vtag.app.backend.models.VideoModel;
 import me.vtag.app.helpers.StringUtil;
-import me.vtag.app.pages.VideoPlayerActivity;
 
 /**
  * Created by nageswara on 5/3/14.

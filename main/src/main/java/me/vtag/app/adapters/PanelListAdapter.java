@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import me.vtag.app.R;
-import me.vtag.app.models.PanelListItemModel;
+import me.vtag.app.backend.models.PanelListItemModel;
 
 /**
  * Created by nageswara on 5/1/14.

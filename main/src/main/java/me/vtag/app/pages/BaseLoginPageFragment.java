@@ -23,7 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 import me.vtag.app.BasePageFragment;
-import me.vtag.app.WelcomeActivity;
+import me.vtag.app.HomeActivity;
+import me.vtag.app.LoginActivity;
+import me.vtag.app.VtagApplication;
 import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.vos.LoginVO;
 import me.vtag.app.pages.social.BaseAuthProvider;
@@ -109,12 +111,18 @@ public class BaseLoginPageFragment extends BasePageFragment implements LoaderMan
         VtagClient.getInstance().auth(user, new VtagAuthCallback(){
             @Override
             public void onSuccess(LoginVO loginDetails) {
-                if (loginDetails.loggedin) {
-                    ((WelcomeActivity) getActivity()).browseHomePage();
-                } else {
-                    ((WelcomeActivity) getActivity()).showSignupPage(loginDetails.email, loginDetails.username);
-                }
                 showProgress(false);
+                Intent intent = null;
+                if (loginDetails.loggedin) {
+                    intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                } else {
+                    intent = new Intent(VtagApplication.getInstance(), LoginActivity.class);
+                    intent.putExtra("singup", true);
+                    intent.putExtra("email", loginDetails.email);
+                    intent.putExtra("username", loginDetails.username);
+                }
+                startActivity(intent);
             }
             @Override
             public void onFailure(int statusCode, Throwable e) {
@@ -126,7 +134,8 @@ public class BaseLoginPageFragment extends BasePageFragment implements LoaderMan
 
     @Override
     public void onLogout(SocialUser user) {
-        ((WelcomeActivity) getActivity()).showLoginPage();
+        Intent intent = new Intent(VtagApplication.getInstance(), LoginActivity.class);
+        startActivity(intent);
     }
 
 

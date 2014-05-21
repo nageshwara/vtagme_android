@@ -15,12 +15,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
-import me.vtag.app.WelcomeActivity;
 import me.vtag.app.adapters.PanelListAdapter;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.UserModel;
-import me.vtag.app.models.PanelListItemModel;
+import me.vtag.app.backend.models.PanelListItemModel;
 
 public class LoggedInFragment extends Fragment {
     private ArrayList<PanelListItemModel> privateTagListItemModels = new ArrayList<>();
@@ -123,7 +123,7 @@ public class LoggedInFragment extends Fragment {
     public void onNavigationDrawerItemSelected(PanelListItemModel data) {
         if (data == null) return;
 
-        WelcomeActivity activity = (WelcomeActivity) getActivity();
+        HomeActivity activity = (HomeActivity) getActivity();
         if (activity == null) return;
         if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.HASHTAG) {
             activity.browseHashTag(data.getTitle());

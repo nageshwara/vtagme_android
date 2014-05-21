@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import me.vtag.app.R;
-import me.vtag.app.WelcomeActivity;
+import me.vtag.app.VtagApplication;
 import me.vtag.app.backend.models.VideoMetaModel;
 import me.vtag.app.backend.models.VideoModel;
 import me.vtag.app.pages.players.BasePlayerFragment;
@@ -26,10 +26,10 @@ public class VideoPlayerActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.video_activity);
+        setContentView(R.layout.activity_video);
         mSlidingPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.video_queue_container, WelcomeActivity.mQueueFragment)
+                .replace(R.id.video_queue_container, VtagApplication.getInstance().getQueueFragment())
                 .commit();
         Intent i = getIntent();
         playVideo((VideoModel) i.getParcelableExtra("video"));
@@ -58,11 +58,11 @@ public class VideoPlayerActivity extends ActionBarActivity {
                 }
                 @Override
                 public void onVideoEnded() {
-                    WelcomeActivity.mQueueFragment.next();
+                    VtagApplication.getInstance().getQueueFragment().next();
                 }
                 @Override
                 public void onError(String mesg) {
-                    WelcomeActivity.mQueueFragment.next();
+                    VtagApplication.getInstance().getQueueFragment().next();
                 }
             });
         } else {

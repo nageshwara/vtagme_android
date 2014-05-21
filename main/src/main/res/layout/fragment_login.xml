@@ -6,7 +6,7 @@
 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#b0ffac"
+    android:background="@drawable/activity_login_background"
     android:orientation="vertical">
 
     <ScrollView
@@ -19,14 +19,26 @@
             android:orientation="vertical"
             >
 
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/applogo"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp" />
+
             <LinearLayout
+                android:id="@+id/social_login_form"
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
                 <com.facebook.widget.LoginButton
                     android:id="@+id/facebook_sign_in_button"

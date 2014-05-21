@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import me.vtag.app.WelcomeActivity;
+import me.vtag.app.VtagApplication;
 import me.vtag.app.backend.models.BaseTagModel;
 
 /**
@@ -29,7 +29,7 @@ public class TagBasedVideoListItemView extends BaseVideoListItemView {
 
     @Override
     public void onClick(View view) {
-        WelcomeActivity.mQueueFragment.setTag(mTagModel);
+        VtagApplication.getInstance().getQueueFragment().setTag(mTagModel);
         //WelcomeActivity.mQueueFragment.play(model);
         model.play(getContext());
     }

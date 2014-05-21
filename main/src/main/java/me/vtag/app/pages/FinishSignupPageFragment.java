@@ -1,14 +1,19 @@
 package me.vtag.app.pages;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import me.vtag.app.BasePageFragment;
+import me.vtag.app.HomeActivity;
+import me.vtag.app.LoginActivity;
 import me.vtag.app.R;
-import me.vtag.app.WelcomeActivity;
+import me.vtag.app.VtagApplication;
 import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.vos.LoginVO;
 
@@ -42,7 +47,6 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_finish_signup, container, false);
-        rootView.findViewById(R.id.signup_button).setOnClickListener(this);
         email = (EditText)rootView.findViewById(R.id.email_input);
         username = (EditText)rootView.findViewById(R.id.username_input);
         password = (EditText)rootView.findViewById(R.id.password_input);
@@ -63,6 +67,9 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
         if (username_text != null) {
             username.setText(username_text);
         }
+
+        BootstrapButton mSignupButton = (BootstrapButton) rootView.findViewById(R.id.signup_button);
+        mSignupButton.setOnClickListener(this);
         return rootView;
     }
 
@@ -86,9 +93,12 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
                     @Override
                     public void onSuccess(LoginVO loginDetails) {
                         if (loginDetails.loggedin) {
-                            ((WelcomeActivity) getActivity()).browseHomePage();
+                            Intent intent = null;
+                            intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(intent);
                         } else {
-                            // Show Error Message..
+                            // Show an error..
                         }
                     }
                     @Override

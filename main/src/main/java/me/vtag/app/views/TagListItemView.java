@@ -11,8 +11,8 @@ import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
-import me.vtag.app.WelcomeActivity;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.helpers.StringUtil;
 
@@ -75,8 +75,8 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if (model != null) {
-            if (getContext() instanceof  WelcomeActivity) {
-                ((WelcomeActivity) getContext()).browseHashTag(model.tag);
+            if (getContext() instanceof HomeActivity) {
+                ((HomeActivity) getContext()).browseHashTag(model.tag);
             }
         }
     }

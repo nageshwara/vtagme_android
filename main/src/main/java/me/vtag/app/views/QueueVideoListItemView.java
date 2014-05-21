@@ -4,8 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import me.vtag.app.WelcomeActivity;
-import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.VtagApplication;
 
 /**
  * Created by nageswara on 5/19/14.
@@ -25,7 +24,7 @@ public class QueueVideoListItemView extends BaseVideoListItemView {
 
     @Override
     public void onClick(View view) {
-        WelcomeActivity.mQueueFragment.play(model);
+        VtagApplication.getInstance().getQueueFragment().play(model);
     }
 
 }

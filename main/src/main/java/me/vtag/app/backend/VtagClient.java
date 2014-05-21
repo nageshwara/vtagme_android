@@ -18,9 +18,15 @@ import org.apache.http.cookie.Cookie;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import me.vtag.app.WelcomeActivity;
+import ly.apps.android.rest.client.DefaultRestClientImpl;
+import ly.apps.android.rest.client.RestClient;
+import ly.apps.android.rest.client.RestClientFactory;
+import ly.apps.android.rest.client.RestServiceFactory;
+import ly.apps.android.rest.converters.impl.JacksonBodyConverter;
+import ly.apps.android.rest.converters.impl.JacksonQueryParamsConverter;
+import me.vtag.app.VtagApplication;
 import me.vtag.app.backend.vos.LoginVO;
-import me.vtag.app.models.AuthPreferences;
+import me.vtag.app.backend.models.AuthPreferences;
 import me.vtag.app.pages.BaseLoginPageFragment;
 import me.vtag.app.pages.social.SocialUser;
 
@@ -28,13 +34,15 @@ import me.vtag.app.pages.social.SocialUser;
  * Created by nmannem on 30/10/13.
  */
 public class VtagClient {
-    private static final String BASE_URL = "http://10.63.8.204:8080";
-    //private static final String BASE_URL = "http://www.vtag.me";
+    //private static final String BASE_URL = "http://10.63.8.204:8080";
+    private static final String BASE_URL = "http://www.vtag.me";
     //private static final String BASE_URL = "http://192.168.0.4:8080";
 
     private AsyncHttpClient client;
     private static VtagClient instance = null;
     private CookieStore cookies;
+
+    private VtagAPI api;
 
     /**
      * Returns singleton instance
@@ -52,6 +60,8 @@ public class VtagClient {
     public void initalize(Context context) {
         cookies = new PersistentCookieStore(context);
         client.setCookieStore(cookies);
+        RestClient restClient = new DefaultRestClientImpl(client, new JacksonQueryParamsConverter(), new JacksonBodyConverter());
+        api = RestServiceFactory.getService(BASE_URL, VtagAPI.class, restClient);
     }
 
     public void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
@@ -94,7 +104,7 @@ public class VtagClient {
                 LoginVO loginDetails = gson.fromJson(responseBody, listType);
 
                 // Set Auth preferences ...
-                AuthPreferences authPreferences = WelcomeActivity.authPreferences;
+                AuthPreferences authPreferences = VtagApplication.getInstance().authPreferences;
                 authPreferences.setUser(user.id, user.provider);
                 authPreferences.setToken(user.access_token);
 
