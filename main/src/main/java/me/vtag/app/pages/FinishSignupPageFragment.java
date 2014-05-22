@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
+import ly.apps.android.rest.client.Callback;
+import ly.apps.android.rest.client.Response;
 import me.vtag.app.BasePageFragment;
 import me.vtag.app.HomeActivity;
 import me.vtag.app.LoginActivity;
@@ -85,25 +88,24 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
 
     @Override
     public void onClick(View view) {
-        // Finish the sign up..
-        VtagClient.getInstance().finishSignup(username.getText().toString(),
+        VtagClient.getAPI().finishSignup(username.getText().toString(),
                 email.getText().toString(),
-                password.getText().toString(),
-                new BaseLoginPageFragment.VtagAuthCallback() {
+                password.getText().toString(), new Callback<LoginVO>() {
                     @Override
-                    public void onSuccess(LoginVO loginDetails) {
-                        if (loginDetails.loggedin) {
-                            Intent intent = null;
-                            intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            startActivity(intent);
+                    public void onResponse(Response<LoginVO> loginVOResponse) {
+                        LoginVO loginDetails = loginVOResponse.getResult();
+                        if (loginDetails != null) {
+                            if (loginDetails.loggedin) {
+                                Intent intent = null;
+                                intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                            } else {
+                                // Show an error..
+                            }
                         } else {
-                            // Show an error..
+                            Toast.makeText(getActivity(), "Couldnt connect to our backend! Please check your connection", Toast.LENGTH_LONG).show();
                         }
-                    }
-                    @Override
-                    public void onFailure(int statusCode, Throwable e) {
-                        // Show Error
                     }
                 });
     }

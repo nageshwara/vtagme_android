@@ -44,6 +44,7 @@ public class VideoMetaModel implements Parcelable {
         }
     };
 
+    public VideoMetaModel() {}
     private VideoMetaModel(Parcel in) {
         type = in.readString();
         typeid = in.readString();

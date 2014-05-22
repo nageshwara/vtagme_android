@@ -41,6 +41,7 @@ public class VideoModel implements Parcelable {
         }
     };
 
+    public VideoModel() {}
     private VideoModel(Parcel in) {
         hashtags = new ArrayList<>();
 

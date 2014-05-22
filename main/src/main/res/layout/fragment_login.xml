@@ -3,11 +3,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/activity_login_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#00ffffff"
+    >
 
     <ScrollView
         android:id="@+id/login_form"

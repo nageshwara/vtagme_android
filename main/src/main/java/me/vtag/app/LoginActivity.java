@@ -5,17 +5,29 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 
-import me.vtag.app.backend.models.VideoModel;
 import me.vtag.app.pages.FinishSignupPageFragment;
 import me.vtag.app.pages.LoginPageFragment;
 
 public class LoginActivity extends ActionBarActivity {
-    private CharSequence mTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty);
-        Intent i = getIntent();
+
+        if (VtagApplication.getInstance().isUserLoggedin()) {
+            showHomeActivity();
+            return;
+        }
+        changeIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        changeIntent(intent);
+    }
+
+    private void changeIntent(Intent i) {
         Boolean signup = i.getBooleanExtra("signup", false);
         if (signup) {
             showSignupPage(i.getStringExtra("email"), i.getStringExtra("username"));
@@ -25,7 +37,6 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private void showLoginPage() {
-        mTitle = "Login";
         // Now show list of tags.
         LoginPageFragment loginPage = new LoginPageFragment();
         // update the main content by replacing fragments
@@ -36,7 +47,6 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private void showSignupPage(String email, String username) {
-        mTitle = "Signup";
         // Now show list of tags.
         FinishSignupPageFragment signupPageFragment = new FinishSignupPageFragment(email, username);
         // update the main content by replacing fragments
@@ -44,5 +54,11 @@ public class LoginActivity extends ActionBarActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.container, signupPageFragment)
                 .commit();
+    }
+
+    private void showHomeActivity() {
+        Intent intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }

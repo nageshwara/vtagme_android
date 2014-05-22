@@ -28,4 +28,6 @@ public class BaseTagModel {
     public String[] related;
 
     //activity
+
+    public BaseTagModel() {}
 }

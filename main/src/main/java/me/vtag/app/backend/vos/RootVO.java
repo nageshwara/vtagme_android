@@ -14,4 +14,5 @@ public class RootVO {
     public List<BaseTagModel> followingtags;
     public TopTagsVO toptags;
     public UserModel user;
+    public RootVO() {}
 }

@@ -17,8 +17,8 @@ import me.vtag.app.backend.vos.RootVO;
  */
 @RestService
 public interface VtagAPI {
-    @GET("/")
-    @Cached(policy = CachePolicy.NETWORK_ENABLED)
+    @GET("/?mobile=true")
+    //@Cached(policy = CachePolicy.NETWORK_ENABLED)
     void getBootstrap(Callback<RootVO> callback);
 
     @POST("/mobile_signup_process")
@@ -35,7 +35,7 @@ public interface VtagAPI {
     void getVideoDetails(@Path("id") String id, Callback<RootVO> callback);
 
     @GET("/tag/{id}")
-    @Cached(policy = CachePolicy.NETWORK_ENABLED)
+    //@Cached(policy = CachePolicy.NETWORK_ENABLED)
     void getTagDetails(@Path("id") String id, Callback<BaseTagModel> callback);
 
     @GET("/privatetag/{id}")

@@ -24,6 +24,8 @@ import org.apache.http.Header;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import ly.apps.android.rest.client.Callback;
+import ly.apps.android.rest.client.Response;
 import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.vos.RootVO;
@@ -130,37 +132,32 @@ public class HomeActivity extends ActionBarActivity
     public void browseHomePage() {
         mTitle = "Home";
         showProgressMessage();
-        VtagClient.getInstance().getRootDetails(new TextHttpResponseHandler() {
+        VtagClient.getAPI().getBootstrap(new Callback<RootVO>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseBody) {
-                Gson gson = new Gson();
-                Type listType = new TypeToken<RootVO>(){}.getType();
-                RootVO rootData = gson.fromJson(responseBody, listType);
-                if (rootData.user == null) {
-                    VtagApplication.getInstance().authPreferences.setUser(null, null); // Next time shows login page.
-                    mLeftDrawerFragment.setLoggedIn(null, rootData);
-                } else {
-                    mLeftDrawerFragment.setLoggedIn(rootData.user, rootData);
-                    // Store private and public tags in LRU cache..
-                    for (BaseTagModel tagModel : rootData.privatetags) {
-                        CacheManager.getInstance().putPrivateTagModel(tagModel.tag, tagModel);
+            public void onResponse(Response<RootVO> rootVOResponse) {
+                RootVO rootData = rootVOResponse.getResult();
+                if (rootData != null) {
+                    if (rootData.user == null) {
+                        VtagApplication.getInstance().authPreferences.setUser(null, null); // Next time shows login page.
+                        mLeftDrawerFragment.setLoggedIn(null, rootData);
+                    } else {
+                        mLeftDrawerFragment.setLoggedIn(rootData.user, rootData);
+                        // Store private and public tags in LRU cache..
+                        for (BaseTagModel tagModel : rootData.privatetags) {
+                            CacheManager.getInstance().putPrivateTagModel(tagModel.tag, tagModel);
+                        }
                     }
+                    // Now show list of tags.
+                    TagsPageFragment homepage = new TagsPageFragment(rootData.toptags.tagcards);
+                    // update the main content by replacing fragments
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, homepage)
+                            .commit();
+                } else {
+                    Toast.makeText(HomeActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                 }
-                // Now show list of tags.
-                TagsPageFragment homepage = new TagsPageFragment(rootData.toptags.tagcards);
-                // update the main content by replacing fragments
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, homepage)
-                        .commit();
                 hideProgressMessage();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseBody, java.lang.Throwable e) {
-                hideProgressMessage();
-                Toast.makeText(HomeActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-                System.out.println("wow " + e.getMessage());
             }
         });
         closeDrawers();
@@ -176,21 +173,16 @@ public class HomeActivity extends ActionBarActivity
         BaseTagModel tagModel = CacheManager.getInstance().getHashTagModel(tag);
         if (tagModel == null) {
             showProgressMessage();
-            VtagClient.getInstance().getTagDetails(tag, new TextHttpResponseHandler() {
+            VtagClient.getAPI().getTagDetails(tag, new Callback<BaseTagModel>() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, String responseBody) {
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<BaseTagModel>() {
-                    }.getType();
-                    BaseTagModel tagModel = gson.fromJson(responseBody, listType);
-                    browseHashTag(tagModel);
+                public void onResponse(Response<BaseTagModel> baseTagModelResponse) {
+                    BaseTagModel tagModel = baseTagModelResponse.getResult();
+                    if (tagModel != null) {
+                        browseHashTag(tagModel);
+                    } else {
+                        Toast.makeText(HomeActivity.this, "Couldnt get tag details!", Toast.LENGTH_SHORT).show();
+                    }
                     hideProgressMessage();
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseBody, java.lang.Throwable e) {
-                    hideProgressMessage();
-                    Toast.makeText(HomeActivity.this, "Couldnt get tag details!", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {

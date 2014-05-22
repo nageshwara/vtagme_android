@@ -7,9 +7,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.beardedhen.androidbootstrap.FontAwesomeText;
 import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import org.w3c.dom.Text;
 
 import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
@@ -23,6 +26,12 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
 
     private View view;
     private BaseTagModel model;
+
+    private ImageView mImage;
+    private TextView mTitle;
+    private TextView mFollowers;
+    private TextView mVideos;
+    private FontAwesomeText mSubscribe;
 
     public TagListItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -42,21 +51,26 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
     private void initView() {
         view = inflate(getContext(), R.layout.tagcard, null);
         addView(view);
+        mSubscribe = (FontAwesomeText) view.findViewById(R.id.subscribeButton);
+        mImage = (ImageView) view.findViewById(R.id.imageView);
+        mTitle = (TextView) view.findViewById(R.id.tagTitleView);
+        mFollowers = (TextView) view.findViewById(R.id.followersCount);
+        //mVideos = (TextView) view.findViewById(R.id.videosCount);
         this.setOnClickListener(this);
+        mSubscribe.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TagListItemView.this.onToggleSubscription();
+            }
+        });
     }
 
     public void setModel(BaseTagModel model) {
         this.model = model;
 
-        ImageView image = (ImageView) view.findViewById(R.id.imageView);
-        TextView title = (TextView) view.findViewById(R.id.tagTitleView);
-        TextView followers = (TextView) view.findViewById(R.id.followersCount);
-        TextView videos = (TextView) view.findViewById(R.id.videosCount);
-
-        title.setText(model.tag);
-        followers.setText(StringUtil.formatNumber(model.followers));
-        videos.setText(StringUtil.formatNumber(model.videocount));
-
+        mTitle.setText("#" + model.tag);
+        mFollowers.setText(StringUtil.formatNumber(model.followers));
+        //videos.setText(StringUtil.formatNumber(model.videocount));
         Transformation transformation = new RoundedTransformationBuilder()
                 .cornerRadiusDp(8)
                 .scaleType(ImageView.ScaleType.CENTER_CROP)
@@ -65,7 +79,22 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
         Picasso.with(this.getContext()).load(model.videodetails.get(0).video.thumb)
                 .fit().centerCrop()
                 .transform(transformation)
-                .into(image);
+                .into(mImage);
+        refresh();
+    }
+
+    private void refresh() {
+        if (model.following) {
+            mSubscribe.setIcon("fa-minus-square");
+        } else {
+            mSubscribe.setIcon("fa-plus-square");
+        }
+    }
+
+    private void onToggleSubscription() {
+        model.following = !model.following;
+        refresh();
+        // Now make a call to backend.
     }
 
     public BaseTagModel getModel() {

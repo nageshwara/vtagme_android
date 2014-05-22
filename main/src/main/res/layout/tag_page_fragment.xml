@@ -12,5 +12,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/videoListView"
         android:layout_gravity="center_horizontal"
+        android:divider="@null"
         android:dividerHeight="0dp" />
 </LinearLayout>
