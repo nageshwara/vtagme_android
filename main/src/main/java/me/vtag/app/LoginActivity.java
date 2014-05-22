@@ -13,11 +13,6 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty);
-
-        if (VtagApplication.getInstance().isUserLoggedin()) {
-            showHomeActivity();
-            return;
-        }
         changeIntent(getIntent());
     }
 
@@ -32,7 +27,11 @@ public class LoginActivity extends ActionBarActivity {
         if (signup) {
             showSignupPage(i.getStringExtra("email"), i.getStringExtra("username"));
         } else {
-            showLoginPage();
+            if (VtagApplication.getInstance().isUserLoggedin()) {
+                showHomeActivity();
+            } else {
+                showLoginPage();
+            }
         }
     }
 

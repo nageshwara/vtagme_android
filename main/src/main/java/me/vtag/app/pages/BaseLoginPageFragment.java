@@ -120,14 +120,13 @@ public class BaseLoginPageFragment extends BasePageFragment implements LoaderMan
                     AuthPreferences authPreferences = VtagApplication.getInstance().authPreferences;
                     authPreferences.setUser(user.id, user.provider);
                     authPreferences.setToken(user.access_token);
-
                     Intent intent = null;
                     if (loginDetails.loggedin) {
                         intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     } else {
                         intent = new Intent(VtagApplication.getInstance(), LoginActivity.class);
-                        intent.putExtra("singup", true);
+                        intent.putExtra("signup", true);
                         intent.putExtra("email", loginDetails.email);
                         intent.putExtra("username", loginDetails.username);
                     }

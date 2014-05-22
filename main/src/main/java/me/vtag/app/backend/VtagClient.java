@@ -18,6 +18,7 @@ import org.apache.http.cookie.Cookie;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import ly.apps.android.rest.cache.CacheAwareHttpClient;
 import ly.apps.android.rest.client.DefaultRestClientImpl;
 import ly.apps.android.rest.client.RestClient;
 import ly.apps.android.rest.client.RestClientFactory;
@@ -40,7 +41,6 @@ public class VtagClient {
 
     private AsyncHttpClient client;
     private static VtagClient instance = null;
-    private CookieStore cookies;
 
     private static VtagAPI api;
 
@@ -53,36 +53,15 @@ public class VtagClient {
     }
 
     public VtagClient() {
-        client  = new AsyncHttpClient();
-        cookies = null;
     }
 
     public void initalize(Context context) {
-        cookies = new PersistentCookieStore(context);
-        client.setCookieStore(cookies);
+        client  = new VtagHttpClient(context);
         RestClient restClient = new DefaultRestClientImpl(client, new VtagQueryParamsConverter(), new JacksonBodyConverter());
         api = RestServiceFactory.getService(BASE_URL, VtagAPI.class, restClient);
     }
 
-    public VtagAPI getApi() {
-        return api;
-    }
-
     public static VtagAPI getAPI() {
         return api;
-    }
-
-    private void refreshCookies() {
-        List<Cookie> cookieList = cookies.getCookies();
-        String phpSession = "";
-        if (cookieList.isEmpty()) {
-            Log.i("TAG", "None");
-        } else {
-            for (Cookie cookie : cookieList) {
-                phpSession = phpSession + cookie.getName()+"=\""+cookie.getValue()+"\";";
-            }
-            Log.i("session", phpSession);
-        }
-        client.addHeader("Cookie", phpSession);
     }
 }
