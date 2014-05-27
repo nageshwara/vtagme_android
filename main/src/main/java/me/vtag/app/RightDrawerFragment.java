@@ -46,10 +46,7 @@ public class RightDrawerFragment extends Fragment {
     public void new_tag_clicked(BaseTagModel tag) {
         if (getActivity() == null) return;
 
-        Log.w("came to new_tag_clicked", "Myapp ");
-        RightPanelViewFragment activeFragment = new RightPanelViewFragment();
-        activeFragment.add_tagdetails(tag);
-        activeFragment.add_activities(tag);
+        RightPanelViewFragment activeFragment = new RightPanelViewFragment(tag);
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.right_panel_container, activeFragment).addToBackStack(null).commit();

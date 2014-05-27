@@ -228,6 +228,7 @@ public class WelcomeActivity extends ActionBarActivity
 
     private LruCache<String, BaseTagModel> mHashtags;
     private LruCache<String, BaseTagModel> mPrivatetags;
+
     public void browseHashTag(String tag) {
         mTitle = tag;
         final Activity activity = this;
