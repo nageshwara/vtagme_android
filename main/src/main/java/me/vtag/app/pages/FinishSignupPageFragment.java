@@ -2,6 +2,7 @@ package me.vtag.app.pages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import me.vtag.app.LoginActivity;
 import me.vtag.app.R;
 import me.vtag.app.VtagApplication;
 import me.vtag.app.backend.VtagClient;
+import me.vtag.app.backend.models.AuthPreferences;
 import me.vtag.app.backend.vos.LoginVO;
 
 /**
@@ -96,6 +98,12 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
                         LoginVO loginDetails = loginVOResponse.getResult();
                         if (loginDetails != null) {
                             if (loginDetails.loggedin) {
+                                AuthPreferences authPreferences = VtagApplication.getInstance().authPreferences;
+                                authPreferences.setUser(username.getText().toString(), "own");
+                                Log.w("Came to FinishSignupPageFragment","Myapp ");
+                                Log.w(authPreferences.getUser(),"Myapp ");
+//                                authPreferences.setToken(user.access_token);
+
                                 Intent intent = null;
                                 intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

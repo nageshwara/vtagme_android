@@ -3,6 +3,7 @@ package me.vtag.app;
 import android.accounts.AccountManager;
 import android.app.Application;
 import android.content.res.Configuration;
+import android.util.Log;
 
 import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.AuthPreferences;
@@ -16,15 +17,18 @@ public class VtagApplication extends Application {
     public AccountManager accountManager;
     public AuthPreferences authPreferences;
     public QueueFragment mQueueFragment;
+    static int aaa = 0;
 
     public static VtagApplication getInstance(){
+        aaa++;
+        Log.w(Integer.toString(aaa),"Myapp ");
         return mInstance;
     }
 
     @Override
     public void onCreate() {
         mInstance = this;
-
+        Log.w("In the VtagApplication class", "Myapp ");
         accountManager = AccountManager.get(this);
         authPreferences = new AuthPreferences(this);
         super.onCreate();
