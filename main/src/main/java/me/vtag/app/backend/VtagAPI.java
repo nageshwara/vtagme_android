@@ -43,10 +43,10 @@ public interface VtagAPI {
     @GET("/privatetag/{id}")
     void getPrivateTagDetails(@Path("id") String id, Callback<PrivatetagModel> callback);
 
-    @GET("/tag/follow/{id}?mobile=true")
+    @GET("/tag/follow/{id}")
     void followTag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
 
-    @GET("/tag/unfollow/{id}?mobile=true")
+    @GET("/tag/unfollow/{id}")
     void unfollowTag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
 
 }

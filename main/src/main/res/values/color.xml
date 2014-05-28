@@ -30,4 +30,7 @@
     <color name="counter_text_bg">#888888</color>
     <color name="counter_text_color">#FFFFFF</color>
     <color name="black_overlay">#66000000</color>
+
+    <color name="vtag_blue">#FF4080D0</color>
+    <color name="vtag_red">#FFC04030</color>
 </resources>

@@ -8,22 +8,13 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.ResponseHandlerInterface;
 
-import org.apache.http.Header;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HttpContext;
 
-import java.lang.ref.WeakReference;
-import java.net.URLEncoder;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by nageswara on 5/21/14.
@@ -31,15 +22,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class VtagHttpClient extends AsyncHttpClient {
 
     private CookieStore cookies = null;
-    private ThreadPoolExecutor threadPool;
-    private final Map<Context, List<WeakReference<Future<?>>>> requestMap;
-
     public VtagHttpClient(Context context) {
         super();
         cookies = new PersistentCookieStore(context);
+        cookies.clear();
         setCookieStore(cookies);
-        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
-        requestMap = new WeakHashMap<Context, List<WeakReference<Future<?>>>>();
     }
 
     @Override

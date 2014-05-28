@@ -38,14 +38,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fontawesometext:fa_icon="fa-plus-square"
-            android:textSize="48sp"
+            android:textSize="42sp"
             android:id="@+id/subscribeButton"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:textColor="@color/bbutton_primary"
             />
 
         <!--ImageButton

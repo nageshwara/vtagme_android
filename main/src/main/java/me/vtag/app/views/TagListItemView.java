@@ -98,15 +98,21 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
     }
 
     private void refresh() {
+        mSubscribe.stopAnimation();
         if (model.following) {
+            mSubscribe.setTextColor(getResources().getColor(R.color.vtag_red));
             mSubscribe.setIcon("fa-minus-square");
         } else {
+            mSubscribe.setTextColor(getResources().getColor(R.color.vtag_blue));
             mSubscribe.setIcon("fa-plus-square");
         }
     }
 
     private void onToggleSubscription() {
         if (model instanceof HashtagModel) {
+            mSubscribe.setTextColor(getResources().getColor(R.color.gray));
+            mSubscribe.setIcon("fa-spinner");
+            mSubscribe.startRotate(getContext(), true, FontAwesomeText.AnimationSpeed.SLOW);
             VtagmeCallback callback = new VtagmeCallback() {
                 @Override
                 public void onComplete(boolean success) {
