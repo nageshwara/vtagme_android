@@ -138,7 +138,7 @@ public class HomeActivity extends ActionBarActivity
                 RootVO rootData = rootVOResponse.getResult();
                 if (rootData != null) {
                     if (rootData.user == null) {
-                        VtagApplication.getInstance().authPreferences.setUser(null, null); // Next time shows login page.
+//                        VtagApplication.getInstance().authPreferences.setUser(null, null); // Next time shows login page.
                         mLeftDrawerFragment.setLoggedIn(null, rootData);
                     } else {
                         mLeftDrawerFragment.setLoggedIn(rootData.user, rootData);
