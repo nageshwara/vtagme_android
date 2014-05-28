@@ -119,6 +119,7 @@ public class LoggedInFragment extends Fragment {
         mPublicTagsView.setAdapter(new PanelListAdapter(getActivity(), 0, publicTagListItemModels));
         mProfileName.setText(mUserModel.displayName);
         Picasso.with(getActivity()).load(mUserModel.pic)
+                .fit()
                 .centerInside()
                 .into(mProfileImage);
     }
