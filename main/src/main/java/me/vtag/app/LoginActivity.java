@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 
+import java.util.Map;
+
 import me.vtag.app.pages.FinishSignupPageFragment;
 import me.vtag.app.pages.LoginPageFragment;
+import me.vtag.app.pages.social.BaseAuthProvider;
 
 public class LoginActivity extends ActionBarActivity {
+    private LoginPageFragment mLoginPage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +41,11 @@ public class LoginActivity extends ActionBarActivity {
 
     private void showLoginPage() {
         // Now show list of tags.
-        LoginPageFragment loginPage = new LoginPageFragment();
+        mLoginPage = new LoginPageFragment();
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, loginPage)
+                .replace(R.id.container, mLoginPage)
                 .commit();
     }
 
@@ -60,4 +64,15 @@ public class LoginActivity extends ActionBarActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // TODO BIG HACK. Passing activity result from activity to fragment manually.
+        if (mLoginPage != null) {
+            mLoginPage.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 }
