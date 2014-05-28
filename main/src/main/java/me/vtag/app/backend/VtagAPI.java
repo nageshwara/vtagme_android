@@ -9,6 +9,8 @@ import ly.apps.android.rest.client.annotations.Path;
 import ly.apps.android.rest.client.annotations.QueryParam;
 import ly.apps.android.rest.client.annotations.RestService;
 import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.HashtagModel;
+import me.vtag.app.backend.models.PrivatetagModel;
 import me.vtag.app.backend.vos.LoginVO;
 import me.vtag.app.backend.vos.RootVO;
 
@@ -36,15 +38,15 @@ public interface VtagAPI {
 
     @GET("/tag/{id}")
     //@Cached(policy = CachePolicy.NETWORK_ENABLED)
-    void getTagDetails(@Path("id") String id, Callback<BaseTagModel> callback);
+    void getTagDetails(@Path("id") String id, Callback<HashtagModel> callback);
 
     @GET("/privatetag/{id}")
-    void getPrivateTagDetails(@Path("id") String id, Callback<BaseTagModel> callback);
+    void getPrivateTagDetails(@Path("id") String id, Callback<PrivatetagModel> callback);
 
     @GET("/tag/follow/{id}?mobile=true")
-    void getFollowTag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
+    void followTag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
 
     @GET("/tag/unfollow/{id}?mobile=true")
-    void getUnFollowTag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
+    void unfollowTag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
 
 }

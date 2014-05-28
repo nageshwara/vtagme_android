@@ -19,6 +19,9 @@ import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
 import me.vtag.app.adapters.PanelListAdapter;
 import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.HashtagModel;
+import me.vtag.app.backend.models.PrivatetagModel;
+import me.vtag.app.backend.models.PublictagModel;
 import me.vtag.app.backend.models.UserModel;
 import me.vtag.app.backend.models.PanelListItemModel;
 
@@ -51,21 +54,21 @@ public class LoggedInFragment extends Fragment {
         mUserModel = userModel;
     }
 
-    public void addPrivateTags(List<BaseTagModel> privatetags) {
+    public void addPrivateTags(List<PrivatetagModel> privatetags) {
         if (privatetags == null) return;
-        for (BaseTagModel privatetag : privatetags) {
+        for (PrivatetagModel privatetag : privatetags) {
             privateTagListItemModels.add(new PanelListItemModel(LeftDrawerItemType.PRIVATE_TAG.toString(), privatetag.tag, 0));
         }
     }
-    public void addPublicTags(List<BaseTagModel> publictags) {
+    public void addPublicTags(List<PublictagModel> publictags) {
         if (publictags == null) return;
-        for (BaseTagModel publictag : publictags) {
+        for (PublictagModel publictag : publictags) {
             publicTagListItemModels.add(new PanelListItemModel(LeftDrawerItemType.PRIVATE_TAG.toString(), publictag.tag, 0));
         }
     }
-    public void addFollowingTags(List<BaseTagModel> followingtags) {
+    public void addFollowingTags(List<HashtagModel> followingtags) {
         if (followingtags == null) return;
-        for (BaseTagModel followingtag : followingtags) {
+        for (HashtagModel followingtag : followingtags) {
             followingTagListItemModels.add(new PanelListItemModel(LeftDrawerItemType.PRIVATE_TAG.toString(), followingtag.tag, 0));
         }
     }

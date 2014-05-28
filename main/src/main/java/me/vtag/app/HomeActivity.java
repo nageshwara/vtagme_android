@@ -28,8 +28,11 @@ import ly.apps.android.rest.client.Callback;
 import ly.apps.android.rest.client.Response;
 import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.HashtagModel;
+import me.vtag.app.backend.models.PrivatetagModel;
 import me.vtag.app.backend.vos.RootVO;
 import me.vtag.app.backend.models.CacheManager;
+import me.vtag.app.pages.HashtagsPageFragment;
 import me.vtag.app.pages.TagsPageFragment;
 import me.vtag.app.pages.TagPageFragment;
 
@@ -138,17 +141,17 @@ public class HomeActivity extends ActionBarActivity
                 RootVO rootData = rootVOResponse.getResult();
                 if (rootData != null) {
                     if (rootData.user == null) {
-//                        VtagApplication.getInstance().authPreferences.setUser(null, null); // Next time shows login page.
+                        VtagApplication.getInstance().authPreferences.setUser(null, null); // Next time shows login page.
                         mLeftDrawerFragment.setLoggedIn(null, rootData);
                     } else {
                         mLeftDrawerFragment.setLoggedIn(rootData.user, rootData);
                         // Store private and public tags in LRU cache..
-                        for (BaseTagModel tagModel : rootData.privatetags) {
+                        for (PrivatetagModel tagModel : rootData.privatetags) {
                             CacheManager.getInstance().putPrivateTagModel(tagModel.tag, tagModel);
                         }
                     }
                     // Now show list of tags.
-                    TagsPageFragment homepage = new TagsPageFragment(rootData.toptags.tagcards);
+                    HashtagsPageFragment homepage = new HashtagsPageFragment(rootData.toptags.tagcards);
                     // update the main content by replacing fragments
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
@@ -170,13 +173,13 @@ public class HomeActivity extends ActionBarActivity
 
     public void browseHashTag(String tag) {
         mTitle = tag;
-        BaseTagModel tagModel = CacheManager.getInstance().getHashTagModel(tag);
+        HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tag);
         if (tagModel == null) {
             showProgressMessage();
-            VtagClient.getAPI().getTagDetails(tag, new Callback<BaseTagModel>() {
+            VtagClient.getAPI().getTagDetails(tag, new Callback<HashtagModel>() {
                 @Override
-                public void onResponse(Response<BaseTagModel> baseTagModelResponse) {
-                    BaseTagModel tagModel = baseTagModelResponse.getResult();
+                public void onResponse(Response<HashtagModel> hashtagModelResponse) {
+                    HashtagModel tagModel = hashtagModelResponse.getResult();
                     if (tagModel != null) {
                         browseHashTag(tagModel);
                     } else {
@@ -191,7 +194,7 @@ public class HomeActivity extends ActionBarActivity
         closeDrawers();
     }
 
-    private void browseHashTag(BaseTagModel tagModel) {
+    private void browseHashTag(HashtagModel tagModel) {
         closeDrawers();
         CacheManager.getInstance().putHashTagModel(tagModel.tag, tagModel);
 
@@ -206,7 +209,7 @@ public class HomeActivity extends ActionBarActivity
 
     public void browsePrivateTag(String tag) {
         mTitle = tag;
-        BaseTagModel tagModel = CacheManager.getInstance().getPrivateTagModel(tag);
+        PrivatetagModel tagModel = CacheManager.getInstance().getPrivateTagModel(tag);
         closeDrawers();
         if (tagModel == null) {
             return;
@@ -215,7 +218,7 @@ public class HomeActivity extends ActionBarActivity
         }
     }
 
-    private void browsePrivateTag(BaseTagModel tagModel) {
+    private void browsePrivateTag(PrivatetagModel tagModel) {
         TagPageFragment tagpage = new TagPageFragment(tagModel);
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();

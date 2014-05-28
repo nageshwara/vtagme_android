@@ -18,20 +18,20 @@ public class CacheManager {
         mPrivatetags = new LruCache<>(100);
     };
 
-    private LruCache<String, BaseTagModel> mHashtags;
-    private LruCache<String, BaseTagModel> mPrivatetags;
+    private LruCache<String, HashtagModel> mHashtags;
+    private LruCache<String, PrivatetagModel> mPrivatetags;
 
-    public BaseTagModel getHashTagModel(String tag) {
+    public HashtagModel getHashTagModel(String tag) {
         return mHashtags.get(tag);
     }
-    public void putHashTagModel(String tag, BaseTagModel tagModel) {
+    public void putHashTagModel(String tag, HashtagModel tagModel) {
         mHashtags.put(tag, tagModel);
     }
 
-    public BaseTagModel getPrivateTagModel(String tag) {
+    public PrivatetagModel getPrivateTagModel(String tag) {
         return mPrivatetags.get(tag);
     }
-    public void putPrivateTagModel(String tag, BaseTagModel tagModel) {
+    public void putPrivateTagModel(String tag, PrivatetagModel tagModel) {
         mPrivatetags.put(tag, tagModel);
     }
 

@@ -17,18 +17,14 @@ public class VtagApplication extends Application {
     public AccountManager accountManager;
     public AuthPreferences authPreferences;
     public QueueFragment mQueueFragment;
-    static int aaa = 0;
 
     public static VtagApplication getInstance(){
-        aaa++;
-        Log.w(Integer.toString(aaa),"Myapp ");
         return mInstance;
     }
 
     @Override
     public void onCreate() {
         mInstance = this;
-        Log.w("In the VtagApplication class", "Myapp ");
         accountManager = AccountManager.get(this);
         authPreferences = new AuthPreferences(this);
         super.onCreate();
