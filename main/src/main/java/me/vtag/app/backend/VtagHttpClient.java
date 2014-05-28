@@ -25,7 +25,6 @@ public class VtagHttpClient extends AsyncHttpClient {
     public VtagHttpClient(Context context) {
         super();
         cookies = new PersistentCookieStore(context);
-        cookies.clear();
         setCookieStore(cookies);
     }
 
