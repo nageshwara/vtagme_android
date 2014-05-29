@@ -8,6 +8,6 @@ import java.util.Date;
  */
 public class ActivityDescribe {
     public String summary;
-    public String displayname;
+    public String displayName;
 //    public Time created_at;
 }

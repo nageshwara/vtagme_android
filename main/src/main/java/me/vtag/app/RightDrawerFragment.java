@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.models.PanelListItemModel;
 import me.vtag.app.views.RightPanelViewFragment;
+import me.vtag.app.views.rightpanel.TagContextFragment;
 
 public class RightDrawerFragment extends Fragment {
     private static final String STATE_SELECTED_POSITION = "right_selected_navigation_drawer_position";
@@ -46,7 +47,8 @@ public class RightDrawerFragment extends Fragment {
     public void new_tag_clicked(BaseTagModel tag) {
         if (getActivity() == null) return;
 
-        RightPanelViewFragment activeFragment = new RightPanelViewFragment(tag);
+//        RightPanelViewFragment activeFragment = new RightPanelViewFragment(tag);
+        TagContextFragment activeFragment = new TagContextFragment(tag);
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.right_panel_container, activeFragment).addToBackStack(null).commit();
