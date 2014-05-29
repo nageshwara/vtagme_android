@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,13 +84,13 @@ public class WelcomeActivity extends ActionBarActivity
         authPreferences = new AuthPreferences(this);
 
         VtagClient.getInstance().initalize(this);
+//        browseHomePage();
         if (authPreferences.getUser() != null) {
             //browseHomePage();
             showLoginPage();
         } else {
             showLoginPage();
         }
-
     }
 
     public void restoreActionBar() {
@@ -183,6 +184,7 @@ public class WelcomeActivity extends ActionBarActivity
         mTitle = "Home";
         final Activity activity = this;
         showProgressMessage();
+        Log.w("you are in ", "Myapp");
         VtagClient.getInstance().getRootDetails(new TextHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseBody) {
@@ -226,6 +228,7 @@ public class WelcomeActivity extends ActionBarActivity
 
     private LruCache<String, BaseTagModel> mHashtags;
     private LruCache<String, BaseTagModel> mPrivatetags;
+
     public void browseHashTag(String tag) {
         mTitle = tag;
         final Activity activity = this;
@@ -259,6 +262,7 @@ public class WelcomeActivity extends ActionBarActivity
         closeDrawers();
         mHashtags.put(tagModel.tag, tagModel);
 
+        mRightDrawerFragment.new_tag_clicked(tagModel);
         TagPageFragment tagpage = new TagPageFragment(tagModel);
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();

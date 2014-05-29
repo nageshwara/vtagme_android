@@ -1,5 +1,6 @@
 package me.vtag.app;
 
+import android.support.v4.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.models.PanelListItemModel;
+import me.vtag.app.views.RightPanelViewFragment;
+import me.vtag.app.views.rightpanel.TagContextFragment;
 
 public class RightDrawerFragment extends Fragment {
     private static final String STATE_SELECTED_POSITION = "right_selected_navigation_drawer_position";
@@ -38,6 +43,17 @@ public class RightDrawerFragment extends Fragment {
 
     public RightDrawerFragment() {
     }
+
+    public void new_tag_clicked(BaseTagModel tag) {
+        if (getActivity() == null) return;
+
+//        RightPanelViewFragment activeFragment = new RightPanelViewFragment(tag);
+        TagContextFragment activeFragment = new TagContextFragment(tag);
+        // update the main content by replacing fragments
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.right_panel_container, activeFragment).addToBackStack(null).commit();
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +82,7 @@ public class RightDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         mRightPanelContainerView = inflater.inflate(
-                R.layout.fragment_left_panel, container, false);
+                R.layout.fragment_right_panel, container, false);
         return mRightPanelContainerView;
     }
 
