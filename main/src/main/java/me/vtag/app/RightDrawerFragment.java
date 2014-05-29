@@ -24,6 +24,8 @@ import me.vtag.app.models.PanelListItemModel;
 import me.vtag.app.views.RightPanelViewFragment;
 import me.vtag.app.views.rightpanel.TagContextFragment;
 
+import me.vtag.app.backend.models.PanelListItemModel;
+
 public class RightDrawerFragment extends Fragment {
     private static final String STATE_SELECTED_POSITION = "right_selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "right_navigation_drawer_learned";

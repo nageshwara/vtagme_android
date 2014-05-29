@@ -3,6 +3,7 @@ package me.vtag.app.pages;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,8 +23,10 @@ import com.facebook.widget.LoginButton;
 import java.util.Arrays;
 import java.util.List;
 
+import me.vtag.app.HomeActivity;
+import me.vtag.app.LoginActivity;
 import me.vtag.app.R;
-import me.vtag.app.WelcomeActivity;
+import me.vtag.app.VtagApplication;
 import me.vtag.app.pages.social.GooglePlus;
 import me.vtag.app.pages.social.SocialUser;
 
@@ -85,11 +87,12 @@ public class LoginPageFragment extends BaseLoginPageFragment implements View.OnC
         mSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(VtagApplication.getInstance(), LoginActivity.class);
+                intent.putExtra("signup", true);
                 if (cachedEmailAddressCollection != null && cachedEmailAddressCollection.size() > 0) {
-                    ((WelcomeActivity) getActivity()).showSignupPage(cachedEmailAddressCollection.get(0));
-                } else {
-                    ((WelcomeActivity) getActivity()).showSignupPage();
+                    intent.putExtra("email", cachedEmailAddressCollection.get(0));
                 }
+                startActivity(intent);
             }
         });
 
@@ -97,13 +100,16 @@ public class LoginPageFragment extends BaseLoginPageFragment implements View.OnC
         mSkipSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((WelcomeActivity) getActivity()).browseHomePage();
+                Intent intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
         });
 
-
         mLoginFormView = rootView.findViewById(R.id.login_form);
         mProgressView = rootView.findViewById(R.id.login_progress);
+
+        rootView.findViewById( R.id.social_login_form ).requestFocus();
         return rootView;
     }
 

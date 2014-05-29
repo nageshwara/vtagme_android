@@ -30,4 +30,5 @@ public class BaseTagModel {
     //activity
     public List<ActivityModel> activity;
 
+    public BaseTagModel() {}
 }

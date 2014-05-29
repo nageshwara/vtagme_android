@@ -10,17 +10,17 @@
         android:id="@+id/activity_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="20dp">
+        android:minHeight="80dp">
     </FrameLayout>
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/sliding_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="bottom"
-        sothree:panelHeight="68dp"
-        sothree:shadowHeight="2dp">
+        sothree:panelHeight="48dp"
+        sothree:shadowHeight="1dp"
+        sothree:dragView="@+id/video_details_container"
+        >
         <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:yourapp="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="me.vtag.app.WelcomeActivity" >
+    tools:context="me.vtag.app.HomeActivity" >
     <item
         android:id="@+id/action_search"
         yourapp:actionViewClass="android.support.v7.widget.SearchView"
-        android:icon="@drawable/abc_ic_search"
+        android:icon="@drawable/abc_ic_search_api_holo_light"
         yourapp:showAsAction="always|collapseActionView"
         android:title="@string/action_search"
         >

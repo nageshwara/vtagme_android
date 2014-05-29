@@ -1,0 +1,23 @@
+package me.vtag.app.adapters;
+
+import android.app.Activity;
+
+import java.util.List;
+
+import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.VideoModel;
+import me.vtag.app.views.BaseVideoListItemView;
+import me.vtag.app.views.QueueVideoListItemView;
+import me.vtag.app.views.TagBasedVideoListItemView;
+
+/**
+ * Created by nmannem on 30/10/13.
+ */
+public class QueueVideoListAdapter extends VideoListAdapter {
+    public QueueVideoListAdapter(Activity context, int resourceId, List<VideoModel> objects) {
+        super(context, resourceId, objects);
+    }
+    protected BaseVideoListItemView createView() {
+        return new QueueVideoListItemView(getContext());
+    }
+}

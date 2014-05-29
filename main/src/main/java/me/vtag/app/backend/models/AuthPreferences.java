@@ -1,4 +1,4 @@
-package me.vtag.app.models;
+package me.vtag.app.backend.models;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
