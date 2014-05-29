@@ -45,7 +45,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/tagsContainer"
-                android:id="@+id/activityContainer"></FrameLayout>
+                android:id="@+id/duration"></FrameLayout>
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>

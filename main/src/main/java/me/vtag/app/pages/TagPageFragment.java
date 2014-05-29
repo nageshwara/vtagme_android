@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import me.vtag.app.BasePageFragment;
 import me.vtag.app.R;
+import me.vtag.app.adapters.TagBasedVideoListAdapter;
 import me.vtag.app.adapters.VideoListAdapter;
 import me.vtag.app.backend.models.BaseTagModel;
 
@@ -37,7 +38,7 @@ public class TagPageFragment extends BasePageFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tag_page_fragment, container, false);
         videoListView = (ListView) rootView.findViewById(R.id.videoListView);
-        videoListView.setAdapter(new VideoListAdapter(getActivity(), R.layout.videocard, this.tag.videodetails));
+        videoListView.setAdapter(new TagBasedVideoListAdapter(tag, getActivity(), R.layout.videocard, this.tag.videodetails));
         return rootView;
     }
 }

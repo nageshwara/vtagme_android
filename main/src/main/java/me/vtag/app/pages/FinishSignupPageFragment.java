@@ -1,15 +1,25 @@
 package me.vtag.app.pages;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
+
+import ly.apps.android.rest.client.Callback;
+import ly.apps.android.rest.client.Response;
 import me.vtag.app.BasePageFragment;
+import me.vtag.app.HomeActivity;
+import me.vtag.app.LoginActivity;
 import me.vtag.app.R;
-import me.vtag.app.WelcomeActivity;
+import me.vtag.app.VtagApplication;
 import me.vtag.app.backend.VtagClient;
+import me.vtag.app.backend.models.AuthPreferences;
 import me.vtag.app.backend.vos.LoginVO;
 
 /**
@@ -42,7 +52,6 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_finish_signup, container, false);
-        rootView.findViewById(R.id.signup_button).setOnClickListener(this);
         email = (EditText)rootView.findViewById(R.id.email_input);
         username = (EditText)rootView.findViewById(R.id.username_input);
         password = (EditText)rootView.findViewById(R.id.password_input);
@@ -63,6 +72,9 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
         if (username_text != null) {
             username.setText(username_text);
         }
+
+        BootstrapButton mSignupButton = (BootstrapButton) rootView.findViewById(R.id.signup_button);
+        mSignupButton.setOnClickListener(this);
         return rootView;
     }
 
@@ -78,22 +90,30 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
 
     @Override
     public void onClick(View view) {
-        // Finish the sign up..
-        VtagClient.getInstance().finishSignup(username.getText().toString(),
+        VtagClient.getAPI().finishSignup(username.getText().toString(),
                 email.getText().toString(),
-                password.getText().toString(),
-                new BaseLoginPageFragment.VtagAuthCallback() {
+                password.getText().toString(), new Callback<LoginVO>() {
                     @Override
-                    public void onSuccess(LoginVO loginDetails) {
-                        if (loginDetails.loggedin) {
-                            ((WelcomeActivity) getActivity()).browseHomePage();
+                    public void onResponse(Response<LoginVO> loginVOResponse) {
+                        LoginVO loginDetails = loginVOResponse.getResult();
+                        if (loginDetails != null) {
+                            if (loginDetails.loggedin) {
+                                AuthPreferences authPreferences = VtagApplication.getInstance().authPreferences;
+                                authPreferences.setUser(username.getText().toString(), "own");
+                                Log.w("Came to FinishSignupPageFragment","Myapp ");
+                                Log.w(authPreferences.getUser(),"Myapp ");
+//                                authPreferences.setToken(user.access_token);
+
+                                Intent intent = null;
+                                intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                            } else {
+                                // Show an error..
+                            }
                         } else {
-                            // Show Error Message..
+                            Toast.makeText(getActivity(), "Couldnt connect to our backend! Please check your connection", Toast.LENGTH_LONG).show();
                         }
-                    }
-                    @Override
-                    public void onFailure(int statusCode, Throwable e) {
-                        // Show Error
                     }
                 });
     }

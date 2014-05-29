@@ -22,9 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ly.apps.android.rest.client.Callback;
+import ly.apps.android.rest.client.Response;
 import me.vtag.app.BasePageFragment;
-import me.vtag.app.WelcomeActivity;
+import me.vtag.app.HomeActivity;
+import me.vtag.app.LoginActivity;
+import me.vtag.app.VtagApplication;
 import me.vtag.app.backend.VtagClient;
+import me.vtag.app.backend.models.AuthPreferences;
 import me.vtag.app.backend.vos.LoginVO;
 import me.vtag.app.pages.social.BaseAuthProvider;
 import me.vtag.app.pages.social.Facebook;
@@ -99,34 +104,46 @@ public class BaseLoginPageFragment extends BasePageFragment implements LoaderMan
     }
 
     @Override
-    public void onLogin(SocialUser user) {
+    public void onLogin(final SocialUser user) {
         if (isAuthGoingOn) {
             return;
         }
-
         showProgress(true);
         isAuthGoingOn = true;
-        VtagClient.getInstance().auth(user, new VtagAuthCallback(){
+        VtagClient.getAPI().socailSignup(user.id, user.provider, user.name, user.email, user.access_token, new Callback<LoginVO>() {
             @Override
-            public void onSuccess(LoginVO loginDetails) {
-                if (loginDetails.loggedin) {
-                    ((WelcomeActivity) getActivity()).browseHomePage();
+            public void onResponse(Response<LoginVO> loginVOResponse) {
+                isAuthGoingOn = false;
+                LoginVO loginDetails = loginVOResponse.getResult();
+                if (loginDetails != null) {
+                    // Set Auth preferences ...
+                    AuthPreferences authPreferences = VtagApplication.getInstance().authPreferences;
+                    authPreferences.setUser(user.id, user.provider);
+                    authPreferences.setToken(user.access_token);
+                    Intent intent = null;
+                    if (loginDetails.loggedin) {
+                        intent = new Intent(VtagApplication.getInstance(), HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    } else {
+                        intent = new Intent(VtagApplication.getInstance(), LoginActivity.class);
+                        intent.putExtra("signup", true);
+                        intent.putExtra("email", loginDetails.email);
+                        intent.putExtra("username", loginDetails.username);
+                    }
+                    startActivity(intent);
                 } else {
-                    ((WelcomeActivity) getActivity()).showSignupPage(loginDetails.email, loginDetails.username);
+                    Toast.makeText(getActivity(), "Couldnt connect to our backend! Please check your connection", Toast.LENGTH_LONG).show();
                 }
                 showProgress(false);
-            }
-            @Override
-            public void onFailure(int statusCode, Throwable e) {
-                showProgress(false);
-                Toast.makeText(getActivity(), "Couldnt connect to our backend! Please check your connection", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     @Override
     public void onLogout(SocialUser user) {
-        ((WelcomeActivity) getActivity()).showLoginPage();
+        VtagApplication.getInstance().authPreferences.setUser(null, null);
+        Intent intent = new Intent(VtagApplication.getInstance(), LoginActivity.class);
+        startActivity(intent);
     }
 
 
@@ -237,10 +254,5 @@ public class BaseLoginPageFragment extends BasePageFragment implements LoaderMan
                 new ArrayAdapter<String>(getActivity(),
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
         return adapter;
-    }
-
-    public static interface VtagAuthCallback {
-        void onSuccess(LoginVO loginDetails);
-        void onFailure(int statusCode, Throwable e);
     }
 }

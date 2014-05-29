@@ -1,4 +1,4 @@
-package me.vtag.app.models;
+package me.vtag.app.backend.models;
 
 /**
  * Created by nageswara on 5/1/14.

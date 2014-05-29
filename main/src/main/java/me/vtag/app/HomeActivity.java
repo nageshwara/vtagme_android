@@ -1,7 +1,5 @@
 package me.vtag.app;
 
-import android.accounts.AccountManager;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
@@ -15,6 +13,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.util.LruCache;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -28,18 +27,20 @@ import org.apache.http.Header;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import ly.apps.android.rest.client.Callback;
+import ly.apps.android.rest.client.Response;
 import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.HashtagModel;
+import me.vtag.app.backend.models.PrivatetagModel;
 import me.vtag.app.backend.vos.RootVO;
-import me.vtag.app.models.AuthPreferences;
-import me.vtag.app.pages.FinishSignupPageFragment;
+import me.vtag.app.backend.models.CacheManager;
+import me.vtag.app.pages.HashtagsPageFragment;
 import me.vtag.app.pages.TagsPageFragment;
-import me.vtag.app.pages.LoginPageFragment;
 import me.vtag.app.pages.TagPageFragment;
-import me.vtag.app.views.QueueFragment;
 
 
-public class WelcomeActivity extends ActionBarActivity
+public class HomeActivity extends ActionBarActivity
         implements SearchView.OnQueryTextListener {
 
     /**
@@ -49,12 +50,8 @@ public class WelcomeActivity extends ActionBarActivity
     private RightDrawerFragment mRightDrawerFragment;
     private DrawerLayout mDrawerLayout;
 
-    public static AccountManager accountManager;
-    public static AuthPreferences authPreferences;
-
     private ProgressDialog progressDialog;
     private SearchView mSearchView;
-    public static QueueFragment mQueueFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -64,12 +61,11 @@ public class WelcomeActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_home);
         mLeftDrawerFragment = (LeftDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mRightDrawerFragment = (RightDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_right_drawer);
-        mQueueFragment = new QueueFragment();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -153,69 +149,36 @@ public class WelcomeActivity extends ActionBarActivity
         return false;
     }
 
-    public void showLoginPage() {
-        mTitle = "Login";
-        // Now show list of tags.
-        LoginPageFragment loginPage = new LoginPageFragment();
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, loginPage)
-                .commit();
-        closeDrawers();
-    }
-
-    public void showSignupPage() { showSignupPage(null, null); }
-    public void showSignupPage(String email) { showSignupPage(email, null); }
-    public void showSignupPage(String email, String username) {
-        mTitle = "Signup";
-        // Now show list of tags.
-        FinishSignupPageFragment signupPageFragment = new FinishSignupPageFragment(email, username);
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, signupPageFragment)
-                .commit();
-        closeDrawers();
-    }
-
 
     public void browseHomePage() {
         mTitle = "Home";
-        final Activity activity = this;
         showProgressMessage();
-        Log.w("you are in ", "Myapp");
-        VtagClient.getInstance().getRootDetails(new TextHttpResponseHandler() {
+        VtagClient.getAPI().getBootstrap(new Callback<RootVO>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseBody) {
-                Gson gson = new Gson();
-                Type listType = new TypeToken<RootVO>(){}.getType();
-                RootVO rootData = gson.fromJson(responseBody, listType);
-                if (rootData.user == null) {
-                    authPreferences.setUser(null, null); // Next time shows login page.
-                    mLeftDrawerFragment.setLoggedIn(null, rootData);
-                } else {
-                    mLeftDrawerFragment.setLoggedIn(rootData.user, rootData);
-                    // Store private and public tags in LRU cache..
-                    for (BaseTagModel tagModel : rootData.privatetags) {
-                        mPrivatetags.put(tagModel.tag, tagModel);
+            public void onResponse(Response<RootVO> rootVOResponse) {
+                RootVO rootData = rootVOResponse.getResult();
+                if (rootData != null) {
+                    if (rootData.user == null) {
+                        VtagApplication.getInstance().authPreferences.setUser(null, null); // Next time shows login page.
+                        mLeftDrawerFragment.setLoggedIn(null, rootData);
+                    } else {
+                        mLeftDrawerFragment.setLoggedIn(rootData.user, rootData);
+                        // Store private and public tags in LRU cache..
+                        for (PrivatetagModel tagModel : rootData.privatetags) {
+                            CacheManager.getInstance().putPrivateTagModel(tagModel.tag, tagModel);
+                        }
                     }
+                    // Now show list of tags.
+                    HashtagsPageFragment homepage = new HashtagsPageFragment(rootData.toptags.tagcards);
+                    // update the main content by replacing fragments
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, homepage)
+                            .commit();
+                } else {
+                    Toast.makeText(HomeActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                 }
-                // Now show list of tags.
-                TagsPageFragment homepage = new TagsPageFragment(rootData.toptags.tagcards);
-                // update the main content by replacing fragments
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, homepage)
-                        .commit();
                 hideProgressMessage();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseBody, java.lang.Throwable e) {
-                hideProgressMessage();
-                Toast.makeText(activity, "Something went wrong!", Toast.LENGTH_SHORT).show();
-                System.out.println("wow " + e.getMessage());
             }
         });
         closeDrawers();
@@ -231,25 +194,19 @@ public class WelcomeActivity extends ActionBarActivity
 
     public void browseHashTag(String tag) {
         mTitle = tag;
-        final Activity activity = this;
-        BaseTagModel tagModel = mHashtags.get(tag);
+        HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tag);
         if (tagModel == null) {
             showProgressMessage();
-            VtagClient.getInstance().getTagDetails(tag, new TextHttpResponseHandler() {
+            VtagClient.getAPI().getTagDetails(tag, new Callback<HashtagModel>() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, String responseBody) {
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<BaseTagModel>() {
-                    }.getType();
-                    BaseTagModel tagModel = gson.fromJson(responseBody, listType);
-                    browseHashTag(tagModel);
+                public void onResponse(Response<HashtagModel> hashtagModelResponse) {
+                    HashtagModel tagModel = hashtagModelResponse.getResult();
+                    if (tagModel != null) {
+                        browseHashTag(tagModel);
+                    } else {
+                        Toast.makeText(HomeActivity.this, "Couldnt get tag details!", Toast.LENGTH_SHORT).show();
+                    }
                     hideProgressMessage();
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseBody, java.lang.Throwable e) {
-                    hideProgressMessage();
-                    Toast.makeText(activity, "Couldnt get tag details!", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -258,9 +215,9 @@ public class WelcomeActivity extends ActionBarActivity
         closeDrawers();
     }
 
-    private void browseHashTag(BaseTagModel tagModel) {
+    private void browseHashTag(HashtagModel tagModel) {
         closeDrawers();
-        mHashtags.put(tagModel.tag, tagModel);
+        CacheManager.getInstance().putHashTagModel(tagModel.tag, tagModel);
 
         mRightDrawerFragment.new_tag_clicked(tagModel);
         TagPageFragment tagpage = new TagPageFragment(tagModel);
@@ -274,7 +231,7 @@ public class WelcomeActivity extends ActionBarActivity
 
     public void browsePrivateTag(String tag) {
         mTitle = tag;
-        BaseTagModel tagModel = mPrivatetags.get(tag);
+        PrivatetagModel tagModel = CacheManager.getInstance().getPrivateTagModel(tag);
         closeDrawers();
         if (tagModel == null) {
             return;
@@ -283,7 +240,7 @@ public class WelcomeActivity extends ActionBarActivity
         }
     }
 
-    private void browsePrivateTag(BaseTagModel tagModel) {
+    private void browsePrivateTag(PrivatetagModel tagModel) {
         TagPageFragment tagpage = new TagPageFragment(tagModel);
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -292,8 +249,6 @@ public class WelcomeActivity extends ActionBarActivity
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
-
 
     private void showProgressMessage() {
         progressDialog = ProgressDialog.show(this, "Loading..",

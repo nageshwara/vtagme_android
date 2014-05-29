@@ -3,12 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".YoutubeVideoActivity$PlaceholderFragment">
-    <fragment
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
         android:id="@+id/videoplayer"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        tools:layout="@layout/videocard" />
+        />
 </RelativeLayout>
