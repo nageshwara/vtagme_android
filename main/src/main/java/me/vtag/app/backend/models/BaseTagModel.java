@@ -13,6 +13,8 @@ public class BaseTagModel {
     public int videocount;
     public int followers;
     public String url;
+
+    public int featured;
     public int tagtype; // 0 - hashtag, 1 - multitag, 2 - publictag, 3 - privatetag.
 
     public int updates;
@@ -25,6 +27,7 @@ public class BaseTagModel {
     public List<VideoModel> videodetails;
 
     public String next_cursor;
+    public boolean has_next;
     public String[] related;
 
     //activity

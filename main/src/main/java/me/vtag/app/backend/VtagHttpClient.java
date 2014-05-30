@@ -42,7 +42,7 @@ public class VtagHttpClient extends AsyncHttpClient {
             for (Cookie cookie : cookieList) {
                 phpSession = phpSession + cookie.getName()+"=\""+cookie.getValue()+"\";";
             }
-            Log.w("session", phpSession);
+            //Log.w("session", phpSession);
             removeHeader("Cookie");
             addHeader("Cookie", phpSession);
         }

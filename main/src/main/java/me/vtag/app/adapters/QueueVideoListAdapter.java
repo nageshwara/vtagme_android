@@ -6,6 +6,7 @@ import java.util.List;
 
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.VideoModel;
+import me.vtag.app.helpers.VtagmeLoaderView;
 import me.vtag.app.views.BaseVideoListItemView;
 import me.vtag.app.views.QueueVideoListItemView;
 import me.vtag.app.views.TagBasedVideoListItemView;
@@ -17,6 +18,8 @@ public class QueueVideoListAdapter extends VideoListAdapter {
     public QueueVideoListAdapter(Activity context, int resourceId, List<VideoModel> objects) {
         super(context, resourceId, objects);
     }
+
+    @Override
     protected BaseVideoListItemView createView() {
         return new QueueVideoListItemView(getContext());
     }

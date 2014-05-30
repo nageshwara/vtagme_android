@@ -15,30 +15,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.TextHttpResponseHandler;
-
-import org.apache.http.Header;
-
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import ly.apps.android.rest.client.Callback;
 import ly.apps.android.rest.client.Response;
 import me.vtag.app.backend.VtagClient;
-import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.HashtagModel;
 import me.vtag.app.backend.models.PrivatetagModel;
 import me.vtag.app.backend.vos.RootVO;
 import me.vtag.app.backend.models.CacheManager;
+import me.vtag.app.helpers.VtagmeLoaderView;
 import me.vtag.app.pages.HashtagsPageFragment;
-import me.vtag.app.pages.TagsPageFragment;
 import me.vtag.app.pages.TagPageFragment;
 
 
 public class HomeActivity extends ActionBarActivity
-        implements SearchView.OnQueryTextListener {
+        implements SearchView.OnQueryTextListener, VtagmeLoaderView {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -112,14 +105,15 @@ public class HomeActivity extends ActionBarActivity
         if (searchManager != null) {
             List<SearchableInfo> searchables = searchManager.getSearchablesInGlobalSearch();
             SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
-            for (SearchableInfo inf : searchables) {
+            /*for (SearchableInfo inf : searchables) {
                 if (inf.getSuggestAuthority() != null
                         && inf.getSuggestAuthority().startsWith("applications")) {
                     info = inf;
                 }
-            }
+            }*/
             mSearchView.setSearchableInfo(info);
         }
+        mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnQueryTextListener(this);
     }
 
@@ -134,7 +128,7 @@ public class HomeActivity extends ActionBarActivity
 
     public void browseHomePage() {
         mTitle = "Home";
-        showProgressMessage();
+        showLoading();
         VtagClient.getAPI().getBootstrap(new Callback<RootVO>() {
             @Override
             public void onResponse(Response<RootVO> rootVOResponse) {
@@ -151,7 +145,11 @@ public class HomeActivity extends ActionBarActivity
                         }
                     }
                     // Now show list of tags.
-                    HashtagsPageFragment homepage = new HashtagsPageFragment(rootData.toptags.tagcards);
+                    List<HashtagModel> allTopTags = new ArrayList<HashtagModel>();
+                    allTopTags.addAll(rootData.toptags.texttags);
+                    allTopTags.addAll(rootData.toptags.tagcards);
+                    allTopTags.addAll(rootData.toptags.tagrows);
+                    HashtagsPageFragment homepage = new HashtagsPageFragment(allTopTags);
                     // update the main content by replacing fragments
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
@@ -160,7 +158,7 @@ public class HomeActivity extends ActionBarActivity
                 } else {
                     Toast.makeText(HomeActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                 }
-                hideProgressMessage();
+                hideLoading();
             }
         });
         closeDrawers();
@@ -175,7 +173,7 @@ public class HomeActivity extends ActionBarActivity
         mTitle = tag;
         HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tag);
         if (tagModel == null) {
-            showProgressMessage();
+            showLoading();
             VtagClient.getAPI().getTagDetails(tag, new Callback<HashtagModel>() {
                 @Override
                 public void onResponse(Response<HashtagModel> hashtagModelResponse) {
@@ -185,7 +183,7 @@ public class HomeActivity extends ActionBarActivity
                     } else {
                         Toast.makeText(HomeActivity.this, "Couldnt get tag details!", Toast.LENGTH_SHORT).show();
                     }
-                    hideProgressMessage();
+                    hideLoading();
                 }
             });
         } else {
@@ -228,12 +226,14 @@ public class HomeActivity extends ActionBarActivity
         transaction.commit();
     }
 
-    private void showProgressMessage() {
+    @Override
+    public void showLoading() {
         progressDialog = ProgressDialog.show(this, "Loading..",
                 "Please wait..", true);
     }
 
-    private void hideProgressMessage() {
+    @Override
+    public void hideLoading() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
