@@ -17,7 +17,7 @@ import me.vtag.app.adapters.PanelListAdapter;
 import me.vtag.app.adapters.RightPanel.ActivityListAdapter;
 import me.vtag.app.backend.models.ActivityModel;
 import me.vtag.app.backend.models.BaseTagModel;
-import me.vtag.app.models.PanelListItemModel;
+import me.vtag.app.backend.models.PanelListItemModel;
 
 /**
  * Created by anuraag on 25/5/14.

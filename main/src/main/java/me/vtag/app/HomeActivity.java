@@ -66,20 +66,7 @@ public class HomeActivity extends ActionBarActivity
         mRightDrawerFragment.setUp(R.id.navigation_right_drawer, mDrawerLayout);
 
         mTitle = getTitle();
-        mHashtags = new LruCache<String, BaseTagModel>(100);
-        mPrivatetags = new LruCache<String, BaseTagModel>(1000);
-
-        accountManager = AccountManager.get(this);
-        authPreferences = new AuthPreferences(this);
-
-        VtagClient.getInstance().initalize(this);
-//        browseHomePage();
-        if (authPreferences.getUser() != null) {
-            //browseHomePage();
-            showLoginPage();
-        } else {
-            showLoginPage();
-        }
+        browseHomePage();
     }
 
     public void restoreActionBar() {
@@ -186,9 +173,6 @@ public class HomeActivity extends ActionBarActivity
         mLeftDrawerFragment.closeDrawer();
         mRightDrawerFragment.closeDrawer();
     }
-
-    private LruCache<String, BaseTagModel> mHashtags;
-    private LruCache<String, BaseTagModel> mPrivatetags;
 
     public void browseHashTag(String tag) {
         mTitle = tag;

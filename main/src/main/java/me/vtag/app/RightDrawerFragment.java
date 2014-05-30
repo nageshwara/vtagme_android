@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import me.vtag.app.backend.models.BaseTagModel;
-import me.vtag.app.models.PanelListItemModel;
 import me.vtag.app.views.RightPanelViewFragment;
 import me.vtag.app.views.rightpanel.TagContextFragment;
 
