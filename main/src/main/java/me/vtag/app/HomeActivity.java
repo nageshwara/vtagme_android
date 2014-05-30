@@ -11,6 +11,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.util.LruCache;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -61,7 +64,22 @@ public class HomeActivity extends ActionBarActivity
 
         mLeftDrawerFragment.setUp(R.id.navigation_drawer, mDrawerLayout);
         mRightDrawerFragment.setUp(R.id.navigation_right_drawer, mDrawerLayout);
-        browseHomePage();
+
+        mTitle = getTitle();
+        mHashtags = new LruCache<String, BaseTagModel>(100);
+        mPrivatetags = new LruCache<String, BaseTagModel>(1000);
+
+        accountManager = AccountManager.get(this);
+        authPreferences = new AuthPreferences(this);
+
+        VtagClient.getInstance().initalize(this);
+//        browseHomePage();
+        if (authPreferences.getUser() != null) {
+            //browseHomePage();
+            showLoginPage();
+        } else {
+            showLoginPage();
+        }
     }
 
     public void restoreActionBar() {
@@ -169,6 +187,9 @@ public class HomeActivity extends ActionBarActivity
         mRightDrawerFragment.closeDrawer();
     }
 
+    private LruCache<String, BaseTagModel> mHashtags;
+    private LruCache<String, BaseTagModel> mPrivatetags;
+
     public void browseHashTag(String tag) {
         mTitle = tag;
         HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tag);
@@ -196,6 +217,7 @@ public class HomeActivity extends ActionBarActivity
         closeDrawers();
         CacheManager.getInstance().putHashTagModel(tagModel.tag, tagModel);
 
+        mRightDrawerFragment.new_tag_clicked(tagModel);
         TagPageFragment tagpage = new TagPageFragment(tagModel);
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();

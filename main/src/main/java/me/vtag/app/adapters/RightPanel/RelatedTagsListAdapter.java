@@ -1,4 +1,4 @@
-package me.vtag.app.adapters;
+package me.vtag.app.adapters.RightPanel;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,30 +13,30 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import me.vtag.app.R;
-import me.vtag.app.backend.models.PanelListItemModel;
+import me.vtag.app.models.PanelListItemModel;
 
 /**
- * Created by nageswara on 5/1/14.
+ * Created by anuraag on 29/5/14.
  */
-public class PanelListAdapter extends ArrayAdapter<PanelListItemModel> {
+public class RelatedTagsListAdapter extends ArrayAdapter<PanelListItemModel> {
     private Context context;
-    private ArrayList<PanelListItemModel> panelListItemModels;
+    private ArrayList<PanelListItemModel> activityListItemModels;
 
-    public PanelListAdapter(Context context, int layoutResourceId, ArrayList<PanelListItemModel> panelListItemModels){
-        super(context, layoutResourceId, panelListItemModels);
+    public RelatedTagsListAdapter(Context context, int layoutResourceId, ArrayList<PanelListItemModel> activityListItemModels){
+        super(context, layoutResourceId, activityListItemModels);
         this.context = context;
-        this.panelListItemModels = panelListItemModels;
-        Log.w("Came to the PanelListAdapter class's constructor ","Myapp ");
+        this.activityListItemModels = activityListItemModels;
+        Log.w("Came to the ActivityListAdapter class's constructor ", "Myapp ");
     }
 
     @Override
     public int getCount() {
-        return panelListItemModels.size();
+        return activityListItemModels.size();
     }
 
     @Override
     public PanelListItemModel getItem(int position) {
-        return panelListItemModels.get(position);
+        return activityListItemModels.get(position);
     }
 
     @Override
@@ -46,25 +46,25 @@ public class PanelListAdapter extends ArrayAdapter<PanelListItemModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.w("Came to getView of PanelListAdapter ","Myapp ");
+        Log.w("Came to getView of ActivityListAdapter ","Myapp ");
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.panel_list_item, null);
         }
 
-//        Log.w("Came to PanelListAdapter", "Myapp ");
+//        Log.w("Came to ActivityListAdapter", "Myapp ");
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
         TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
 
-        //imgIcon.setImageResource(panelListItemModels.get(position).getIcon());
-        txtTitle.setText(panelListItemModels.get(position).getTitle());
+        //imgIcon.setImageResource(activityListItemModels.get(position).getIcon());
+        txtTitle.setText(activityListItemModels.get(position).getTitle());
 
         // displaying count
         // check whether it set visible or not
-        if(panelListItemModels.get(position).getCounterVisibility()){
-            txtCount.setText(panelListItemModels.get(position).getCount());
+        if(activityListItemModels.get(position).getCounterVisibility()){
+            txtCount.setText(activityListItemModels.get(position).getCount());
         }else{
             // hide the counter view
             txtCount.setVisibility(View.GONE);

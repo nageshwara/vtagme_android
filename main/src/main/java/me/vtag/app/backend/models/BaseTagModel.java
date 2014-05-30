@@ -31,6 +31,7 @@ public class BaseTagModel {
     public String[] related;
 
     //activity
+    public List<ActivityModel> activity;
 
     public BaseTagModel() {}
 }
