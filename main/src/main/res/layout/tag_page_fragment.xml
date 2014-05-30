@@ -17,7 +17,7 @@
         android:dividerHeight="0dp" />
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/loadingView"
@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fontawesometext:fa_icon="fa-spinner"
-            android:textSize="28sp"
+            android:id="@+id/loadingSpinner"
+            android:textSize="32sp"
             android:textColor="@color/gray"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>

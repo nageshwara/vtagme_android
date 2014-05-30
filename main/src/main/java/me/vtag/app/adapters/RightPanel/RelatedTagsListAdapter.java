@@ -27,7 +27,6 @@ public class RelatedTagsListAdapter extends ArrayAdapter<PanelListItemModel> {
         super(context, layoutResourceId, activityListItemModels);
         this.context = context;
         this.activityListItemModels = activityListItemModels;
-        Log.w("Came to the ActivityListAdapter class's constructor ", "Myapp ");
     }
 
     @Override

@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.beardedhen.androidbootstrap.FontAwesomeText;
+
 import me.vtag.app.BasePageFragment;
 import me.vtag.app.R;
 import me.vtag.app.adapters.TagBasedVideoListAdapter;
@@ -22,11 +24,13 @@ public class TagPageFragment extends BasePageFragment implements VtagmeLoaderVie
     private BaseTagModel tag;
     private ListView videoListView;
     private View mLoadingView = null;
+    private FontAwesomeText mLoadingSpinner = null;
 
     @Override
     public void showLoading() {
         if (mLoadingView != null) {
             mLoadingView.setVisibility(View.VISIBLE);
+            mLoadingSpinner.startRotate(getActivity(), true, FontAwesomeText.AnimationSpeed.MEDIUM);
         }
     }
 
@@ -34,6 +38,7 @@ public class TagPageFragment extends BasePageFragment implements VtagmeLoaderVie
     public void hideLoading() {
         if (mLoadingView != null) {
             mLoadingView.setVisibility(View.INVISIBLE);
+            mLoadingSpinner.stopAnimation();
         }
     }
 
@@ -51,8 +56,10 @@ public class TagPageFragment extends BasePageFragment implements VtagmeLoaderVie
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tag_page_fragment, container, false);
         mLoadingView = rootView.findViewById(R.id.loadingView);
+        mLoadingSpinner = (FontAwesomeText) rootView.findViewById(R.id.loadingSpinner);
         videoListView = (ListView) rootView.findViewById(R.id.videoListView);
         videoListView.setAdapter(new TagBasedVideoListAdapter(tag, getActivity(), R.layout.videocard, this.tag.videodetails, this));
+        hideLoading();
         return rootView;
     }
 }

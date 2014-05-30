@@ -1,168 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:weightSum="20"
+    >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:background="@color/vtag_red"
+        android:layout_weight="2"
         >
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/tagTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp" />
 
-
-            <ImageView
-                android:id="@+id/following_tags_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:contentDescription="@string/desc_list_item_icon"
-                android:src="@drawable/ic_action_labels"
-                android:layout_centerVertical="true" />
-            <TextView
-                android:id="@+id/following_tags_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@id/following_tags_icon"
-                android:textColor="@color/panel_list_item_title"
-                android:gravity="center_vertical"
-                android:text="@string/related_tags" />
-            <!--
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/related_tags_list"
+        <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/closeButton"
+            fontawesometext:fa_icon="fa-times"
+            android:textSize="32sp"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp" />
+    </RelativeLayout>
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="#cccc"
-        tools:context="me.vtag.app.LeftDrawerFragment" />
-
--->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/related_tags_list_framelayout">
-            </FrameLayout>
-            <ImageView
-                android:id="@+id/private_tags_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:contentDescription="@string/desc_list_item_icon"
-                android:src="@drawable/ic_action_labels"
-                android:layout_centerVertical="true" />
-            <TextView
-                android:id="@+id/private_tags_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@id/private_tags_icon"
-                android:textColor="@color/panel_list_item_title"
-                android:gravity="center_vertical"
-                android:text="@string/Activities" />
-            <!--
-                <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/activities_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:choiceMode="singleChoice"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0dp"
-                    android:background="#cccc"
-                    tools:context="me.vtag.app.LeftDrawerFragment" />
-                    -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/activities_list_framelayout">
-            </FrameLayout>
-
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
-
-
-<!--
-<?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ScrollView
+        android:layout_height="0dp"
+        android:id="@+id/related_tags_list_framelayout"
+        android:layout_weight="8"
+        />
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent">
-
-
-            <ImageView
-                android:id="@+id/following_tags_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:contentDescription="@string/desc_list_item_icon"
-                android:src="@drawable/ic_action_labels"
-                android:layout_centerVertical="true" />
-            <TextView
-                android:id="@+id/following_tags_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@id/following_tags_icon"
-                android:textColor="@color/panel_list_item_title"
-                android:gravity="center_vertical"
-                android:text="@string/related_tags" />
-            <ListView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/relatedtags_listview"
-                android:layout_gravity="center_horizontal" />
-
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/related_tags_list_framelayout"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-            </FrameLayout>
-
-            <ImageView
-                android:id="@+id/private_tags_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:contentDescription="@string/desc_list_item_icon"
-                android:src="@drawable/ic_action_labels"
-                android:layout_centerVertical="true" />
-            <TextView
-                android:id="@+id/private_tags_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@id/private_tags_icon"
-                android:textColor="@color/panel_list_item_title"
-                android:gravity="center_vertical"
-                android:text="@string/Activities" />
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/activities_list_framelayout"
-                xmlns:android="http://schemas.android.com/apk/res/android"></FrameLayout>
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="0dp"
+        android:id="@+id/activities_list_framelayout"
+        android:layout_weight="10"
+        />
 </LinearLayout>
-    -->

@@ -4,8 +4,36 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:background="@color/gray">
+        <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontawesometext:fa_icon="fa-tags"
+            android:id="@+id/tagsIcon"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/following_tags_title"
+            android:layout_toRightOf="@id/tagsIcon"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:text="@string/related_tags"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp" />
+    </RelativeLayout>
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
