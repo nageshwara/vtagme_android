@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="/Users/nageswara/Work/Personal/vtagme_android/android-rest/src/main/res" />
+        <source path="/Users/nageswara/Work/Personal/vtagme_android/android-rest/build/res/rs/release" />
+        <source path="/Users/nageswara/Work/Personal/vtagme_android/android-rest/build/res/generated/release" />
+    </dataSet>
+    <dataSet config="release" >
+        <source path="/Users/nageswara/Work/Personal/vtagme_android/android-rest/src/release/res" />
+    </dataSet>
+
+</merger>

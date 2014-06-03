@@ -18,6 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,7 @@ import me.vtag.app.pages.HashtagsPageFragment;
 import me.vtag.app.pages.TagPageFragment;
 
 
-public class HomeActivity extends ActionBarActivity
+public class HomeActivity extends SlidingFragmentActivity
         implements SearchView.OnQueryTextListener, VtagmeLoaderView {
 
     /**
@@ -41,56 +44,43 @@ public class HomeActivity extends ActionBarActivity
      */
     private LeftDrawerFragment mLeftDrawerFragment;
     private RightDrawerFragment mRightDrawerFragment;
-    private DrawerLayout mDrawerLayout;
 
     private ProgressDialog progressDialog;
     private SearchView mSearchView;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
     private CharSequence mTitle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        mLeftDrawerFragment = (LeftDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mRightDrawerFragment = (RightDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_right_drawer);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        mLeftDrawerFragment.setUp(R.id.navigation_drawer, mDrawerLayout);
-        mRightDrawerFragment.setUp(R.id.navigation_right_drawer, mDrawerLayout);
+        SlidingMenu leftMenu = getSlidingMenu();
+        leftMenu.setMode(SlidingMenu.LEFT_RIGHT);
+        setBehindContentView(R.layout.left_drawer_layout);
+        leftMenu.setFadeDegree(0.3f);
+        leftMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        leftMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setContentView(R.layout.activity_home);
+        leftMenu.setSecondaryMenu(R.layout.right_drawer_layout);
+
+        mLeftDrawerFragment = (LeftDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer_fragment);
+        mRightDrawerFragment = (RightDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_right_drawer_fragment);
 
         mTitle = getTitle();
         browseHomePage();
     }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mLeftDrawerFragment.isDrawerOpen() && !mRightDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.home_action_menu, menu);
-            MenuItem searchItem = menu.findItem(R.id.action_search);
-            mSearchView = (SearchView) searchItem.getActionView();
-            setupSearchView(searchItem);
-
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.home_action_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) searchItem.getActionView();
+        setupSearchView(searchItem);
+        return true;
     }
 
     @Override
@@ -106,6 +96,8 @@ public class HomeActivity extends ActionBarActivity
     }
 
     private void setupSearchView(MenuItem searchItem) {
+        if (mSearchView == null) return;
+
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         if (searchManager != null) {
             List<SearchableInfo> searchables = searchManager.getSearchablesInGlobalSearch();
@@ -166,12 +158,6 @@ public class HomeActivity extends ActionBarActivity
                 hideLoading();
             }
         });
-        closeDrawers();
-    }
-
-    private void closeDrawers() {
-        mLeftDrawerFragment.closeDrawer();
-        mRightDrawerFragment.closeDrawer();
     }
 
     public void browseHashTag(String tag) {
@@ -194,11 +180,9 @@ public class HomeActivity extends ActionBarActivity
         } else {
             browseHashTag(tagModel);
         }
-        closeDrawers();
     }
 
     private void browseHashTag(HashtagModel tagModel) {
-        closeDrawers();
         CacheManager.getInstance().putHashTagModel(tagModel.tag, tagModel);
 
         mRightDrawerFragment.new_tag_clicked(tagModel);
@@ -214,7 +198,6 @@ public class HomeActivity extends ActionBarActivity
     public void browsePrivateTag(String tag) {
         mTitle = tag;
         PrivatetagModel tagModel = CacheManager.getInstance().getPrivateTagModel(tag);
-        closeDrawers();
         if (tagModel == null) {
             return;
         } else {
@@ -234,8 +217,10 @@ public class HomeActivity extends ActionBarActivity
 
     @Override
     public void showLoading() {
-        progressDialog = ProgressDialog.show(this, "Loading..",
-                "Please wait..", true);
+        if (progressDialog != null) {
+            progressDialog = ProgressDialog.show(this, "Loading..",
+                    "Please wait..", true);
+        }
     }
 
     @Override

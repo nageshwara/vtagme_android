@@ -1,0 +1,5 @@
+<!-- From: file:/Users/nageswara/Work/Personal/vtagme_android/slidingMenu/src/main/AndroidManifest.xml --><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.slidingmenu.lib">
+
+    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="17"/>
+
+</manifest>

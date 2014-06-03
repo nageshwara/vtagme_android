@@ -34,6 +34,7 @@ public interface VtagAPI {
                       Callback<LoginVO> callback);
 
     @GET("/video/{id}")
+    //@Cached(policy = CachePolicy.NETWORK_ENABLED)
     void getVideoDetails(@Path("id") String id, Callback<RootVO> callback);
 
     @GET("/tag/{id}")
@@ -41,7 +42,6 @@ public interface VtagAPI {
     void getTagDetails(@Path("id") String id, Callback<HashtagModel> callback);
 
     @POST("/tag/{id}")
-        //@Cached(policy = CachePolicy.NETWORK_ENABLED)
     void getTagDetailsAdvanced(@Path("id") String id, @QueryParam("sorttype") String sortType, @QueryParam("next_cursor") String nextCursor, Callback<HashtagModel> callback);
 
 
