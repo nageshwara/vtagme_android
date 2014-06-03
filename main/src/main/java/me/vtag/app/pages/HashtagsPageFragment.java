@@ -11,8 +11,6 @@ import java.util.List;
 import me.vtag.app.BasePageFragment;
 import me.vtag.app.R;
 import me.vtag.app.adapters.HashtagListAdapter;
-import me.vtag.app.adapters.TagListAdapter;
-import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.HashtagModel;
 
 /**

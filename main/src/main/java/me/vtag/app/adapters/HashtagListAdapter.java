@@ -8,8 +8,7 @@ import android.widget.ArrayAdapter;
 import java.util.List;
 
 import me.vtag.app.backend.models.HashtagModel;
-import me.vtag.app.backend.models.HashtagModel;
-import me.vtag.app.views.TagListItemView;
+import me.vtag.app.views.HashtagListItemView;
 
 /**
  * Created by nmannem on 30/10/13.
@@ -27,11 +26,11 @@ public class HashtagListAdapter extends ArrayAdapter<HashtagModel> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         HashtagModel meta = objects.get(position);
-        TagListItemView tagCardView = null;
+        HashtagListItemView tagCardView = null;
         if (convertView == null) {
-            tagCardView = new TagListItemView(getContext());
+            tagCardView = new HashtagListItemView(getContext());
         } else {
-            tagCardView = (TagListItemView) convertView;
+            tagCardView = (HashtagListItemView) convertView;
         }
         tagCardView.setModel(meta);
         return tagCardView;

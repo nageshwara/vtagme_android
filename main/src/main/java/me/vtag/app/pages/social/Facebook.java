@@ -20,12 +20,11 @@ public class Facebook extends BaseAuthProvider implements Session.StatusCallback
     private UiLifecycleHelper uiHelper;
     public Facebook(Activity activity, SocialCallbacks callbacks) {
         super(activity, callbacks);
-        uiHelper = new UiLifecycleHelper(activity, this);
+        uiHelper = new UiLifecycleHelper(mActivity, this);
     }
 
     @Override
     public void login() {
-
     }
 
     @Override

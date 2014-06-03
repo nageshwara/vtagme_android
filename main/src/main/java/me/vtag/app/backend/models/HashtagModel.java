@@ -10,7 +10,7 @@ import me.vtag.app.helpers.VtagmeCallback;
  * Created by nageswara on 5/27/14.
  */
 public class HashtagModel extends BaseTagModel {
-
+    public int followers;
     public void follow(final VtagmeCallback callback) {
         if (!following) {
             VtagClient.getAPI().followTag(tag, VtagApplication.getInstance().authPreferences.getUser(), new Callback<String>() {

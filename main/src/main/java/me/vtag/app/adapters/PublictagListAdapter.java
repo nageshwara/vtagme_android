@@ -7,17 +7,17 @@ import android.widget.ArrayAdapter;
 
 import java.util.List;
 
-import me.vtag.app.backend.models.BaseTagModel;
-import me.vtag.app.views.TagListItemView;
+import me.vtag.app.backend.models.PublictagModel;
+import me.vtag.app.views.PublictagListItemView;
 
 /**
  * Created by nmannem on 30/10/13.
  */
-public class TagListAdapter extends ArrayAdapter<BaseTagModel> {
+public class PublictagListAdapter extends ArrayAdapter<PublictagModel> {
     private final Activity context;
-    private final List<BaseTagModel> objects;
+    private final List<PublictagModel> objects;
 
-    public TagListAdapter(Activity context, int textViewResourceId, List<BaseTagModel> objects) {
+    public PublictagListAdapter(Activity context, int textViewResourceId, List<PublictagModel> objects) {
         super(context, textViewResourceId, objects);
         this.context = context;
         this.objects = objects;
@@ -25,12 +25,12 @@ public class TagListAdapter extends ArrayAdapter<BaseTagModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        BaseTagModel meta = objects.get(position);
-        TagListItemView tagCardView = null;
+        PublictagModel meta = objects.get(position);
+        PublictagListItemView tagCardView = null;
         if (convertView == null) {
-            tagCardView = new TagListItemView(getContext());
+            tagCardView = new PublictagListItemView(getContext());
         } else {
-            tagCardView = (TagListItemView) convertView;
+            tagCardView = (PublictagListItemView) convertView;
         }
         tagCardView.setModel(meta);
         return tagCardView;

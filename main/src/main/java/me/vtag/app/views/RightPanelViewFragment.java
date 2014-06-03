@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.vtag.app.R;
-import me.vtag.app.adapters.PanelListAdapter;
-import me.vtag.app.adapters.TagListAdapter;
-import me.vtag.app.backend.models.ActivityModel;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.PanelListItemModel;
 import me.vtag.app.views.rightpanel.ActivityListFragment;

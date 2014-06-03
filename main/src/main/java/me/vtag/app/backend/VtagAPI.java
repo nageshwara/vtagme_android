@@ -54,4 +54,10 @@ public interface VtagAPI {
     @GET("/tag/unfollow/{id}")
     void unfollowTag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
 
+    @GET("/publictag/follow/{id}")
+    void followPublictag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
+
+    @GET("/publictag/unfollow/{id}")
+    void unfollowPublictag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
+
 }

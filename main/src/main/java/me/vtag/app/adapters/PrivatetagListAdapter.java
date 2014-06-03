@@ -8,8 +8,7 @@ import android.widget.ArrayAdapter;
 import java.util.List;
 
 import me.vtag.app.backend.models.PrivatetagModel;
-import me.vtag.app.backend.models.PrivatetagModel;
-import me.vtag.app.views.TagListItemView;
+import me.vtag.app.views.PrivatetagListItemView;
 
 /**
  * Created by nmannem on 30/10/13.
@@ -27,11 +26,11 @@ public class PrivatetagListAdapter extends ArrayAdapter<PrivatetagModel> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         PrivatetagModel meta = objects.get(position);
-        TagListItemView tagCardView = null;
+        PrivatetagListItemView tagCardView = null;
         if (convertView == null) {
-            tagCardView = new TagListItemView(getContext());
+            tagCardView = new PrivatetagListItemView(getContext());
         } else {
-            tagCardView = (TagListItemView) convertView;
+            tagCardView = (PrivatetagListItemView) convertView;
         }
         tagCardView.setModel(meta);
         return tagCardView;

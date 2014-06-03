@@ -2,27 +2,19 @@ package me.vtag.app.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MenuItem;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.FontAwesomeText;
 import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-import ly.apps.android.rest.client.Callback;
-import ly.apps.android.rest.client.Response;
 import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
 import me.vtag.app.VtagApplication;
-import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.HashtagModel;
 import me.vtag.app.helpers.StringUtil;
@@ -31,10 +23,10 @@ import me.vtag.app.helpers.VtagmeCallback;
 /**
  * Created by nageswara on 5/3/14.
  */
-public class TagListItemView extends FrameLayout implements View.OnClickListener {
+public class HashtagListItemView extends FrameLayout implements View.OnClickListener {
 
     private View view;
-    private BaseTagModel model;
+    private HashtagModel model;
 
     private ImageView mImage;
     private TextView mTitle;
@@ -42,17 +34,17 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
     private TextView mVideos;
     private FontAwesomeText mSubscribe;
 
-    public TagListItemView(Context context, AttributeSet attrs, int defStyle) {
+    public HashtagListItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initView();
     }
 
-    public TagListItemView(Context context, AttributeSet attrs) {
+    public HashtagListItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public TagListItemView(Context context) {
+    public HashtagListItemView(Context context) {
         super(context);
         initView();
     }
@@ -69,7 +61,7 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
         mSubscribe.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                TagListItemView.this.onToggleSubscription();
+                HashtagListItemView.this.onToggleSubscription();
             }
         });
 
@@ -83,7 +75,7 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
 
     }
 
-    public void setModel(BaseTagModel model) {
+    public void setModel(HashtagModel model) {
         this.model = model;
 
         mTitle.setText("#" + model.tag);
@@ -125,16 +117,12 @@ public class TagListItemView extends FrameLayout implements View.OnClickListener
             };
             // Show loading circle until we get mesg back from server.
             if (model.following) {
-                ((HashtagModel) model).unfollow(callback);
+                model.unfollow(callback);
             }
             else {
-                ((HashtagModel) model).follow(callback);
+                model.follow(callback);
             }
         }
-    }
-
-    public BaseTagModel getModel() {
-        return model;
     }
 
     @Override

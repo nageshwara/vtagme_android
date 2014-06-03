@@ -32,7 +32,7 @@ public class TagContextFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mtagContextView = inflater.inflate(R.layout.right_panel_list, container, false);
+        mtagContextView = inflater.inflate(R.layout.tag_context_right_panel_view, container, false);
         mTagTitle = (TextView)mtagContextView.findViewById(R.id.tagTitle);
         mCloseButton = (FontAwesomeText)mtagContextView.findViewById(R.id.closeButton);
 

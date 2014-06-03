@@ -11,7 +11,6 @@ public class BaseTagModel {
     public String tag;
     public String description;
     public int videocount;
-    public int followers;
     public String url;
 
     public int featured;

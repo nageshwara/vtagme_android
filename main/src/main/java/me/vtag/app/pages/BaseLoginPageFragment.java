@@ -108,6 +108,11 @@ public class BaseLoginPageFragment extends BasePageFragment implements LoaderMan
         if (isAuthGoingOn) {
             return;
         }
+
+        if (VtagApplication.getInstance().isUserLoggedin()) {
+            return;
+        }
+
         showProgress(true);
         isAuthGoingOn = true;
         VtagClient.getAPI().socailSignup(user.id, user.provider, user.name, user.email, user.access_token, new Callback<LoginVO>() {
