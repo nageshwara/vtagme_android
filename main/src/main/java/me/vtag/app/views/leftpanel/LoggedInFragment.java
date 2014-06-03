@@ -138,7 +138,7 @@ public class LoggedInFragment extends Fragment {
             activity.browsePrivateTag(data.getTitle());
         } else if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.PUBLIC_TAG) {
             activity.SetupTabs(data.getTitle());
-//            activity.browseHashTag(data.getTitle(),data.getTitle());
+//            activity.browseHashTag(data.getTitle(),data.getTitle())
         }
     }
 
