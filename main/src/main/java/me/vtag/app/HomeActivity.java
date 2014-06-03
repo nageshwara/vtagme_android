@@ -80,7 +80,7 @@ public class HomeActivity extends SlidingFragmentActivity
 
     public void SetupTabs(String PresentTag) {
         this.PresentTag = PresentTag;
-        //ActionBar actionBar = getActionBar();
+        //ActionBar actionBar = getActionBar(); 1
         getActionBar().setTitle(PresentTag);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(false);
@@ -90,7 +90,7 @@ public class HomeActivity extends SlidingFragmentActivity
         getActionBar().addTab(getActionBar().newTab().setText("Tab2").setTabListener(tabB));
     }
 
-
+//
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -220,7 +220,7 @@ public class HomeActivity extends SlidingFragmentActivity
         HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tag+"_"+PresentTab);
         if (tagModel == null) {
             showLoading();
-            String sorttype;    
+            String sorttype;
             if (PresentTab == "Tab1") {
                 sorttype = "views";
             }

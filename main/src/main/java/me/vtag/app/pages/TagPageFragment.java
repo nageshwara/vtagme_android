@@ -68,4 +68,5 @@ public class TagPageFragment extends BasePageFragment implements VtagmeLoaderVie
         hideLoading();
         return rootView;
     }
+    //
 }

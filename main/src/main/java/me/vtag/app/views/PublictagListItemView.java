@@ -114,7 +114,7 @@ public class PublictagListItemView extends FrameLayout implements View.OnClickLi
                     refresh();
                 }
             };
-            // Show loading circle until we get mesg back from server.
+            // Show loading circle until we get message back from server.
             if (model.following) {
                 ((PublictagModel) model).unfollow(callback);
             }

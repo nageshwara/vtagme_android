@@ -131,6 +131,7 @@ public class HashtagListItemView extends FrameLayout implements View.OnClickList
             if (getContext() instanceof HomeActivity) {
                 ((HomeActivity) getContext()).SetupTabs(model.tag);
 //                ((HomeActivity) getContext()).browseHashTag(model.tag,"Tab1");
+//
             }
         }
     }

@@ -15,7 +15,7 @@ import me.vtag.app.backend.vos.LoginVO;
 import me.vtag.app.backend.vos.RootVO;
 
 /**
- * Created by nageswara on 5/20/14.
+ * Created by nageswara on 5/20/14
  */
 @RestService
 public interface VtagAPI {

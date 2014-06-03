@@ -60,7 +60,7 @@ public class TagBasedVideoListAdapter extends VideoListAdapter {
                     mTagModel.next_cursor = tagModel.next_cursor;
                     appendNextBatch(tagModel.videodetails);
                 } else {
-                    // TODO throw an error.
+                    // TODO throw an error
                 }
             }
         });
