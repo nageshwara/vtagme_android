@@ -39,7 +39,7 @@ public interface VtagAPI {
 
     @GET("/tag/{id}")
     //@Cached(policy = CachePolicy.NETWORK_ENABLED)
-    void getTagDetails(@Path("id") String id, Callback<HashtagModel> callback);
+    void getTagDetails(@Path("id") String id, @QueryParam("sorttype") String sortType, Callback<HashtagModel> callback);
 
     @POST("/tag/{id}")
     void getTagDetailsAdvanced(@Path("id") String id, @QueryParam("sorttype") String sortType, @QueryParam("next_cursor") String nextCursor, Callback<HashtagModel> callback);

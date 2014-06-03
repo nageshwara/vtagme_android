@@ -128,7 +128,8 @@ public class PublictagListItemView extends FrameLayout implements View.OnClickLi
     public void onClick(View view) {
         if (model != null) {
             if (getContext() instanceof HomeActivity) {
-                ((HomeActivity) getContext()).browseHashTag(model.tag);
+                ((HomeActivity) getContext()).SetupTabs(model.tag);
+//                ((HomeActivity) getContext()).browseHashTag(model.tag,model.tag);
             }
         }
     }

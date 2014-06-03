@@ -25,6 +25,7 @@ public class TagPageFragment extends BasePageFragment implements VtagmeLoaderVie
     private ListView videoListView;
     private View mLoadingView = null;
     private FontAwesomeText mLoadingSpinner = null;
+    private String PresentTab;
 
     @Override
     public void showLoading() {
@@ -50,6 +51,11 @@ public class TagPageFragment extends BasePageFragment implements VtagmeLoaderVie
         super(ID);
         this.tag = tag;
     }
+    public TagPageFragment(BaseTagModel tag,String PresentTab) {
+        super(ID);
+        this.tag = tag;
+        this.PresentTab = PresentTab;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +64,7 @@ public class TagPageFragment extends BasePageFragment implements VtagmeLoaderVie
         mLoadingView = rootView.findViewById(R.id.loadingView);
         mLoadingSpinner = (FontAwesomeText) rootView.findViewById(R.id.loadingSpinner);
         videoListView = (ListView) rootView.findViewById(R.id.videoListView);
-        videoListView.setAdapter(new TagBasedVideoListAdapter(tag, getActivity(), R.layout.videocard, this.tag.videodetails, this));
+        videoListView.setAdapter(new TagBasedVideoListAdapter(tag, PresentTab, getActivity(), R.layout.videocard, this.tag.videodetails, this));
         hideLoading();
         return rootView;
     }

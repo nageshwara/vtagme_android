@@ -130,13 +130,15 @@ public class LoggedInFragment extends Fragment {
         HomeActivity activity = (HomeActivity) getActivity();
         if (activity == null) return;
         if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.HASHTAG) {
-            activity.browseHashTag(data.getTitle());
+            activity.SetupTabs(data.getTitle());
+//            activity.browseHashTag(data.getTitle(),data.getTitle());
         } else if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.HOME) {
             activity.browseHomePage();
         } else if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.PRIVATE_TAG) {
             activity.browsePrivateTag(data.getTitle());
         } else if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.PUBLIC_TAG) {
-            activity.browseHashTag(data.getTitle());
+            activity.SetupTabs(data.getTitle());
+//            activity.browseHashTag(data.getTitle(),data.getTitle());
         }
     }
 

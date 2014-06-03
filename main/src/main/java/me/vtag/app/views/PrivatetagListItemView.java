@@ -76,7 +76,8 @@ public class PrivatetagListItemView extends FrameLayout implements View.OnClickL
     public void onClick(View view) {
         if (model != null) {
             if (getContext() instanceof HomeActivity) {
-                ((HomeActivity) getContext()).browseHashTag(model.tag);
+                ((HomeActivity) getContext()).SetupTabs(model.tag);
+//                ((HomeActivity) getContext()).browseHashTag(model.tag,"Tab1");
             }
         }
     }

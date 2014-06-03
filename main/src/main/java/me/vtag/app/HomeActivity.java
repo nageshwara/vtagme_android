@@ -50,6 +50,47 @@ public class HomeActivity extends SlidingFragmentActivity
 
     private CharSequence mTitle;
 
+    private String PresentTag = null;
+    public class Tablistener implements android.app.ActionBar.TabListener {
+
+        String TabNum;
+        Tablistener (String TabNum) {
+            this.TabNum = TabNum;
+        }
+
+        @Override
+        public void onTabSelected(android.app.ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
+            Log.w("This is "+ this.TabNum,"Myapp ");
+            browseHashTag(PresentTag,this.TabNum);
+        }
+
+        @Override
+        public void onTabUnselected(android.app.ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
+
+        }
+
+        @Override
+        public void onTabReselected(android.app.ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
+
+        }
+    }
+    Tablistener tabA = new Tablistener("Tab1");
+    Tablistener tabB = new Tablistener("Tab2");
+
+
+    public void SetupTabs(String PresentTag) {
+        this.PresentTag = PresentTag;
+        //ActionBar actionBar = getActionBar();
+        getActionBar().setTitle(PresentTag);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(false);
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        getActionBar().removeAllTabs();
+        getActionBar().addTab(getActionBar().newTab().setText("Tab1").setTabListener(tabA));
+        getActionBar().addTab(getActionBar().newTab().setText("Tab2").setTabListener(tabB));
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +121,19 @@ public class HomeActivity extends SlidingFragmentActivity
         MenuItem searchItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) searchItem.getActionView();
         setupSearchView(searchItem);
+/*
+        if((String) getActionBar().getTitle() != "Home" && (String) getActionBar().getTitle() != "vtag.me") {
+            Log.w("The ActionBar Title now is "+getActionBar().getTitle(),"Myapp ");
+            SetupTabs((String) getActionBar().getTitle());
+        }
+        */
         return true;
+    }
+
+    @Override
+    public void onStart() {
+        Log.w("OnStart","Myapp ");
+        super.onStart();
     }
 
     @Override
@@ -125,6 +178,7 @@ public class HomeActivity extends SlidingFragmentActivity
 
     public void browseHomePage() {
         mTitle = "Home";
+        Log.w("BrowseHomePage came aaa??","Myapp ");
         showLoading();
         VtagClient.getAPI().getBootstrap(new Callback<RootVO>() {
             @Override
@@ -160,17 +214,26 @@ public class HomeActivity extends SlidingFragmentActivity
         });
     }
 
-    public void browseHashTag(String tag) {
+    public void browseHashTag(String tag, final String PresentTab) {
         mTitle = tag;
-        HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tag);
+        getActionBar().setTitle(tag);
+        HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tag+"_"+PresentTab);
         if (tagModel == null) {
             showLoading();
-            VtagClient.getAPI().getTagDetails(tag, new Callback<HashtagModel>() {
+            String sorttype;    
+            if (PresentTab == "Tab1") {
+                sorttype = "views";
+            }
+            else {
+                sorttype = "featured";
+            }
+
+            VtagClient.getAPI().getTagDetails(tag, sorttype, new Callback<HashtagModel>() {
                 @Override
                 public void onResponse(Response<HashtagModel> hashtagModelResponse) {
                     HashtagModel tagModel = hashtagModelResponse.getResult();
                     if (tagModel != null) {
-                        browseHashTag(tagModel);
+                        browseHashTag(tagModel,PresentTab);
                     } else {
                         Toast.makeText(HomeActivity.this, "Couldnt get tag details!", Toast.LENGTH_SHORT).show();
                     }
@@ -178,15 +241,15 @@ public class HomeActivity extends SlidingFragmentActivity
                 }
             });
         } else {
-            browseHashTag(tagModel);
+            browseHashTag(tagModel,PresentTab);
         }
     }
 
-    private void browseHashTag(HashtagModel tagModel) {
-        CacheManager.getInstance().putHashTagModel(tagModel.tag, tagModel);
+    private void browseHashTag(HashtagModel tagModel,String PresentTab) {
+        CacheManager.getInstance().putHashTagModel(tagModel.tag+"_"+PresentTab, tagModel);
 
         mRightDrawerFragment.new_tag_clicked(tagModel);
-        TagPageFragment tagpage = new TagPageFragment(tagModel);
+        TagPageFragment tagpage = new TagPageFragment(tagModel,PresentTab);
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -217,16 +280,18 @@ public class HomeActivity extends SlidingFragmentActivity
 
     @Override
     public void showLoading() {
-        if (progressDialog != null) {
+        Log.w("showLoading came but not doing anything","Myapp ");
+//        if (progressDialog != null) {
+            Log.w("Not null","Myapp ");
             progressDialog = ProgressDialog.show(this, "Loading..",
                     "Please wait..", true);
-        }
+//        }
     }
 
     @Override
     public void hideLoading() {
-        if (progressDialog != null) {
+//        if (progressDialog != null) {
             progressDialog.dismiss();
-        }
+//        }
     }
 }
