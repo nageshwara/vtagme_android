@@ -116,10 +116,10 @@ public class PublictagListItemView extends FrameLayout implements View.OnClickLi
             };
             // Show loading circle until we get message back from server.
             if (model.following) {
-                ((PublictagModel) model).unfollow(callback);
+                model.unfollow(callback);
             }
             else {
-                ((PublictagModel) model).follow(callback);
+                model.follow(callback);
             }
         }
     }
@@ -128,8 +128,7 @@ public class PublictagListItemView extends FrameLayout implements View.OnClickLi
     public void onClick(View view) {
         if (model != null) {
             if (getContext() instanceof HomeActivity) {
-                ((HomeActivity) getContext()).SetupTabs(model.tag);
-//                ((HomeActivity) getContext()).browseHashTag(model.tag,model.tag);
+                ((HomeActivity) getContext()).browsePrivateTag(model.tag);
             }
         }
     }

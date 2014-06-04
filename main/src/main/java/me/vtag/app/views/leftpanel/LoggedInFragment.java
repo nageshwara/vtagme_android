@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,10 +120,16 @@ public class LoggedInFragment extends Fragment {
         mPrivateTagsView.setAdapter(new PanelListAdapter(getActivity(), 0, privateTagListItemModels));
         mPublicTagsView.setAdapter(new PanelListAdapter(getActivity(), 0, publicTagListItemModels));
         mProfileName.setText(mUserModel.displayName);
-        Picasso.with(getActivity()).load(mUserModel.pic)
-                .fit()
-                .centerInside()
-                .into(mProfileImage);
+
+        Transformation transformation = new RoundedTransformationBuilder()
+                .cornerRadiusDp(16)
+                .scaleType(ImageView.ScaleType.CENTER_CROP)
+                .oval(false)
+                .build();
+
+        if (mUserModel.pic != null) {
+            Picasso.with(getActivity()).load(mUserModel.pic).fit().centerCrop().transform(transformation).into(mProfileImage);
+        }
     }
 
     public void onNavigationDrawerItemSelected(PanelListItemModel data) {
@@ -130,15 +138,13 @@ public class LoggedInFragment extends Fragment {
         HomeActivity activity = (HomeActivity) getActivity();
         if (activity == null) return;
         if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.HASHTAG) {
-            activity.SetupTabs(data.getTitle());
-//            activity.browseHashTag(data.getTitle(),data.getTitle());
+            activity.browseHashTag(data.getTitle());
         } else if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.HOME) {
             activity.browseHomePage();
         } else if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.PRIVATE_TAG) {
             activity.browsePrivateTag(data.getTitle());
         } else if (LeftDrawerItemType.valueOf(data.getType()) == LeftDrawerItemType.PUBLIC_TAG) {
-            activity.SetupTabs(data.getTitle());
-//            activity.browseHashTag(data.getTitle(),data.getTitle())
+            activity.browseHashTag(data.getTitle());
         }
     }
 

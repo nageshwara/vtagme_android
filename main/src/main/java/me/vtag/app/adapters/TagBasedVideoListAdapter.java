@@ -23,11 +23,12 @@ import me.vtag.app.views.TagBasedVideoListItemView;
  */
 public class TagBasedVideoListAdapter extends VideoListAdapter {
     private BaseTagModel mTagModel;
-    private String PresentTab;
-    public TagBasedVideoListAdapter(BaseTagModel tagModel, String PresentTab, Activity context, int resourceId, List<VideoModel> objects, VtagmeLoaderView loaderView) {
+    private String mSortType;
+
+    public TagBasedVideoListAdapter(BaseTagModel tagModel, String sortType, Activity context, int resourceId, List<VideoModel> objects, VtagmeLoaderView loaderView) {
         super(context, resourceId, objects, loaderView);
         mTagModel = tagModel;
-        this.PresentTab = PresentTab;
+        mSortType = sortType;
     }
 
     @Override
@@ -43,14 +44,7 @@ public class TagBasedVideoListAdapter extends VideoListAdapter {
     protected void fetchNextBatch() {
         if (mTagModel.next_cursor == null) return;
         super.fetchNextBatch();
-        String sorttype = null;
-        if (PresentTab == "Tab1") {
-            sorttype = "views";
-        }
-        else {
-            sorttype = "featured";
-        }
-        VtagClient.getAPI().getTagDetailsAdvanced(mTagModel.id, sorttype, mTagModel.next_cursor, new Callback<HashtagModel>() {
+        VtagClient.getAPI().getTagDetailsAdvanced(mTagModel.id, mSortType, mTagModel.next_cursor, new Callback<HashtagModel>() {
             @Override
             public void onResponse(Response<HashtagModel> hashtagModelResponse) {
                 HashtagModel tagModel = hashtagModelResponse.getResult();

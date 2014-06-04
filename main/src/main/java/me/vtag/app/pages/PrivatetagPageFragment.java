@@ -11,21 +11,23 @@ import com.beardedhen.androidbootstrap.FontAwesomeText;
 import me.vtag.app.BasePageFragment;
 import me.vtag.app.R;
 import me.vtag.app.adapters.TagBasedVideoListAdapter;
-import me.vtag.app.adapters.VideoListAdapter;
-import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.CacheManager;
+import me.vtag.app.backend.models.HashtagModel;
+import me.vtag.app.backend.models.PrivatetagModel;
 import me.vtag.app.helpers.VtagmeLoaderView;
 
 /**
  * Created by nmannem on 30/10/13.
  */
-public class TagPageFragment extends BasePageFragment implements VtagmeLoaderView {
+public class PrivatetagPageFragment extends BasePageFragment implements VtagmeLoaderView {
     public static final int ID = 1;
 
-    private BaseTagModel tag;
+    private String mTag;
+    private PrivatetagModel mPrivatetagModel;
+
     private ListView videoListView;
     private View mLoadingView = null;
     private FontAwesomeText mLoadingSpinner = null;
-    private String PresentTab;
 
     @Override
     public void showLoading() {
@@ -43,18 +45,9 @@ public class TagPageFragment extends BasePageFragment implements VtagmeLoaderVie
         }
     }
 
-    public TagPageFragment() {
+    public PrivatetagPageFragment() {
         super(ID);
-        this.tag = null;
-    }
-    public TagPageFragment(BaseTagModel tag) {
-        super(ID);
-        this.tag = tag;
-    }
-    public TagPageFragment(BaseTagModel tag,String PresentTab) {
-        super(ID);
-        this.tag = tag;
-        this.PresentTab = PresentTab;
+        this.mPrivatetagModel = null;
     }
 
     @Override
@@ -64,9 +57,15 @@ public class TagPageFragment extends BasePageFragment implements VtagmeLoaderVie
         mLoadingView = rootView.findViewById(R.id.loadingView);
         mLoadingSpinner = (FontAwesomeText) rootView.findViewById(R.id.loadingSpinner);
         videoListView = (ListView) rootView.findViewById(R.id.videoListView);
-        videoListView.setAdapter(new TagBasedVideoListAdapter(tag, PresentTab, getActivity(), R.layout.videocard, this.tag.videodetails, this));
-        hideLoading();
+
+        //here is your list array
+        Bundle bundle = getArguments();
+        mTag = bundle.getString("tag");
+        PrivatetagModel tagModel = CacheManager.getInstance().getPrivateTagModel(mTag);
+        if (tagModel != null) {
+            videoListView.setAdapter(new TagBasedVideoListAdapter(mPrivatetagModel, HashtagModel.RECENT_VIDEOS_SORT,
+                    getActivity(), R.layout.videocard, this.mPrivatetagModel.videodetails, this));
+        }
         return rootView;
     }
-    //
 }

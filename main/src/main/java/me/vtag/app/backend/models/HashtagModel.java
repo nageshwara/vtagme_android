@@ -10,6 +10,10 @@ import me.vtag.app.helpers.VtagmeCallback;
  * Created by nageswara on 5/27/14.
  */
 public class HashtagModel extends BaseTagModel {
+    public static final String POPULAR_VIDEOS_SORT = "views";
+    public static final String RECENT_VIDEOS_SORT = "featured";
+    public static final String MY_VIDEOS_SORT = "mine";
+
     public int followers;
     public void follow(final VtagmeCallback callback) {
         if (!following) {

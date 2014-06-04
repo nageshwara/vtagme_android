@@ -9,8 +9,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:background="@color/gray">
+        android:clickable="false">
         <com.beardedhen.androidbootstrap.FontAwesomeText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +35,8 @@
     </RelativeLayout>
     <ListView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
         android:id="@+id/relatedtags_listview"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
