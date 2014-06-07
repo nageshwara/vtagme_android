@@ -21,17 +21,18 @@
         <me.vtag.app.views.RelatedTagsHListView
             android:id="@+id/relatedTags"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="64dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
             app:hlv_dividerWidth="4dp"
-            android:background="@color/white" />
+            android:background="@color/white"
+            android:layout_margin="2dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            >
+            android:layout_margin="4dp">
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +40,8 @@
                 android:id="@+id/recent_sorter"
                 bootstrapbutton:bb_type="success"
                 android:layout_weight="3"
-                />
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp" />
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +49,8 @@
                 android:id="@+id/popular_sorter"
                 bootstrapbutton:bb_type="default"
                 android:layout_weight="3"
-                />
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp" />
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,7 +58,8 @@
                 android:id="@+id/mine_sorter"
                 bootstrapbutton:bb_type="default"
                 android:layout_weight="3"
-                />
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

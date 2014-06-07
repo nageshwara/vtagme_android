@@ -8,19 +8,26 @@ import android.support.v4.app.Fragment;
  * Created by nmannem on 30/10/13.
  */
 public class BasePageFragment extends Fragment {
+    private Activity mCurrentActivity;
     public BasePageFragment() {
     }
 
     @Override
     public void onAttach(Activity activity) {
-        if (activity.getActionBar() != null) {
+        mCurrentActivity = activity;
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onStart() {
+        if (mCurrentActivity.getActionBar() != null) {
             if (!supportsActionBar()) {
-                activity.getActionBar().hide();
+                mCurrentActivity.getActionBar().hide();
             } else {
-                activity.getActionBar().show();
+                mCurrentActivity.getActionBar().show();
             }
         }
-        super.onAttach(activity);
+        super.onStart();
     }
 
     protected boolean supportsActionBar() {

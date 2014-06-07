@@ -11,6 +11,7 @@ import android.widget.AbsListView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
+import it.sephiroth.android.library.widget.AdapterView;
 import me.vtag.app.R;
 import me.vtag.app.adapters.VideoListAdapter;
 import me.vtag.app.backend.models.HashtagModel;
@@ -28,6 +29,7 @@ public class HashtagSubpageFragment extends ListFragment {
 
     private VideoListAdapter mAdapter;
     private HashtagModel.OnSortChangeListener mOnSortChangeListener;
+    private HashtagModel.OnTagsModifiedListener mOnTagsModifiedListener;
 
     private BootstrapButton recentSorter;
     private BootstrapButton popularSorter;
@@ -76,6 +78,14 @@ public class HashtagSubpageFragment extends ListFragment {
         recentSorter.setOnClickListener(sortClickListener);
         popularSorter.setOnClickListener(sortClickListener);
         mineSorter.setOnClickListener(sortClickListener);
+
+        mRelatedTagsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String tag = (String) (adapterView.getItemAtPosition(i));
+                mOnTagsModifiedListener.onAdded(tag);
+            }
+        });
         return rootView;
     }
 
@@ -91,8 +101,10 @@ public class HashtagSubpageFragment extends ListFragment {
         createQuickReturnListeners();
     }
 
-    public void setSortChangeListener(HashtagModel.OnSortChangeListener onSortChangeListener)  {
+    public void setTagAndSortChangeListener(HashtagModel.OnTagsModifiedListener onTagsModifiedListener,
+                                            HashtagModel.OnSortChangeListener onSortChangeListener)  {
         mOnSortChangeListener = onSortChangeListener;
+        mOnTagsModifiedListener = onTagsModifiedListener;
     }
 
     public void renderVideoListAndRelatedTags(VideoListAdapter adapter, String[] relatedTags) {

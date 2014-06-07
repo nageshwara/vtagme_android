@@ -56,4 +56,8 @@ public class HashtagModel extends BaseTagModel {
     public static interface OnSortChangeListener {
         public boolean onChange(String newSort);
     }
+    public static interface OnTagsModifiedListener {
+        public void onAdded(String tag);
+        public void onRemoved(String tag);
+    }
 }

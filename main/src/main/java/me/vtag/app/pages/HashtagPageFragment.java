@@ -29,7 +29,11 @@ import me.vtag.app.views.TagsCompletionView;
 /**
  * Created by nmannem on 30/10/13.
  */
-public class HashtagPageFragment extends BasePageFragment implements VtagmeLoaderView, HashtagModel.OnSortChangeListener, TokenCompleteTextView.TokenListener {
+public class HashtagPageFragment extends BasePageFragment implements
+        VtagmeLoaderView,
+        HashtagModel.OnSortChangeListener,
+        TokenCompleteTextView.TokenListener,
+        HashtagModel.OnTagsModifiedListener {
     private List<String> mTags;
     TagsCompletionView completionView;
 
@@ -56,7 +60,7 @@ public class HashtagPageFragment extends BasePageFragment implements VtagmeLoade
         mActiveFragment = new HashtagSubpageFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.tag_details_container, mActiveFragment).commit();
-        mActiveFragment.setSortChangeListener(this);
+        mActiveFragment.setTagAndSortChangeListener(this, this);
 
 
         completionView = (TagsCompletionView) rootView.findViewById(R.id.tagInputView);
@@ -73,7 +77,6 @@ public class HashtagPageFragment extends BasePageFragment implements VtagmeLoade
         return rootView;
     }
 
-
     private HashtagSubpageFragment mActiveFragment;
     private void renderVideoList(HashtagModel model) {
         mHashtagModel = model;
@@ -82,16 +85,35 @@ public class HashtagPageFragment extends BasePageFragment implements VtagmeLoade
 
     @Override
     public void onTokenAdded(Object token) {
-        mTags.add((String)token);
-        fetchTagModel();
+        processAdded((String) token);
     }
 
     @Override
     public void onTokenRemoved(Object token) {
-        int index = mTags.indexOf(token);
+        processRemoved((String) token);
+    }
+
+    @Override
+    public void onAdded(String tag) {
+        completionView.addObject(tag);
+    }
+
+    @Override
+    public void onRemoved(String tag) {
+        completionView.removeObject(tag);
+    }
+
+    private void processAdded(String tag) {
+        mTags.add(tag);
+        fetchTagModel();
+    }
+
+    private void processRemoved(String tag) {
+        int index = mTags.indexOf(tag);
         mTags.remove(index);
         fetchTagModel();
     }
+
 
     private void fetchTagModel() {
         final String tagId = TextUtils.join(",", mTags);
@@ -101,6 +123,7 @@ public class HashtagPageFragment extends BasePageFragment implements VtagmeLoade
             VtagClient.getAPI().getTagDetails(tagId, mSortType, new Callback<HashtagModel>() {
                 @Override
                 public void onResponse(Response<HashtagModel> hashtagModelResponse) {
+                    hideLoading();
                     HashtagModel tagModel = hashtagModelResponse.getResult();
                     if (tagModel != null) {
                         CacheManager.getInstance().putHashTagModel(tagId + "_" + mSortType, tagModel);

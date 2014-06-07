@@ -37,7 +37,7 @@ public class RelatedTagsHListView extends HListView {
         mAdapter.clear();
         mAdapter.addAll(tags);
         if (tags.length == 0) {
-            this.setVisibility(INVISIBLE);
+            this.setVisibility(GONE);
         } else {
             this.setVisibility(VISIBLE);
         }
