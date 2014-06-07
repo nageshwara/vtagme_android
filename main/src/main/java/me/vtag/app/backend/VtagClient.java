@@ -41,4 +41,8 @@ public class VtagClient {
     public static VtagAPI getAPI() {
         return api;
     }
+
+    public static String getUrl(String component) {
+        return BASE_URL + component;
+    }
 }

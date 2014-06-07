@@ -31,6 +31,7 @@ import me.vtag.app.helpers.VtagmeLoaderView;
 import me.vtag.app.pages.HashtagsPageFragment;
 import me.vtag.app.pages.HashtagPageFragment;
 import me.vtag.app.pages.PrivatetagPageFragment;
+import me.vtag.app.pages.SearchPageFragment;
 
 
 public class HomeActivity extends SlidingFragmentActivity
@@ -74,12 +75,6 @@ public class HomeActivity extends SlidingFragmentActivity
         MenuItem searchItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) searchItem.getActionView();
         setupSearchView(searchItem);
-/*
-        if((String) getActionBar().getTitle() != "Home" && (String) getActionBar().getTitle() != "vtag.me") {
-            Log.w("The ActionBar Title now is "+getActionBar().getTitle(),"Myapp ");
-            SetupTabs((String) getActionBar().getTitle());
-        }
-        */
         return true;
     }
 
@@ -96,6 +91,8 @@ public class HomeActivity extends SlidingFragmentActivity
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_search) {
+            browseSearchPage();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -127,6 +124,23 @@ public class HomeActivity extends SlidingFragmentActivity
         return false;
     }
 
+
+    public void browseSearchPage() {
+        SearchPageFragment searchPageFragment = new SearchPageFragment();
+
+        Bundle args = new Bundle();
+        ArrayList<String> tags = new ArrayList<>();
+        //tags.add("telugu");
+        //tags.add("songs");
+        args.putStringArrayList("tags",tags);
+
+        searchPageFragment.setArguments(args);
+        // update the main content by replacing fragments
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, searchPageFragment)
+                .commit();
+    }
 
     public void browseHomePage() {
         showLoading();
@@ -167,6 +181,7 @@ public class HomeActivity extends SlidingFragmentActivity
     public void browseHashTag(String tag) {
         Bundle args = new Bundle();
         args.putString("tag", tag);
+        args.putString("sort", HashtagModel.RECENT_VIDEOS_SORT);
 
         HashtagPageFragment tagpage = new HashtagPageFragment();
         tagpage.setArguments(args);

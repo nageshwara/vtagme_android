@@ -17,12 +17,9 @@ import me.vtag.app.backend.models.HashtagModel;
  * Created by nmannem on 30/10/13.
  */
 public class HashtagsPageFragment extends BasePageFragment {
-    public static final int ID = 2;
-
     private ListView tagListView;
     private List<HashtagModel> tagModels;
     public HashtagsPageFragment(List<HashtagModel> tagModels) {
-        super(ID);
         this.tagModels = tagModels;
     }
 

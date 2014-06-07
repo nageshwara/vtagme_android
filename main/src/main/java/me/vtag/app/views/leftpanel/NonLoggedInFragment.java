@@ -14,11 +14,7 @@ import me.vtag.app.pages.BaseLoginPageFragment;
 import me.vtag.app.pages.social.GooglePlus;
 
 public class NonLoggedInFragment extends BaseLoginPageFragment implements View.OnClickListener {
-    public static final int ID = 4;
-    private View mFragmentContainerView;
-
     public NonLoggedInFragment() {
-        super(ID);
     }
 
     public void onClick(View view) {

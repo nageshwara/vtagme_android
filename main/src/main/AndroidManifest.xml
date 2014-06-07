@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <application
+        android:hardwareAccelerated="true"
         android:name=".VtagApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"

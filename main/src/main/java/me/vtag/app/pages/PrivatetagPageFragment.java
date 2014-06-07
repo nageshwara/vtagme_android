@@ -20,33 +20,29 @@ import me.vtag.app.helpers.VtagmeLoaderView;
  * Created by nmannem on 30/10/13.
  */
 public class PrivatetagPageFragment extends BasePageFragment implements VtagmeLoaderView {
-    public static final int ID = 1;
-
     private String mTag;
     private PrivatetagModel mPrivatetagModel;
 
     private ListView videoListView;
-    private View mLoadingView = null;
     private FontAwesomeText mLoadingSpinner = null;
 
     @Override
     public void showLoading() {
-        if (mLoadingView != null) {
-            mLoadingView.setVisibility(View.VISIBLE);
+        if (mLoadingSpinner != null) {
+            mLoadingSpinner.setVisibility(View.VISIBLE);
             mLoadingSpinner.startRotate(getActivity(), true, FontAwesomeText.AnimationSpeed.MEDIUM);
         }
     }
 
     @Override
     public void hideLoading() {
-        if (mLoadingView != null) {
-            mLoadingView.setVisibility(View.INVISIBLE);
+        if (mLoadingSpinner != null) {
+            mLoadingSpinner.setVisibility(View.INVISIBLE);
             mLoadingSpinner.stopAnimation();
         }
     }
 
     public PrivatetagPageFragment() {
-        super(ID);
         this.mPrivatetagModel = null;
     }
 
@@ -54,7 +50,6 @@ public class PrivatetagPageFragment extends BasePageFragment implements VtagmeLo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tag_page_fragment, container, false);
-        mLoadingView = rootView.findViewById(R.id.loadingView);
         mLoadingSpinner = (FontAwesomeText) rootView.findViewById(R.id.loadingSpinner);
         videoListView = (ListView) rootView.findViewById(R.id.videoListView);
 
@@ -64,7 +59,7 @@ public class PrivatetagPageFragment extends BasePageFragment implements VtagmeLo
         PrivatetagModel tagModel = CacheManager.getInstance().getPrivateTagModel(mTag);
         if (tagModel != null) {
             videoListView.setAdapter(new TagBasedVideoListAdapter(mPrivatetagModel, HashtagModel.RECENT_VIDEOS_SORT,
-                    getActivity(), R.layout.videocard, this.mPrivatetagModel.videodetails, this));
+                    getActivity(), R.layout.videocard, this));
         }
         return rootView;
     }

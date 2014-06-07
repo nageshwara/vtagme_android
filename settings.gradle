@@ -1,1 +1,1 @@
-include ':main', ':facebook', ':AndroidBootstrap', ':slidingMenu', ':android-rest'
+include ':main', ':facebook', ':AndroidBootstrap', ':slidingMenu', ':android-rest', ':TokenAutoComplete'

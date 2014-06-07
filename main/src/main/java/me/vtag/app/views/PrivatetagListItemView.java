@@ -62,7 +62,7 @@ public class PrivatetagListItemView extends FrameLayout implements View.OnClickL
 
         mTitle.setText("#" + model.tag);
         Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(8)
+                .cornerRadiusDp(6)
                 .scaleType(ImageView.ScaleType.CENTER_CROP)
                 .oval(false)
                 .build();

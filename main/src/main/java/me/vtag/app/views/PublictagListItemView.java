@@ -81,7 +81,7 @@ public class PublictagListItemView extends FrameLayout implements View.OnClickLi
         mTitle.setText("#" + model.tag);
         mFollowers.setText(StringUtil.formatNumber(model.followers.length));
         Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(8)
+                .cornerRadiusDp(6)
                 .scaleType(ImageView.ScaleType.CENTER_CROP)
                 .oval(false)
                 .build();

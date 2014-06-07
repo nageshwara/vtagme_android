@@ -50,6 +50,7 @@ public class VideoListAdapter extends ArrayAdapter<VideoModel> {
         } else {
             videoCardView = (BaseVideoListItemView) convertView;
         }
+        videoCardView.position = position;
         videoCardView.setModel(videoModel);
         return videoCardView;                
     }

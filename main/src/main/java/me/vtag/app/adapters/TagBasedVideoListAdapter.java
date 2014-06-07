@@ -25,8 +25,8 @@ public class TagBasedVideoListAdapter extends VideoListAdapter {
     private BaseTagModel mTagModel;
     private String mSortType;
 
-    public TagBasedVideoListAdapter(BaseTagModel tagModel, String sortType, Activity context, int resourceId, List<VideoModel> objects, VtagmeLoaderView loaderView) {
-        super(context, resourceId, objects, loaderView);
+    public TagBasedVideoListAdapter(BaseTagModel tagModel, String sortType, Activity context, int resourceId, VtagmeLoaderView loaderView) {
+        super(context, resourceId, tagModel.videodetails, loaderView);
         mTagModel = tagModel;
         mSortType = sortType;
     }

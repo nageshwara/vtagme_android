@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
         classpath 'com.github.dcendents:android-maven-plugin:1.0'
     }
 }
@@ -13,16 +13,16 @@ apply plugin: 'android-maven'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.0.2'
-
+    buildToolsVersion '19.1.0'
     defaultConfig {
         targetSdkVersion 19
     }
-
     packagingOptions {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
+    }
+    productFlavors {
     }
 }
 

@@ -52,4 +52,8 @@ public class HashtagModel extends BaseTagModel {
             callback.onComplete(true);
         }
     }
+
+    public static interface OnSortChangeListener {
+        public boolean onChange(String newSort);
+    }
 }
