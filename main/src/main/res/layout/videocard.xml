@@ -49,13 +49,13 @@
                 android:layout_alignParentBottom="true"
                 android:id="@+id/videoStats1"
                 >
-                <!--com.beardedhen.androidbootstrap.FontAwesomeText
+                <com.beardedhen.androidbootstrap.FontAwesomeText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     fontawesometext:fa_icon="fa-heart"
                     android:textSize="12sp"
                     android:layout_marginRight="2dp"
-                    android:textColor="@color/gray"/-->
+                    android:textColor="@color/gray"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -72,13 +72,13 @@
                 android:layout_toRightOf="@+id/videoStats1"
                 android:layout_marginLeft="4dp"
                 >
-                <!--com.beardedhen.androidbootstrap.FontAwesomeText
+                <com.beardedhen.androidbootstrap.FontAwesomeText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     fontawesometext:fa_icon="fa-eye"
                     android:textSize="12sp"
                     android:layout_marginRight="2dp"
-                    android:textColor="@color/gray"/-->
+                    android:textColor="@color/gray"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,14 +95,14 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             >
-            <!--com.beardedhen.androidbootstrap.FontAwesomeText
+            <com.beardedhen.androidbootstrap.FontAwesomeText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 fontawesometext:fa_icon="fa-youtube-play"
                 android:textSize="12sp"
                 android:layout_marginRight="4dp"
                 android:id="@+id/videoproviderLabel"
-                android:textColor="@color/gray"/-->
+                android:textColor="@color/gray"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

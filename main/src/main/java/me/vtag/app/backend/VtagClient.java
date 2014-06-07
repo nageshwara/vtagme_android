@@ -12,9 +12,9 @@ import ly.apps.android.rest.converters.impl.JacksonBodyConverter;
  * Created by nmannem on 30/10/13.
  */
 public class VtagClient {
-    private static final String BASE_URL = "http://10.63.8.213:8080";
+    //private static final String BASE_URL = "http://10.63.8.213:8080";
     //private static final String BASE_URL = "http://www.vtag.me";
-    //private static final String BASE_URL = "http://192.168.0.4:8080";
+    private static final String BASE_URL = "http://192.168.0.4:8080";
 
     private AsyncHttpClient client;
     private static VtagClient instance = null;

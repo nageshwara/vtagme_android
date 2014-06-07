@@ -104,13 +104,6 @@ public class HashtagSubpageFragment extends ListFragment {
 
     }
 
-    public void clear() {
-        if (mAdapter != null) {
-            mAdapter.clear();
-            mAdapter.notifyDataSetChanged();
-        }
-    }
-
     private int mCachedVerticalScrollRange;
     private int mQuickReturnHeight;
     private AbsListView.OnScrollListener mScrollListener;

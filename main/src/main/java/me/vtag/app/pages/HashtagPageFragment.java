@@ -2,34 +2,44 @@ package me.vtag.app.pages;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.FontAwesomeText;
+import com.tokenautocomplete.TokenCompleteTextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ly.apps.android.rest.client.Callback;
 import ly.apps.android.rest.client.Response;
 import me.vtag.app.BasePageFragment;
 import me.vtag.app.R;
+import me.vtag.app.adapters.TagAutoCompleteAdapter;
 import me.vtag.app.adapters.TagBasedVideoListAdapter;
 import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.CacheManager;
 import me.vtag.app.backend.models.HashtagModel;
 import me.vtag.app.helpers.VtagmeLoaderView;
+import me.vtag.app.views.TagsCompletionView;
 
 /**
  * Created by nmannem on 30/10/13.
  */
-public class HashtagPageFragment extends BasePageFragment implements VtagmeLoaderView, HashtagModel.OnSortChangeListener {
+public class HashtagPageFragment extends BasePageFragment implements VtagmeLoaderView, HashtagModel.OnSortChangeListener, TokenCompleteTextView.TokenListener {
+    private List<String> mTags;
+    TagsCompletionView completionView;
 
-    private String mTag;
     private String mSortType;
     private HashtagModel mHashtagModel;
 
     public HashtagPageFragment() {
         this.mHashtagModel = null;
+        mTags = new ArrayList<>();
+        mSortType = HashtagModel.RECENT_VIDEOS_SORT;
     }
 
     @Override
@@ -40,34 +50,60 @@ public class HashtagPageFragment extends BasePageFragment implements VtagmeLoade
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tag_page_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.tag_page_fragment, null);
         mLoadingSpinner = (FontAwesomeText) rootView.findViewById(R.id.loadingSpinner);
-        //here is your list array
-        Bundle bundle = getArguments();
-        mTag = bundle.getString("tag");
-        mSortType = bundle.getString("sort");
 
         mActiveFragment = new HashtagSubpageFragment();
-        mActiveFragment.setSortChangeListener(this);
         FragmentManager fragmentManager = getFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.container, mActiveFragment);
-        transaction.commit();
+        fragmentManager.beginTransaction().replace(R.id.tag_details_container, mActiveFragment).commit();
+        mActiveFragment.setSortChangeListener(this);
 
-        fetchTagModel();
+
+        completionView = (TagsCompletionView) rootView.findViewById(R.id.tagInputView);
+        //here is your list array
+        Bundle bundle = getArguments();
+        mSortType = bundle.getString("sort");
+        String[] tags = bundle.getStringArray("tags");
+        for (String tag : tags) {
+            completionView.addObject(tag);
+        }
+
+        completionView.setAdapter(new TagAutoCompleteAdapter(getActivity(), R.layout.auto_completion_string_item));
+        completionView.setTokenListener(this);
         return rootView;
     }
 
+
+    private HashtagSubpageFragment mActiveFragment;
+    private void renderVideoList(HashtagModel model) {
+        mHashtagModel = model;
+        mActiveFragment.renderVideoListAndRelatedTags(new TagBasedVideoListAdapter(mHashtagModel, mSortType, getActivity(), R.layout.videocard, this), mHashtagModel.related);
+    }
+
+    @Override
+    public void onTokenAdded(Object token) {
+        mTags.add((String)token);
+        fetchTagModel();
+    }
+
+    @Override
+    public void onTokenRemoved(Object token) {
+        int index = mTags.indexOf(token);
+        mTags.remove(index);
+        fetchTagModel();
+    }
+
     private void fetchTagModel() {
-        HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(mTag+"_"+mSortType);
+        final String tagId = TextUtils.join(",", mTags);
+        HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tagId + "_" + mSortType);
         if (tagModel == null) {
             showLoading();
-            VtagClient.getAPI().getTagDetails(mTag, mSortType, new Callback<HashtagModel>() {
+            VtagClient.getAPI().getTagDetails(tagId, mSortType, new Callback<HashtagModel>() {
                 @Override
                 public void onResponse(Response<HashtagModel> hashtagModelResponse) {
                     HashtagModel tagModel = hashtagModelResponse.getResult();
                     if (tagModel != null) {
-                        CacheManager.getInstance().putHashTagModel(mTag + "_" + mSortType, tagModel);
+                        CacheManager.getInstance().putHashTagModel(tagId + "_" + mSortType, tagModel);
                         renderVideoList(tagModel);
                     } else {
                         Toast.makeText(getContext(), "Couldnt get mHashtagModel details!", Toast.LENGTH_SHORT).show();
@@ -77,13 +113,6 @@ public class HashtagPageFragment extends BasePageFragment implements VtagmeLoade
         } else {
             renderVideoList(tagModel);
         }
-    }
-
-    private HashtagSubpageFragment mActiveFragment;
-    private void renderVideoList(HashtagModel model) {
-        mHashtagModel = model;
-        mActiveFragment.renderVideoListAndRelatedTags(new TagBasedVideoListAdapter(mHashtagModel, mSortType, getActivity(), R.layout.videocard, this), mHashtagModel.related);
-
     }
 
     private FontAwesomeText mLoadingSpinner = null;
@@ -112,5 +141,8 @@ public class HashtagPageFragment extends BasePageFragment implements VtagmeLoade
         return true;
     }
 
-
+    @Override
+    public boolean supportsActionBar() {
+        return false;
+    }
 }

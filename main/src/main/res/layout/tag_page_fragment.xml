@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
     <com.beardedhen.androidbootstrap.FontAwesomeText
         android:layout_width="wrap_content"
@@ -16,10 +13,24 @@
         android:textColor="@color/gray"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toEndOf="@id/container"
-        >
-    </FrameLayout>
+        android:layout_height="match_parent">
+        <me.vtag.app.views.TagsCompletionView
+            android:id="@+id/tagInputView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tag_prompt"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:background="@color/vtag_blue"
+            />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tag_details_container"
+            >
+        </FrameLayout>
+    </LinearLayout>
 </RelativeLayout>

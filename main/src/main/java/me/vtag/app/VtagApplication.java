@@ -7,6 +7,9 @@ import android.util.Log;
 
 import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.AuthPreferences;
+import me.vtag.app.backend.models.CacheManager;
+import me.vtag.app.backend.models.PrivatetagModel;
+import me.vtag.app.backend.vos.RootVO;
 import me.vtag.app.views.QueueFragment;
 
 /**
@@ -55,6 +58,26 @@ public class VtagApplication extends Application {
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
+    }
+
+    private RootVO mRootData;
+    public void setRootData(RootVO rootData) {
+        mRootData = rootData;
+        if (mRootData.user == null) {
+            authPreferences.setUser(null, null); // Next time shows login page.
+            HomeActivity.getLeftDrawerFragment().setLoggedIn(null, rootData);
+        } else {
+            HomeActivity.getLeftDrawerFragment().setLoggedIn(mRootData.user, rootData);
+            // Store private and public tags in LRU cache..
+            for (PrivatetagModel tagModel : mRootData.privatetags) {
+                CacheManager.getInstance().putPrivateTagModel(tagModel.tag, tagModel);
+            }
+        }
+
+    }
+
+    public final RootVO getRootData() {
+        return mRootData;
     }
 
     public QueueFragment getQueueFragment() {
