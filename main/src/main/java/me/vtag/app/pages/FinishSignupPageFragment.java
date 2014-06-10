@@ -26,7 +26,6 @@ import me.vtag.app.backend.vos.LoginVO;
  * Created by nageswara on 5/5/14.
  */
 public class FinishSignupPageFragment extends BasePageFragment implements View.OnClickListener {
-    public static final int ID = 4;
     public static final String EMAIL_TEXT = "signup_email";
     public static final String USERNAME_TEXT = "signup_username";
 
@@ -38,7 +37,6 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
     private String username_text;
 
     public FinishSignupPageFragment(String email_text, String username_text) {
-        super(ID);
         this.email_text = email_text;
         this.username_text = username_text;
     }

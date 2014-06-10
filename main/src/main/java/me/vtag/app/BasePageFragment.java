@@ -8,29 +8,26 @@ import android.support.v4.app.Fragment;
  * Created by nmannem on 30/10/13.
  */
 public class BasePageFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    public static final String ARG_SECTION_ID = "section_id";
-
-    protected Bundle args;
-    public BasePageFragment(int sectionNumber) {
-        if (args == null) args = new Bundle();
-        args.putInt(ARG_SECTION_ID, sectionNumber);
-        setArguments(args);
+    private Activity mCurrentActivity;
+    public BasePageFragment() {
     }
 
     @Override
     public void onAttach(Activity activity) {
+        mCurrentActivity = activity;
         super.onAttach(activity);
-        if (activity.getActionBar() == null) return;
+    }
 
-        if (!supportsActionBar()) {
-            activity.getActionBar().hide();
-        } else {
-            activity.getActionBar().show();
+    @Override
+    public void onStart() {
+        if (mCurrentActivity.getActionBar() != null) {
+            if (!supportsActionBar()) {
+                mCurrentActivity.getActionBar().hide();
+            } else {
+                mCurrentActivity.getActionBar().show();
+            }
         }
+        super.onStart();
     }
 
     protected boolean supportsActionBar() {

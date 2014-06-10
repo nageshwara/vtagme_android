@@ -50,6 +50,7 @@ public class VideoListAdapter extends ArrayAdapter<VideoModel> {
         } else {
             videoCardView = (BaseVideoListItemView) convertView;
         }
+        videoCardView.position = position;
         videoCardView.setModel(videoModel);
         return videoCardView;                
     }
@@ -69,13 +70,14 @@ public class VideoListAdapter extends ArrayAdapter<VideoModel> {
     }
 
     public void appendNextBatch(Collection<VideoModel> newVideos) {
-        mFetchingNext = false;
-        this.objects.addAll(newVideos);
-        this.notifyDataSetChanged();
         // Hide loading bar.
         if (mLoaderView != null) {
             mLoaderView.hideLoading();
         }
+
+        mFetchingNext = false;
+        this.objects.addAll(newVideos);
+        this.notifyDataSetChanged();
     }
 
     protected BaseVideoListItemView createView() {

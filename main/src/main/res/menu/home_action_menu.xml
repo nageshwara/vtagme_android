@@ -4,7 +4,6 @@
     tools:context="me.vtag.app.HomeActivity" >
     <item
         android:id="@+id/action_search"
-        yourapp:actionViewClass="android.support.v7.widget.SearchView"
         android:icon="@drawable/abc_ic_search_api_holo_light"
         yourapp:showAsAction="always|collapseActionView"
         android:title="@string/action_search"
@@ -13,5 +12,5 @@
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        yourapp:showAsAction="never" />
+        yourapp:showAsAction="always|collapseActionView" />
 </menu>

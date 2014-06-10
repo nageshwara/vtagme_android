@@ -23,9 +23,12 @@ import me.vtag.app.views.TagBasedVideoListItemView;
  */
 public class TagBasedVideoListAdapter extends VideoListAdapter {
     private BaseTagModel mTagModel;
-    public TagBasedVideoListAdapter(BaseTagModel tagModel, Activity context, int resourceId, List<VideoModel> objects, VtagmeLoaderView loaderView) {
-        super(context, resourceId, objects, loaderView);
+    private String mSortType;
+
+    public TagBasedVideoListAdapter(BaseTagModel tagModel, String sortType, Activity context, int resourceId, VtagmeLoaderView loaderView) {
+        super(context, resourceId, tagModel.videodetails, loaderView);
         mTagModel = tagModel;
+        mSortType = sortType;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class TagBasedVideoListAdapter extends VideoListAdapter {
     protected void fetchNextBatch() {
         if (mTagModel.next_cursor == null) return;
         super.fetchNextBatch();
-        VtagClient.getAPI().getTagDetailsAdvanced(mTagModel.id, "featured", mTagModel.next_cursor, new Callback<HashtagModel>() {
+        VtagClient.getAPI().getTagDetailsAdvanced(mTagModel.id, mSortType, mTagModel.next_cursor, new Callback<HashtagModel>() {
             @Override
             public void onResponse(Response<HashtagModel> hashtagModelResponse) {
                 HashtagModel tagModel = hashtagModelResponse.getResult();
@@ -51,7 +54,7 @@ public class TagBasedVideoListAdapter extends VideoListAdapter {
                     mTagModel.next_cursor = tagModel.next_cursor;
                     appendNextBatch(tagModel.videodetails);
                 } else {
-                    // TODO throw an error.
+                    // TODO throw an error
                 }
             }
         });

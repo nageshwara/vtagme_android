@@ -43,16 +43,12 @@ public class TagContextFragment extends Fragment {
             }
         });
 
-        RelatedTagsFragment relatedTagsFragment = new RelatedTagsFragment();
-        relatedTagsFragment.AddRelatedTags(this.tagModel);
         ActivityListFragment activityListFragment = new ActivityListFragment();
         activityListFragment.AddActivityTags(this.tagModel);
 
-
         mTagTitle.setText("#" + tagModel.tag);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.related_tags_list_framelayout,relatedTagsFragment)
-                .replace(R.id.activities_list_framelayout, activityListFragment)
+        fragmentManager.beginTransaction().replace(R.id.activities_list_framelayout, activityListFragment)
                 .commit();
         return mtagContextView;
     }

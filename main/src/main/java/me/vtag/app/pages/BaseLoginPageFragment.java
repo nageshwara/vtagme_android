@@ -46,8 +46,7 @@ public class BaseLoginPageFragment extends BasePageFragment implements LoaderMan
      */
     private boolean isAuthGoingOn = false;
 
-    public BaseLoginPageFragment(int ID) {
-        super(ID);
+    public BaseLoginPageFragment() {
         authProviderMap = new HashMap<>(2);
     }
 

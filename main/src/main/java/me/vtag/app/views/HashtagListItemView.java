@@ -12,11 +12,15 @@ import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.List;
+import java.util.Random;
+
 import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
 import me.vtag.app.VtagApplication;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.HashtagModel;
+import me.vtag.app.backend.models.VideoModel;
 import me.vtag.app.helpers.StringUtil;
 import me.vtag.app.helpers.VtagmeCallback;
 
@@ -82,15 +86,21 @@ public class HashtagListItemView extends FrameLayout implements View.OnClickList
         mFollowers.setText(StringUtil.formatNumber(model.followers));
         //videos.setText(StringUtil.formatNumber(model.videocount));
         Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(8)
+                .cornerRadiusDp(6)
                 .scaleType(ImageView.ScaleType.CENTER_CROP)
                 .oval(false)
                 .build();
-        Picasso.with(this.getContext()).load(model.videodetails.get(0).video.thumb)
+        Picasso.with(this.getContext()).load(getRandomUrl())
                 .fit().centerCrop()
                 .transform(transformation)
                 .into(mImage);
         refresh();
+    }
+
+    private String getRandomUrl() {
+        List<VideoModel> videoModelList = model.videodetails;
+        Random random = new Random(videoModelList.size());
+        return videoModelList.get(random.nextInt() % videoModelList.size()).video.thumb;
     }
 
     private void refresh() {

@@ -7,12 +7,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.util.LruCache;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,45 +29,53 @@ import me.vtag.app.backend.vos.RootVO;
 import me.vtag.app.backend.models.CacheManager;
 import me.vtag.app.helpers.VtagmeLoaderView;
 import me.vtag.app.pages.HashtagsPageFragment;
-import me.vtag.app.pages.TagPageFragment;
+import me.vtag.app.pages.HashtagPageFragment;
+import me.vtag.app.pages.HomePageFragment;
+import me.vtag.app.pages.PrivatetagPageFragment;
+import me.vtag.app.pages.SearchPageFragment;
 
 
 public class HomeActivity extends SlidingFragmentActivity
-        implements SearchView.OnQueryTextListener, VtagmeLoaderView {
+        implements SearchView.OnQueryTextListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
-    private LeftDrawerFragment mLeftDrawerFragment;
-    private RightDrawerFragment mRightDrawerFragment;
+    private static LeftDrawerFragment mLeftDrawerFragment;
+    private static RightDrawerFragment mRightDrawerFragment;
 
     private ProgressDialog progressDialog;
     private SearchView mSearchView;
 
-    private CharSequence mTitle;
-
+//
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-        SlidingMenu leftMenu = getSlidingMenu();
-        leftMenu.setMode(SlidingMenu.LEFT_RIGHT);
+        SlidingMenu slidingMenu = getSlidingMenu();
+        slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
         setBehindContentView(R.layout.left_drawer_layout);
-        leftMenu.setFadeDegree(0.3f);
-        leftMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        leftMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        slidingMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        slidingMenu.setBehindOffsetRes(R.dimen.navigation_drawer_offset);
+        slidingMenu.setShadowWidthRes(R.dimen.navigation_drawer_shadow_width);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.activity_home);
-        leftMenu.setSecondaryMenu(R.layout.right_drawer_layout);
+        slidingMenu.setSecondaryMenu(R.layout.right_drawer_layout);
 
         mLeftDrawerFragment = (LeftDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer_fragment);
         mRightDrawerFragment = (RightDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_right_drawer_fragment);
-
-        mTitle = getTitle();
         browseHomePage();
+    }
+
+    public static final LeftDrawerFragment getLeftDrawerFragment() {
+        return mLeftDrawerFragment;
+    }
+
+    public static final RightDrawerFragment getRightDrawerFragment() {
+        return mRightDrawerFragment;
     }
 
     @Override
@@ -84,6 +88,11 @@ public class HomeActivity extends SlidingFragmentActivity
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -91,6 +100,8 @@ public class HomeActivity extends SlidingFragmentActivity
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_search) {
+            browseSearchPage();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -122,111 +133,60 @@ public class HomeActivity extends SlidingFragmentActivity
         return false;
     }
 
+    public void browseSearchPage() {
+        SearchPageFragment searchPageFragment = new SearchPageFragment();
+
+        Bundle args = new Bundle();
+        ArrayList<String> tags = new ArrayList<>();
+        //tags.add("telugu");
+        //tags.add("songs");
+        args.putStringArrayList("tags",tags);
+
+        searchPageFragment.setArguments(args);
+        // update the main content by replacing fragments
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, searchPageFragment)
+                .commit();
+    }
 
     public void browseHomePage() {
-        mTitle = "Home";
-        showLoading();
-        VtagClient.getAPI().getBootstrap(new Callback<RootVO>() {
-            @Override
-            public void onResponse(Response<RootVO> rootVOResponse) {
-                RootVO rootData = rootVOResponse.getResult();
-                if (rootData != null) {
-                    if (rootData.user == null) {
-                        VtagApplication.getInstance().authPreferences.setUser(null, null); // Next time shows login page.
-                        mLeftDrawerFragment.setLoggedIn(null, rootData);
-                    } else {
-                        mLeftDrawerFragment.setLoggedIn(rootData.user, rootData);
-                        // Store private and public tags in LRU cache..
-                        for (PrivatetagModel tagModel : rootData.privatetags) {
-                            CacheManager.getInstance().putPrivateTagModel(tagModel.tag, tagModel);
-                        }
-                    }
-                    // Now show list of tags.
-                    List<HashtagModel> allTopTags = new ArrayList<HashtagModel>();
-                    allTopTags.addAll(rootData.toptags.texttags);
-                    allTopTags.addAll(rootData.toptags.tagcards);
-                    allTopTags.addAll(rootData.toptags.tagrows);
-                    HashtagsPageFragment homepage = new HashtagsPageFragment(allTopTags);
-                    // update the main content by replacing fragments
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, homepage)
-                            .commit();
-                } else {
-                    Toast.makeText(HomeActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-                }
-                hideLoading();
-            }
-        });
+        HomePageFragment homePageFragment = new HomePageFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.container, homePageFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public void browseHashTag(String tag) {
-        mTitle = tag;
-        HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tag);
-        if (tagModel == null) {
-            showLoading();
-            VtagClient.getAPI().getTagDetails(tag, new Callback<HashtagModel>() {
-                @Override
-                public void onResponse(Response<HashtagModel> hashtagModelResponse) {
-                    HashtagModel tagModel = hashtagModelResponse.getResult();
-                    if (tagModel != null) {
-                        browseHashTag(tagModel);
-                    } else {
-                        Toast.makeText(HomeActivity.this, "Couldnt get tag details!", Toast.LENGTH_SHORT).show();
-                    }
-                    hideLoading();
-                }
-            });
-        } else {
-            browseHashTag(tagModel);
-        }
-    }
+        getActionBar().hide();
 
-    private void browseHashTag(HashtagModel tagModel) {
-        CacheManager.getInstance().putHashTagModel(tagModel.tag, tagModel);
+        Bundle args = new Bundle();
+        args.putStringArray("tags", new String[]{tag});
+        args.putString("sort", HashtagModel.RECENT_VIDEOS_SORT);
+        HashtagPageFragment tagpage = new HashtagPageFragment();
+        tagpage.setArguments(args);
 
-        mRightDrawerFragment.new_tag_clicked(tagModel);
-        TagPageFragment tagpage = new TagPageFragment(tagModel);
-        // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, tagpage);
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
     public void browsePrivateTag(String tag) {
-        mTitle = tag;
-        PrivatetagModel tagModel = CacheManager.getInstance().getPrivateTagModel(tag);
-        if (tagModel == null) {
-            return;
-        } else {
-            browsePrivateTag(tagModel);
-        }
-    }
+        Bundle args = new Bundle();
+        args.putString("tag", tag);
 
-    private void browsePrivateTag(PrivatetagModel tagModel) {
-        TagPageFragment tagpage = new TagPageFragment(tagModel);
-        // update the main content by replacing fragments
+        PrivatetagPageFragment tagpage = new PrivatetagPageFragment();
+        tagpage.setArguments(args);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, tagpage);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    @Override
-    public void showLoading() {
-        if (progressDialog != null) {
-            progressDialog = ProgressDialog.show(this, "Loading..",
-                    "Please wait..", true);
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
     }
 }

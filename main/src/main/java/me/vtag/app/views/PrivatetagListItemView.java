@@ -62,7 +62,7 @@ public class PrivatetagListItemView extends FrameLayout implements View.OnClickL
 
         mTitle.setText("#" + model.tag);
         Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(8)
+                .cornerRadiusDp(6)
                 .scaleType(ImageView.ScaleType.CENTER_CROP)
                 .oval(false)
                 .build();
@@ -76,7 +76,7 @@ public class PrivatetagListItemView extends FrameLayout implements View.OnClickL
     public void onClick(View view) {
         if (model != null) {
             if (getContext() instanceof HomeActivity) {
-                ((HomeActivity) getContext()).browseHashTag(model.tag);
+                ((HomeActivity) getContext()).browsePrivateTag(model.tag);
             }
         }
     }

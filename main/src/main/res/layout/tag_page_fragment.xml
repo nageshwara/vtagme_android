@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
-    android:background="@color/lightgray">
-
-    <ListView
-        android:layout_width="fill_parent"
+    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
+    <com.beardedhen.androidbootstrap.FontAwesomeText
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/videoListView"
-        android:layout_gravity="center_horizontal"
-        android:divider="@null"
-        android:dividerHeight="0dp" />
+        fontawesometext:fa_icon="fa-spinner"
+        android:id="@+id/loadingSpinner"
+        android:textSize="32sp"
+        android:textColor="@color/gray"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/loadingView"
-        >
-        <com.beardedhen.androidbootstrap.FontAwesomeText
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <me.vtag.app.views.TagsCompletionView
+            android:id="@+id/tagInputView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            fontawesometext:fa_icon="fa-spinner"
-            android:id="@+id/loadingSpinner"
-            android:textSize="32sp"
-            android:textColor="@color/gray"
-            android:layout_gravity="center_horizontal" />
+            android:hint="@string/tag_prompt"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:background="@color/vtag_blue"
+            />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tag_details_container"
+            >
+        </FrameLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -34,14 +34,12 @@ import me.vtag.app.pages.social.SocialUser;
  * Created by nageswara on 5/5/14.
  */
 public class LoginPageFragment extends BaseLoginPageFragment implements View.OnClickListener {
-    public static final int ID = 3;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
 
     public LoginPageFragment() {
-        super(ID);
     }
 
     @Override

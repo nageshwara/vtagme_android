@@ -81,7 +81,7 @@ public class PublictagListItemView extends FrameLayout implements View.OnClickLi
         mTitle.setText("#" + model.tag);
         mFollowers.setText(StringUtil.formatNumber(model.followers.length));
         Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(8)
+                .cornerRadiusDp(6)
                 .scaleType(ImageView.ScaleType.CENTER_CROP)
                 .oval(false)
                 .build();
@@ -114,12 +114,12 @@ public class PublictagListItemView extends FrameLayout implements View.OnClickLi
                     refresh();
                 }
             };
-            // Show loading circle until we get mesg back from server.
+            // Show loading circle until we get message back from server.
             if (model.following) {
-                ((PublictagModel) model).unfollow(callback);
+                model.unfollow(callback);
             }
             else {
-                ((PublictagModel) model).follow(callback);
+                model.follow(callback);
             }
         }
     }
@@ -128,7 +128,7 @@ public class PublictagListItemView extends FrameLayout implements View.OnClickLi
     public void onClick(View view) {
         if (model != null) {
             if (getContext() instanceof HomeActivity) {
-                ((HomeActivity) getContext()).browseHashTag(model.tag);
+                ((HomeActivity) getContext()).browsePrivateTag(model.tag);
             }
         }
     }
