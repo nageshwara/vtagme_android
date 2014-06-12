@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="navigation_drawer_offset">100dp</dimen>
+    <dimen name="navigation_drawer_offset">50dp</dimen>
     <dimen name="navigation_drawer_shadow_width">2dp</dimen>
 
     <dimen name="tag_details_and_videos_sticky_height">130dp</dimen>

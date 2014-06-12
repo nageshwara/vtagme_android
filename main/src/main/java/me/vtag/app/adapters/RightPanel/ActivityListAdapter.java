@@ -36,7 +36,7 @@ public class ActivityListAdapter extends ArrayAdapter<PanelListItemModel> {
 
     @Override
     public PanelListItemModel getItem(int position) {
-        return activityListItemModels.get(position);
+        return activityListItemModels.get(2*position);
     }
 
     @Override
@@ -45,26 +45,70 @@ public class ActivityListAdapter extends ArrayAdapter<PanelListItemModel> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Log.w("Came to getView of ActivityListAdapter ","Myapp ");
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.panel_list_item, null);
         }
 
-//        Log.w("Came to ActivityListAdapter", "Myapp ");
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
         TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
+        TextView txtDate = (TextView) convertView.findViewById(R.id.date_activity);
 
+        String[] date = activityListItemModels.get(2*position+1).getTitle().split("-");
+        String Month = null;
+        String Day = date[2].split(" ")[0];
+        switch (date[1]) {
+            case "01":
+                Month = "Jan";
+                break;
+            case "02":
+                Month = "Feb";
+                break;
+            case "03":
+                Month = "Mar";
+                break;
+            case "04":
+                Month = "Apr";
+                break;
+            case "05":
+                Month = "May";
+                break;
+            case "06":
+                Month = "Jun";
+                break;
+            case "07":
+                Month = "July";
+                break;
+            case "08":
+                Month = "Aug";
+                break;
+            case "09":
+                Month = "Sep";
+                break;
+            case "10":
+                Month = "Oct";
+                break;
+            case "11":
+                Month = "Nov";
+                break;
+            case "12":
+                Month = "Dec";
+                break;
+        }
         //imgIcon.setImageResource(activityListItemModels.get(position).getIcon());
-        txtTitle.setText(activityListItemModels.get(position).getTitle());
+//        Log.w("In ActivityListAdapterPosition is "+Integer.toString(position),"Myapp ");
+        txtTitle.setText("Anonymous added"+activityListItemModels.get(2*position).getTitle());
+        txtDate.setText(Month+" "+Day);
+
+//        Log.w("THe height is "+Integer.toString(convertView.getHeight()),"Myapp ");
 
         // displaying count
         // check whether it set visible or not
-        if(activityListItemModels.get(position).getCounterVisibility()){
-            txtCount.setText(activityListItemModels.get(position).getCount());
+        if(activityListItemModels.get(2*position).getCounterVisibility()){
+            txtCount.setText(activityListItemModels.get(2*position).getCount());
         }else{
             // hide the counter view
             txtCount.setVisibility(View.GONE);

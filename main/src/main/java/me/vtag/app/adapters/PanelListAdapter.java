@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
 import me.vtag.app.backend.models.PanelListItemModel;
 
@@ -26,7 +27,6 @@ public class PanelListAdapter extends ArrayAdapter<PanelListItemModel> {
         super(context, layoutResourceId, panelListItemModels);
         this.context = context;
         this.panelListItemModels = panelListItemModels;
-        Log.w("Came to the PanelListAdapter class's constructor ","Myapp ");
     }
 
     @Override
@@ -45,13 +45,21 @@ public class PanelListAdapter extends ArrayAdapter<PanelListItemModel> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Log.w("Came to getView of PanelListAdapter ","Myapp ");
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.panel_list_item, null);
+            convertView = mInflater.inflate(R.layout.left_loggedin_panel_list_item, null);
         }
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((HomeActivity) getContext()).slidingMenu.toggle();
+                ((HomeActivity) getContext()).browseHashTag(panelListItemModels.get(position).getTitle());
+            }
+        });
+
 
 //        Log.w("Came to PanelListAdapter", "Myapp ");
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
