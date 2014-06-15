@@ -1,6 +1,6 @@
 package me.vtag.app.adapters;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,19 +16,19 @@ import me.vtag.app.views.BaseVideoListItemView;
  * Created by nmannem on 30/10/13.
  */
 public class VideoListAdapter extends ArrayAdapter<VideoModel> {
-    private final Activity context;
+    private final Context context;
     private final List<VideoModel> objects;
     private final VtagmeLoaderView mLoaderView;
     protected boolean mFetchingNext;
 
-    public VideoListAdapter(Activity context, int resourceId, List<VideoModel> objects, VtagmeLoaderView loaderView) {
+    public VideoListAdapter(Context context, int resourceId, List<VideoModel> objects, VtagmeLoaderView loaderView) {
         super(context, resourceId, objects);
         this.context = context;
         this.objects = objects;
         mLoaderView = loaderView;
     }
 
-    public VideoListAdapter(Activity context, int resourceId, List<VideoModel> objects) {
+    public VideoListAdapter(Context context, int resourceId, List<VideoModel> objects) {
         super(context, resourceId, objects);
         this.context = context;
         this.objects = objects;

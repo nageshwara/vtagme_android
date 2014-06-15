@@ -30,14 +30,11 @@ public class RightDrawerFragment extends Fragment {
     public RightDrawerFragment() {
     }
 
-    public void new_tag_clicked(BaseTagModel tag) {
+    public void showTagModelContext(BaseTagModel tag) {
         if (getActivity() == null) return;
-
-//        RightPanelViewFragment activeFragment = new RightPanelViewFragment(tag);
         TagContextFragment activeFragment = new TagContextFragment(tag);
-        // update the main content by replacing fragments
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.right_panel_container, activeFragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.right_panel_container, activeFragment).commit();
     }
 
 

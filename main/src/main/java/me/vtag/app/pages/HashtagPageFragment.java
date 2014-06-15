@@ -17,6 +17,7 @@ import java.util.List;
 import ly.apps.android.rest.client.Callback;
 import ly.apps.android.rest.client.Response;
 import me.vtag.app.BasePageFragment;
+import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
 import me.vtag.app.adapters.TagAutoCompleteAdapter;
 import me.vtag.app.adapters.TagBasedVideoListAdapter;
@@ -81,6 +82,7 @@ public class HashtagPageFragment extends BasePageFragment implements
     private void renderVideoList(HashtagModel model) {
         mHashtagModel = model;
         mActiveFragment.renderVideoListAndRelatedTags(new TagBasedVideoListAdapter(mHashtagModel, mSortType, getActivity(), R.layout.videocard, this), mHashtagModel.related);
+        HomeActivity.getRightDrawerFragment().showTagModelContext(mHashtagModel);
     }
 
     @Override

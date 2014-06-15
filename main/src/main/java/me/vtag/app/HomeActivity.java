@@ -44,7 +44,6 @@ public class HomeActivity extends SlidingFragmentActivity
     private static LeftDrawerFragment mLeftDrawerFragment;
     private static RightDrawerFragment mRightDrawerFragment;
 
-    private ProgressDialog progressDialog;
     private SearchView mSearchView;
 
 //

@@ -1,10 +1,15 @@
 package me.vtag.app.pages;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -15,21 +20,29 @@ import me.vtag.app.backend.models.VideoMetaModel;
 import me.vtag.app.backend.models.VideoModel;
 import me.vtag.app.pages.players.BasePlayerFragment;
 import me.vtag.app.pages.players.OnPlayerStateChangedListener;
+import me.vtag.app.pages.players.VtagPlayerFragment;
 import me.vtag.app.pages.players.YoutubePlayerFragment;
+import me.vtag.app.views.QueueFragment;
 import me.vtag.app.views.VideoDetailsFragment;
 
 public class VideoPlayerActivity extends ActionBarActivity {
     private VideoModel mVideoModel;
+
     private SlidingUpPanelLayout mSlidingPanelLayout;
     private BasePlayerFragment mCurrentPlayerFragment;
+    private FrameLayout mPlayerContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+
+        mPlayerContainer = (FrameLayout)findViewById(R.id.player_wrapper);
         mSlidingPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+
+        QueueFragment queueFragment = VtagApplication.getInstance().getQueueFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.video_queue_container, VtagApplication.getInstance().getQueueFragment())
+                .replace(R.id.video_queue_container, queueFragment)
                 .commit();
         Intent i = getIntent();
         playVideo((VideoModel) i.getParcelableExtra("video"));
@@ -51,27 +64,37 @@ public class VideoPlayerActivity extends ActionBarActivity {
 
         mVideoModel = videoModel;
         VideoMetaModel meta = mVideoModel.video;
-        if (meta.type.equals("youtube")) {
-            mCurrentPlayerFragment = new YoutubePlayerFragment(meta, new OnPlayerStateChangedListener() {
-                @Override
-                public void onVideoStarted() {
-                }
-                @Override
-                public void onVideoEnded() {
-                    VtagApplication.getInstance().getQueueFragment().next();
-                }
-                @Override
-                public void onError(String mesg) {
-                    VtagApplication.getInstance().getQueueFragment().next();
-                }
-            });
-        } else {
-            Toast.makeText(this, "Sorry, we dont support " + meta.type + " yet :(", Toast.LENGTH_LONG).show();
-            return;
-        }
-        VideoDetailsFragment detailsFragment = new VideoDetailsFragment(mVideoModel);
+        OnPlayerStateChangedListener listener = new OnPlayerStateChangedListener() {
+            @Override
+            public void onVideoStarted() {
+            }
+            @Override
+            public void onVideoEnded() {
+                VtagApplication.getInstance().getQueueFragment().next();
+            }
+            @Override
+            public void onError(String mesg) {
+                VtagApplication.getInstance().getQueueFragment().next();
+            }
+        };
+
+        Bundle playerArgs = new Bundle();
+        playerArgs.putParcelable("videometa", meta);
+        /*if (!meta.type.equals("youtube")) {
+            mCurrentPlayerFragment = new YoutubePlayerFragment(listener);
+        } else {*/
+            mCurrentPlayerFragment = new VtagPlayerFragment(listener);
+        //}
+        mCurrentPlayerFragment.setArguments(playerArgs);
+
+        Bundle detailsArgs = new Bundle();
+        detailsArgs.putParcelable("video", mVideoModel);
+
+        VideoDetailsFragment detailsFragment = new VideoDetailsFragment();
+        detailsFragment.setArguments(detailsArgs);
+
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_container, mCurrentPlayerFragment)
+                .replace(R.id.movieplayer, mCurrentPlayerFragment)
                 .replace(R.id.video_details_container, detailsFragment)
                 .commit();
 
@@ -84,15 +107,19 @@ public class VideoPlayerActivity extends ActionBarActivity {
         return true;
     }
 
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if(newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+            LinearLayout.LayoutParams parms = (LinearLayout.LayoutParams) mPlayerContainer.getLayoutParams();
+            parms.height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 220, getResources().getDisplayMetrics());;
+            mPlayerContainer.setLayoutParams(parms);
         }
-        return super.onOptionsItemSelected(item);
+        else {
+            LinearLayout.LayoutParams parms = (LinearLayout.LayoutParams) mPlayerContainer.getLayoutParams();
+            parms.height = FrameLayout.LayoutParams.MATCH_PARENT;
+            mPlayerContainer.setLayoutParams(parms);
+        }
     }
 }

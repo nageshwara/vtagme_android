@@ -9,7 +9,7 @@ import android.os.Parcelable;
 public class VideoMetaModel implements Parcelable {
     public String title;
     public String thumb;
-    public String id;
+    public long id;
     public String description;
 
     public int duration;
@@ -23,6 +23,7 @@ public class VideoMetaModel implements Parcelable {
         return 0;
     }
     public void writeToParcel(Parcel out, int flags) {
+        out.writeLong(id);
         out.writeString(type);
         out.writeString(typeid);
 
@@ -46,6 +47,7 @@ public class VideoMetaModel implements Parcelable {
 
     public VideoMetaModel() {}
     private VideoMetaModel(Parcel in) {
+        id = in.readLong();
         type = in.readString();
         typeid = in.readString();
 

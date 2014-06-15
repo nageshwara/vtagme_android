@@ -1,12 +1,14 @@
 package me.vtag.app.views;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.FontAwesomeText;
@@ -18,9 +20,8 @@ import me.vtag.app.adapters.QueueVideoListAdapter;
 import me.vtag.app.adapters.VideoListAdapter;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.VideoModel;
-import me.vtag.app.pages.VideoPlayerActivity;
 
-public class QueueFragment extends Fragment {
+public class QueueView extends LinearLayout {
     private View mMainView;
 
     private TextView mQueueTitle;
@@ -36,30 +37,24 @@ public class QueueFragment extends Fragment {
     private int mIndex;
     private VideoListAdapter mVideoList;
 
-    public QueueFragment() {
-        super();
+    public QueueView(Context context) {
+        super(context);
+        initialize();
+    }
+
+    public QueueView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initialize();
+    }
+
+    public QueueView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        initialize();
+    }
+
+    private void initialize() {
         mIndex = 0;
-    }
-
-    public void setTag(BaseTagModel tagModel) {
-        mTagModel = tagModel;
-        createVideoListAdapter();
-    }
-
-    public void play(VideoModel model) {
-        playAt(mTagModel.videodetails.indexOf(model));
-    }
-    public void next() {
-        playAt(mIndex+1);
-    }
-    public void prev() {
-        playAt(mIndex-1);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        mMainView = inflater.inflate(R.layout.video_queue_fragment, container, false);
+        mMainView = inflate(getContext(), R.layout.video_queue_fragment, this);
         mQueueTitle = (TextView) mMainView.findViewById(R.id.queueTitle);
         mQueueStatus = (TextView) mMainView.findViewById(R.id.queueStatus);
 
@@ -82,25 +77,27 @@ public class QueueFragment extends Fragment {
                 prev();
             }
         });
-        return mMainView;
     }
 
-    public View getDragView() {
-        return mQueueTitle;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle saved) {
-        super.onActivityCreated(saved);
+    public void setTag(BaseTagModel tagModel) {
+        mTagModel = tagModel;
         createVideoListAdapter();
-        refreshUI();
     }
+
+    public void play(VideoModel model) {
+        playAt(mTagModel.videodetails.indexOf(model));
+    }
+    public void next() {
+        playAt(mIndex+1);
+    }
+    public void prev() {
+        playAt(mIndex-1);
+    }
+
 
     private void createVideoListAdapter() {
-        if (getActivity() != null) {
-            mVideoList = new QueueVideoListAdapter(getActivity(), R.layout.videocard, mTagModel.videodetails);
-            mVideoListView.setAdapter(mVideoList);
-        }
+        mVideoList = new QueueVideoListAdapter(getContext(), R.layout.videocard, mTagModel.videodetails);
+        mVideoListView.setAdapter(mVideoList);
     }
 
     private void refreshUI() {
@@ -114,11 +111,11 @@ public class QueueFragment extends Fragment {
         index = (index + videoListLength) % videoListLength;
         VideoModel videoModel = videoModels.get(index);
 
-        if (videoModel == null || getActivity() == null) return;
+        if (videoModel == null || getContext() == null) return;
         mIndex = index;
         // Scroll to the respective list item..
         mVideoListView.smoothScrollToPosition(index);
-        videoModel.play(getActivity());
+        videoModel.play(getContext());
         refreshUI();
     }
 }
