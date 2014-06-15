@@ -129,7 +129,7 @@ public class HashtagPageFragment extends BasePageFragment implements
                     HashtagModel tagModel = hashtagModelResponse.getResult();
                     if (tagModel != null) {
                         CacheManager.getInstance().putHashTagModel(tagId + "_" + mSortType, tagModel);
-                        ((HomeActivity) getActivity()).newTagCalled(tagModel);
+                        //HomeActivity.getRightDrawerFragment().new_tag_clicked(hashtagModel);
                         renderVideoList(tagModel);
                     } else {
                         Toast.makeText(getContext(), "Couldnt get mHashtagModel details!", Toast.LENGTH_SHORT).show();

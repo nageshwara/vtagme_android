@@ -62,7 +62,7 @@ public class HomePageFragment extends BasePageFragment implements VtagmeLoaderVi
                         VtagApplication.getInstance().setRootData(rootData);
                         populateData(rootData);
                     } else {
-                        Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomePageFragment.this.getActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                     hideLoading();
                 }

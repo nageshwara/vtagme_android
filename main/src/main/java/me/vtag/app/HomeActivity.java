@@ -69,10 +69,6 @@ public class HomeActivity extends SlidingFragmentActivity
         browseHomePage();
     }
 
-    public void newTagCalled(HashtagModel hashtagModel) {
-        mRightDrawerFragment.new_tag_clicked(hashtagModel);
-    }
-
     public static final LeftDrawerFragment getLeftDrawerFragment() {
         return mLeftDrawerFragment;
     }

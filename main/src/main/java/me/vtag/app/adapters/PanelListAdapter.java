@@ -71,11 +71,13 @@ public class PanelListAdapter extends ArrayAdapter<PanelListItemModel> {
 
         // displaying count
         // check whether it set visible or not
-        if(panelListItemModels.get(position).getCounterVisibility()){
-            txtCount.setText(panelListItemModels.get(position).getCount());
-        }else{
-            // hide the counter view
-            txtCount.setVisibility(View.GONE);
+        if (txtCount != null) {
+            if (panelListItemModels.get(position).getCounterVisibility()) {
+                txtCount.setText(panelListItemModels.get(position).getCount());
+            } else {
+                // hide the counter view
+                txtCount.setVisibility(View.GONE);
+            }
         }
         return convertView;
     }
