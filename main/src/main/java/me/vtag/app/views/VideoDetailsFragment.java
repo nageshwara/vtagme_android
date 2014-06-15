@@ -25,21 +25,25 @@ public class VideoDetailsFragment extends Fragment {
     private TextView mVideoDesc;
     private RelativeLayout mTagsContainer;
 
-    public VideoDetailsFragment(VideoModel videoModel) {
-        mVideoModel = videoModel;
+    public VideoDetailsFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+
+        mVideoModel = getArguments().getParcelable("video");
+
         mMainView = inflater.inflate(R.layout.fragment_videodetails, container, false);
         mVideoTitle = (TextView) mMainView.findViewById(R.id.videoTitle);
         mVideoDesc = (TextView) mMainView.findViewById(R.id.videoDesc);
         mTagsContainer = (RelativeLayout) mMainView.findViewById(R.id.tagsContainer);
 
-        mVideoTitle.setText(mVideoModel.video.title);
-        mVideoDesc.setText(mVideoModel.video.description);
-        mTagsContainer.removeAllViewsInLayout();
+        if (mVideoModel != null) {
+            mVideoTitle.setText(mVideoModel.video.title);
+            mVideoDesc.setText(mVideoModel.video.description);
+            mTagsContainer.removeAllViewsInLayout();
+        }
 
         return mMainView;
     }

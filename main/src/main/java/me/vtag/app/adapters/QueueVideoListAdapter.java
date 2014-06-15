@@ -1,6 +1,7 @@
 package me.vtag.app.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import me.vtag.app.views.TagBasedVideoListItemView;
  * Created by nmannem on 30/10/13.
  */
 public class QueueVideoListAdapter extends VideoListAdapter {
-    public QueueVideoListAdapter(Activity context, int resourceId, List<VideoModel> objects) {
+    public QueueVideoListAdapter(Context context, int resourceId, List<VideoModel> objects) {
         super(context, resourceId, objects);
     }
 

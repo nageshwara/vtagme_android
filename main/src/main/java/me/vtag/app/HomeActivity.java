@@ -44,19 +44,18 @@ public class HomeActivity extends SlidingFragmentActivity
     private static LeftDrawerFragment mLeftDrawerFragment;
     private static RightDrawerFragment mRightDrawerFragment;
 
-    private ProgressDialog progressDialog;
     private SearchView mSearchView;
-
+    public SlidingMenu slidingMenu;
 //
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        SlidingMenu slidingMenu = getSlidingMenu();
+        slidingMenu = getSlidingMenu();
         slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
         setBehindContentView(R.layout.left_drawer_layout);
-        slidingMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        slidingMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_MARGIN);
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
         slidingMenu.setBehindOffsetRes(R.dimen.navigation_drawer_offset);
         slidingMenu.setShadowWidthRes(R.dimen.navigation_drawer_shadow_width);
@@ -68,6 +67,10 @@ public class HomeActivity extends SlidingFragmentActivity
         mLeftDrawerFragment = (LeftDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer_fragment);
         mRightDrawerFragment = (RightDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_right_drawer_fragment);
         browseHomePage();
+    }
+
+    public void newTagCalled(HashtagModel hashtagModel) {
+        mRightDrawerFragment.new_tag_clicked(hashtagModel);
     }
 
     public static final LeftDrawerFragment getLeftDrawerFragment() {

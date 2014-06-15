@@ -5,5 +5,6 @@ package me.vtag.app.backend.models;
  */
 public class ActivityModel {
     public String verb;
+    public String created_at;
     public ActivityDescribe object;
 }

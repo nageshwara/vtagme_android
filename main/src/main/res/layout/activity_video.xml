@@ -7,28 +7,46 @@
     android:layout_height="match_parent"
     tools:context=".YoutubeVideoActivity">
     <FrameLayout
-        android:id="@+id/activity_container"
+        android:id="@+id/player_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="80dp">
+        android:layout_height="220dp"
+        >
+        <FrameLayout
+            android:id="@+id/movieplayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </FrameLayout>
     </FrameLayout>
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:id="@+id/sliding_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="bottom"
         sothree:panelHeight="48dp"
         sothree:shadowHeight="1dp"
-        sothree:dragView="@+id/video_details_container"
+        sothree:dragView="@+id/dragview"
         >
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/video_details_container"></FrameLayout>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/video_details_container"></FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center|top"
-            android:id="@+id/video_queue_container"></FrameLayout>
+            android:clickable="true">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/video_queue_container"></FrameLayout>
+            <View
+                android:id="@+id/dragview"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginRight="130dp"
+                />
+        </RelativeLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </LinearLayout>

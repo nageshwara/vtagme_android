@@ -24,14 +24,15 @@ public class YoutubePlayerFragment extends BasePlayerFragment {
     private VideoMetaModel meta;
     private YouTubePlayerSupportFragment player;
 
-    public YoutubePlayerFragment(VideoMetaModel meta, OnPlayerStateChangedListener listener) {
+    public YoutubePlayerFragment(OnPlayerStateChangedListener listener) {
         super(listener);
-        this.meta = meta;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        meta = getArguments().getParcelable("videometa");
+
         View rootView = inflater.inflate(R.layout.youtubevideo_fragment, container, false);
         player = YouTubePlayerSupportFragment.newInstance();
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.videoplayer, player).commit();
