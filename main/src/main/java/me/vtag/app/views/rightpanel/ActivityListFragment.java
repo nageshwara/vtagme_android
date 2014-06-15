@@ -34,12 +34,13 @@ public class ActivityListFragment extends Fragment {
         ListView activities_view = (ListView) mActivityList.findViewById(R.id.activities_listview);
         activities_view.setAdapter(new ActivityListAdapter(getActivity(), 0, (java.util.ArrayList<PanelListItemModel>) this.activities));
 
+        /*
         float pixels1 = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
         int pixels = (int) (pixels1+.5f);
         ViewGroup.LayoutParams lp = (ViewGroup.LayoutParams) activities_view.getLayoutParams();
         lp.height = pixels*this.activities.size();
         activities_view.setLayoutParams(lp);
-
+        */
         return mActivityList;
     }
 
@@ -47,6 +48,7 @@ public class ActivityListFragment extends Fragment {
         activities.clear();
         for (ActivityModel i:tag.activity){
             activities.add(new PanelListItemModel("activities", i.object.displayName, 0));
+            activities.add(new PanelListItemModel("date", i.created_at, 0));
         }
     }
 
