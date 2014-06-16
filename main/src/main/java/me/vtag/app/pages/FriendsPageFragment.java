@@ -41,9 +41,6 @@ public class FriendsPageFragment extends Fragment{
         temp.id = "1111";
         temp.name = "Christian Bane";
         temp.pic = "http://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpf1/t1.0-9/1888611_807802405903486_858173511_n.jpg";
-        Log.w("The name is "+temp.name,"Myapp ");
-        followingArrayList.add(temp);
-
 
         mfollowingListView = (ListView) mMainView.findViewById(R.id.FollowingList);
         mfollowingListAdapter = new FriendsListAdapter(getActivity(), 0, followingArrayList);
@@ -61,11 +58,11 @@ public class FriendsPageFragment extends Fragment{
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, r.getDisplayMetrics()) + 0.5f;
 
         ViewGroup.LayoutParams params = mfollowingListView.getLayoutParams();
-        params.height = (int) px;
+        params.height = ((int) px)*followingArrayList.size();
         mfollowingListView.setLayoutParams(params);
 //        listView.requestLayout();
         ViewGroup.LayoutParams params1 = mfollowerListView.getLayoutParams();
-        params.height = (int) px;
+        params.height = ((int) px)*followerArrayList.size();
         mfollowerListView.setLayoutParams(params1);
 
         return mMainView;
