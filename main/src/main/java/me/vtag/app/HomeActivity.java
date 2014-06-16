@@ -56,7 +56,7 @@ public class HomeActivity extends SlidingFragmentActivity
         SlidingMenu slidingMenu = getSlidingMenu();
         slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
         setBehindContentView(R.layout.left_drawer_layout);
-        slidingMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        slidingMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_MARGIN);
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
         slidingMenu.setBehindOffsetRes(R.dimen.navigation_drawer_offset);
         slidingMenu.setShadowWidthRes(R.dimen.navigation_drawer_shadow_width);
@@ -189,4 +189,6 @@ public class HomeActivity extends SlidingFragmentActivity
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+
 }

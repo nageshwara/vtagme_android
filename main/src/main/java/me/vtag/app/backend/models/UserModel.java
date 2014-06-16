@@ -1,5 +1,7 @@
 package me.vtag.app.backend.models;
 
+import me.vtag.app.helpers.StringUtil;
+
 /**
  * Created by nmannem on 30/10/13.
  */

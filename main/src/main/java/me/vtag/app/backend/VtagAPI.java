@@ -9,6 +9,7 @@ import ly.apps.android.rest.client.annotations.Path;
 import ly.apps.android.rest.client.annotations.QueryParam;
 import ly.apps.android.rest.client.annotations.RestService;
 import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.FriendsListModel;
 import me.vtag.app.backend.models.HashtagModel;
 import me.vtag.app.backend.models.PrivatetagModel;
 import me.vtag.app.backend.vos.LoginVO;
@@ -60,4 +61,6 @@ public interface VtagAPI {
     @GET("/publictag/unfollow/{id}")
     void unfollowPublictag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
 
+    @GET("/friends?mobile=true")
+    void getFriendsList(Callback<FriendsListModel> callback);
 }

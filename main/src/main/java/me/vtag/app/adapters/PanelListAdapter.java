@@ -26,7 +26,6 @@ public class PanelListAdapter extends ArrayAdapter<PanelListItemModel> {
         super(context, layoutResourceId, panelListItemModels);
         this.context = context;
         this.panelListItemModels = panelListItemModels;
-        Log.w("Came to the PanelListAdapter class's constructor ","Myapp ");
     }
 
     @Override
@@ -46,7 +45,6 @@ public class PanelListAdapter extends ArrayAdapter<PanelListItemModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.w("Came to getView of PanelListAdapter ","Myapp ");
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);

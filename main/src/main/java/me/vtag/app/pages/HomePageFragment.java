@@ -1,6 +1,7 @@
 package me.vtag.app.pages;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,8 @@ public class HomePageFragment extends BasePageFragment implements VtagmeLoaderVi
                         VtagApplication.getInstance().setRootData(rootData);
                         populateData(rootData);
                     } else {
-                        Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Log.w("Something went wrong!", "Myapp ");
+//                        Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                     hideLoading();
                 }

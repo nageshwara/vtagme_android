@@ -2,10 +2,12 @@ package me.vtag.app.views.leftpanel;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,15 +19,20 @@ import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
 import java.util.List;
 
+import ly.apps.android.rest.client.Callback;
+import ly.apps.android.rest.client.Response;
 import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
 import me.vtag.app.adapters.PanelListAdapter;
+import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.FriendsListModel;
 import me.vtag.app.backend.models.HashtagModel;
 import me.vtag.app.backend.models.PrivatetagModel;
 import me.vtag.app.backend.models.PublictagModel;
 import me.vtag.app.backend.models.UserModel;
 import me.vtag.app.backend.models.PanelListItemModel;
+import me.vtag.app.pages.FriendsPageFragment;
 
 public class LoggedInFragment extends Fragment {
     private ArrayList<PanelListItemModel> privateTagListItemModels = new ArrayList<>();
@@ -44,6 +51,7 @@ public class LoggedInFragment extends Fragment {
     private TextView mProfileName;
 
     private View friendsItem;
+    private FriendsPageFragment friendsPageFragment = new FriendsPageFragment();
     public LoggedInFragment() {
     }
 
@@ -104,6 +112,17 @@ public class LoggedInFragment extends Fragment {
 
         mProfileImage = (ImageView) mMainView.findViewById(R.id.profile_image);
         mProfileName = (TextView) mMainView.findViewById(R.id.profile_name);
+
+        Button friends_title = (Button) mMainView.findViewById(R.id.friends_title);
+        friendsPageFragment.addFriendsArrayList();
+        friends_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((HomeActivity) getActivity()).getSlidingMenu().toggle();
+                ((HomeActivity) getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.container, friendsPageFragment).addToBackStack(null).commit();
+            }
+        });
+
         return mMainView;
     }
 
