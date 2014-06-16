@@ -14,7 +14,6 @@ import com.beardedhen.androidbootstrap.FontAwesomeText;
 import me.vtag.app.R;
 import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.CacheManager;
-import me.vtag.app.backend.models.HashtagModel;
 
 /**
  * Created by anuraag on 20/5/14.
@@ -56,7 +55,7 @@ public class TagContextFragment extends Fragment {
 
         if (tagModel != null) {
             ActivityListFragment activityListFragment = new ActivityListFragment();
-            activityListFragment.AddActivityTags(tagModel);
+            activityListFragment.addActivityTags(tagModel);
 
             mTagTitle.setText("#" + tagModel.tag);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

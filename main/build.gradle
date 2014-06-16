@@ -30,6 +30,7 @@ android {
         targetSdkVersion 19
         versionCode 1
         versionName '1.0'
+        applicationId 'me.vtag.app'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -37,11 +38,11 @@ android {
     }
 
     signingConfigs {
-        myConfig {
-            storeFile file("android_keystore.jks")
-            storePassword "iiit123"
-            keyAlias "vtag android"
-            keyPassword "iiit123"
+        release {
+            storeFile file('android_keystore.jks')
+            storePassword 'iiit123'
+            keyAlias 'vtag android'
+            keyPassword 'iiit123'
         }
     }
 
@@ -49,14 +50,16 @@ android {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
-
         assembleRelease {
             debuggable false
             jniDebugBuild false
-            runProguard true
+            runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.myConfig
+            renderscriptDebugBuild false
+            applicationIdSuffix 'me.vtag.app'
+            signingConfig signingConfigs.release
         }
     }
     productFlavors {

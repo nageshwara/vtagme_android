@@ -44,9 +44,10 @@ public class ActivityListFragment extends Fragment {
         return mActivityList;
     }
 
-    public void AddActivityTags(BaseTagModel tag) {
+    public void addActivityTags(BaseTagModel tag) {
         activities.clear();
-        for (ActivityModel i:tag.activity){
+        if (tag.activity == null) return;
+        for (ActivityModel i: tag.activity ){
             activities.add(new PanelListItemModel("activities", i.object.displayName, 0));
             activities.add(new PanelListItemModel("date", i.created_at, 0));
         }
