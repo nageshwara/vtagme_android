@@ -35,8 +35,10 @@ public class HashtagPageFragment extends BasePageFragment implements
         HashtagModel.OnSortChangeListener,
         TokenCompleteTextView.TokenListener,
         HashtagModel.OnTagsModifiedListener {
+
     private List<String> mTags;
-    TagsCompletionView completionView;
+    private String mTagCacheId;
+    private TagsCompletionView completionView;
 
     private String mSortType;
     private HashtagModel mHashtagModel;
@@ -82,7 +84,7 @@ public class HashtagPageFragment extends BasePageFragment implements
     private void renderVideoList(HashtagModel model) {
         mHashtagModel = model;
         mActiveFragment.renderVideoListAndRelatedTags(new TagBasedVideoListAdapter(mHashtagModel, mSortType, getActivity(), R.layout.videocard, this), mHashtagModel.related);
-        HomeActivity.getRightDrawerFragment().showTagModelContext(mHashtagModel);
+        HomeActivity.getRightDrawerFragment().showTagModelContext(mTagCacheId, HashtagModel.TYPE);
     }
 
     @Override
@@ -119,7 +121,8 @@ public class HashtagPageFragment extends BasePageFragment implements
 
     private void fetchTagModel() {
         final String tagId = TextUtils.join(",", mTags);
-        HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(tagId + "_" + mSortType);
+        mTagCacheId = tagId + "_" + mSortType;
+        HashtagModel tagModel = CacheManager.getInstance().getHashTagModel(mTagCacheId);
         if (tagModel == null) {
             showLoading();
             VtagClient.getAPI().getTagDetails(tagId, mSortType, new Callback<HashtagModel>() {
@@ -128,7 +131,7 @@ public class HashtagPageFragment extends BasePageFragment implements
                     hideLoading();
                     HashtagModel tagModel = hashtagModelResponse.getResult();
                     if (tagModel != null) {
-                        CacheManager.getInstance().putHashTagModel(tagId + "_" + mSortType, tagModel);
+                        CacheManager.getInstance().putHashTagModel(mTagCacheId, tagModel);
                         //HomeActivity.getRightDrawerFragment().new_tag_clicked(hashtagModel);
                         renderVideoList(tagModel);
                     } else {

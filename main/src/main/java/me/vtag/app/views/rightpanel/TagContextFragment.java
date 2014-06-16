@@ -13,6 +13,8 @@ import com.beardedhen.androidbootstrap.FontAwesomeText;
 
 import me.vtag.app.R;
 import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.CacheManager;
+import me.vtag.app.backend.models.HashtagModel;
 
 /**
  * Created by anuraag on 20/5/14.
@@ -22,11 +24,9 @@ public class TagContextFragment extends Fragment {
     private View mtagContextView;
     private TextView mTagTitle;
     private FontAwesomeText mCloseButton;
-
     private BaseTagModel tagModel;
 
-    public TagContextFragment(BaseTagModel tagModel){
-        this.tagModel = tagModel;
+    public TagContextFragment(){
     }
 
     @Override
@@ -44,13 +44,25 @@ public class TagContextFragment extends Fragment {
             }
         });
 
-        ActivityListFragment activityListFragment = new ActivityListFragment();
-        activityListFragment.AddActivityTags(this.tagModel);
+        Bundle args = getArguments();
+        String tagCacheId = args.getString("tagCacheId");
+        int tagType = args.getInt("tagType");
 
-        mTagTitle.setText("#" + tagModel.tag);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.activities_list_framelayout, activityListFragment)
-                .commit();
+        if (tagType == 0 || tagType == 1) {
+            tagModel = CacheManager.getInstance().getHashTagModel(tagCacheId);
+        } else if (tagType == 2) {
+            tagModel = CacheManager.getInstance().getPrivateTagModel(tagCacheId);
+        }
+
+        if (tagModel != null) {
+            ActivityListFragment activityListFragment = new ActivityListFragment();
+            activityListFragment.AddActivityTags(tagModel);
+
+            mTagTitle.setText("#" + tagModel.tag);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.activities_list_framelayout, activityListFragment)
+                    .commit();
+        }
         return mtagContextView;
     }
 }

@@ -24,8 +24,8 @@ public class VtagPlayerFragment extends BasePlayerFragment {
     private VideoMetaModel meta;
     private WebView mWebView;
 
-    public VtagPlayerFragment(OnPlayerStateChangedListener listener) {
-        super(listener);
+    public VtagPlayerFragment() {
+        super();
     }
 
     @Override

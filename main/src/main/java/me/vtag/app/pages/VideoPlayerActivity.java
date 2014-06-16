@@ -64,26 +64,13 @@ public class VideoPlayerActivity extends ActionBarActivity {
 
         mVideoModel = videoModel;
         VideoMetaModel meta = mVideoModel.video;
-        OnPlayerStateChangedListener listener = new OnPlayerStateChangedListener() {
-            @Override
-            public void onVideoStarted() {
-            }
-            @Override
-            public void onVideoEnded() {
-                VtagApplication.getInstance().getQueueFragment().next();
-            }
-            @Override
-            public void onError(String mesg) {
-                VtagApplication.getInstance().getQueueFragment().next();
-            }
-        };
 
         Bundle playerArgs = new Bundle();
         playerArgs.putParcelable("videometa", meta);
         /*if (!meta.type.equals("youtube")) {
-            mCurrentPlayerFragment = new YoutubePlayerFragment(listener);
+            mCurrentPlayerFragment = new YoutubePlayerFragment();
         } else {*/
-            mCurrentPlayerFragment = new VtagPlayerFragment(listener);
+            mCurrentPlayerFragment = new VtagPlayerFragment();
         //}
         mCurrentPlayerFragment.setArguments(playerArgs);
 
@@ -98,6 +85,26 @@ public class VideoPlayerActivity extends ActionBarActivity {
                 .replace(R.id.video_details_container, detailsFragment)
                 .commit();
 
+    }
+
+    private OnPlayerStateChangedListener mOnPlayerStateChangedListener = null;
+    public OnPlayerStateChangedListener getPlayerStateChangeListener() {
+        if (mOnPlayerStateChangedListener == null) {
+            mOnPlayerStateChangedListener = new OnPlayerStateChangedListener() {
+                @Override
+                public void onVideoStarted() {
+                }
+                @Override
+                public void onVideoEnded() {
+                    VtagApplication.getInstance().getQueueFragment().next();
+                }
+                @Override
+                public void onError(String mesg) {
+                    VtagApplication.getInstance().getQueueFragment().next();
+                }
+            };
+        }
+        return mOnPlayerStateChangedListener;
     }
 
     @Override

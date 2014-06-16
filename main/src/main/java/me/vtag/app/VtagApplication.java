@@ -65,9 +65,8 @@ public class VtagApplication extends Application {
         mRootData = rootData;
         if (mRootData.user == null) {
             authPreferences.setUser(null, null); // Next time shows login page.
-            HomeActivity.getLeftDrawerFragment().setLoggedIn(mRootData.user, rootData);
+            //HomeActivity.getLeftDrawerFragment().setLoggedIn(mRootData.user, rootData);
         } else {
-            Log.w("User is logged in","Myapp ");
             HomeActivity.getLeftDrawerFragment().setLoggedIn(mRootData.user, rootData);
             // Store private and public tags in LRU cache..
             for (PrivatetagModel tagModel : mRootData.privatetags) {

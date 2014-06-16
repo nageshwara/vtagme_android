@@ -20,15 +20,7 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import ly.apps.android.rest.client.Callback;
-import ly.apps.android.rest.client.Response;
-import me.vtag.app.backend.VtagClient;
 import me.vtag.app.backend.models.HashtagModel;
-import me.vtag.app.backend.models.PrivatetagModel;
-import me.vtag.app.backend.vos.RootVO;
-import me.vtag.app.backend.models.CacheManager;
-import me.vtag.app.helpers.VtagmeLoaderView;
-import me.vtag.app.pages.HashtagsPageFragment;
 import me.vtag.app.pages.HashtagPageFragment;
 import me.vtag.app.pages.HomePageFragment;
 import me.vtag.app.pages.PrivatetagPageFragment;

@@ -51,7 +51,11 @@ public class LoginActivity extends ActionBarActivity {
 
     private void showSignupPage(String email, String username) {
         // Now show list of tags.
-        FinishSignupPageFragment signupPageFragment = new FinishSignupPageFragment(email, username);
+        FinishSignupPageFragment signupPageFragment = new FinishSignupPageFragment();
+        Bundle args = new Bundle();
+        args.putString(FinishSignupPageFragment.EMAIL_TEXT, email);
+        args.putString(FinishSignupPageFragment.USERNAME_TEXT, username);
+        signupPageFragment.setArguments(args);
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

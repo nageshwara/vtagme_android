@@ -10,4 +10,5 @@ import me.vtag.app.helpers.VtagmeCallback;
  * Created by nageswara on 5/27/14.
  */
 public class PrivatetagModel extends BaseTagModel {
+    public static final int TYPE = 2;
 }

@@ -10,6 +10,7 @@ import me.vtag.app.helpers.VtagmeCallback;
  * Created by nageswara on 5/27/14.
  */
 public class PublictagModel extends BaseTagModel {
+    public static final int TYPE = 3;
     public long[] followers;
     public void follow(final VtagmeCallback callback) {
         if (!following) {

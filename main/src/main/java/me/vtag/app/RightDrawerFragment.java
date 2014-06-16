@@ -1,17 +1,9 @@
 package me.vtag.app;
 
 import android.support.v4.app.FragmentManager;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,24 +11,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.vtag.app.backend.models.BaseTagModel;
-import me.vtag.app.views.RightPanelViewFragment;
 import me.vtag.app.views.rightpanel.TagContextFragment;
-
-import me.vtag.app.backend.models.PanelListItemModel;
 
 public class RightDrawerFragment extends Fragment {
     private View mRightPanelContainerView;
     public RightDrawerFragment() {
     }
 
-    public void showTagModelContext(BaseTagModel tag) {
+    public void showTagModelContext(String tagCacheId, int type) {
         if (getActivity() == null) return;
-        TagContextFragment activeFragment = new TagContextFragment(tag);
+        Bundle args = new Bundle();
+        args.putString("tagCacheId", tagCacheId);
+        args.putInt("tagType", type);
+
+        TagContextFragment activeFragment = new TagContextFragment();
+        activeFragment.setArguments(args);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.right_panel_container, activeFragment).commit();
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

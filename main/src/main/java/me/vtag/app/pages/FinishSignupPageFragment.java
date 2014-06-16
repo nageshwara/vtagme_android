@@ -36,9 +36,10 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
     private String email_text;
     private String username_text;
 
-    public FinishSignupPageFragment(String email_text, String username_text) {
-        this.email_text = email_text;
-        this.username_text = username_text;
+    public FinishSignupPageFragment() {
+        super();
+        this.email_text = null;
+        this.username_text = null;
     }
 
     @Override
@@ -54,19 +55,20 @@ public class FinishSignupPageFragment extends BasePageFragment implements View.O
         username = (EditText)rootView.findViewById(R.id.username_input);
         password = (EditText)rootView.findViewById(R.id.password_input);
 
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(EMAIL_TEXT)) {
-                email_text = savedInstanceState.getString(EMAIL_TEXT);
-            }
-            if (savedInstanceState.containsKey(USERNAME_TEXT)) {
-                username_text = savedInstanceState.getString(USERNAME_TEXT);
-            }
+        if (savedInstanceState == null) {
+            savedInstanceState = getArguments();
+        }
+
+        if (savedInstanceState.containsKey(EMAIL_TEXT)) {
+            email_text = savedInstanceState.getString(EMAIL_TEXT);
+        }
+        if (savedInstanceState.containsKey(USERNAME_TEXT)) {
+            username_text = savedInstanceState.getString(USERNAME_TEXT);
         }
 
         if (email_text != null) {
             email.setText(email_text);
         }
-
         if (username_text != null) {
             username.setText(username_text);
         }

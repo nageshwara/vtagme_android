@@ -24,8 +24,7 @@ public class YoutubePlayerFragment extends BasePlayerFragment {
     private VideoMetaModel meta;
     private YouTubePlayerSupportFragment player;
 
-    public YoutubePlayerFragment(OnPlayerStateChangedListener listener) {
-        super(listener);
+    public YoutubePlayerFragment() {
     }
 
     @Override
