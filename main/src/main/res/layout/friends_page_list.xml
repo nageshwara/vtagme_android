@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontawesometext:fa_icon="fa-tags"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/friends_following"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="Following"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="18dp" />
+    </RelativeLayout>
 <ListView
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:id="@+id/FollowingList"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontawesometext:fa_icon="fa-tags"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/friends_followers"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="Followers"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="18dp" />
+    </RelativeLayout>
 <ListView
         android:layout_width="match_parent"
         android:layout_height="70dp"
