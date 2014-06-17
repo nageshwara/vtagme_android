@@ -38,7 +38,7 @@ public class FriendsPageFragment extends Fragment{
         mMainView = inflater.inflate(R.layout.friends_page_list,container,false);
 
         UserModel temp = new UserModel();
-        temp.id = "1111";
+        temp.id = "111";
         temp.name = "Christian Bane";
         temp.pic = "http://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpf1/t1.0-9/1888611_807802405903486_858173511_n.jpg";
 
@@ -50,20 +50,20 @@ public class FriendsPageFragment extends Fragment{
         mfollowerListAdapter = new FriendsListAdapter(getActivity(), 0, followerArrayList);
         mfollowerListView.setAdapter(mfollowerListAdapter);
 
-//        setListViewHeightBasedOnChildren(mfollowerListView);
-//        setListViewHeightBasedOnChildren(mfollowingListView);
-//        addFriendsArrayList();
-
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, r.getDisplayMetrics()) + 0.5f;
 
         ViewGroup.LayoutParams params = mfollowingListView.getLayoutParams();
         params.height = ((int) px)*followingArrayList.size();
         mfollowingListView.setLayoutParams(params);
-//        listView.requestLayout();
+
         ViewGroup.LayoutParams params1 = mfollowerListView.getLayoutParams();
-        params.height = ((int) px)*followerArrayList.size();
+        params1.height = ((int) px)*followerArrayList.size();
         mfollowerListView.setLayoutParams(params1);
+
+//        setListViewHeightBasedOnChildren(mfollowerListView);
+//        setListViewHeightBasedOnChildren(mfollowingListView);
+//        addFriendsArrayList();
 
         return mMainView;
     }
@@ -81,49 +81,43 @@ public class FriendsPageFragment extends Fragment{
         for (int i = 0; i < listAdapter.getCount(); i++) {
             View listItem = listAdapter.getView(i, null, listView);
 //            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            Log.w("SSSSIIIIIIIIIIZEEEE "+Float.toString(listItem.getMeasuredHeight()),"Myapp ");
             totalHeight += listItem.getMeasuredHeight();
-            Log.w("SIze"+Integer.toString(listItem.getMeasuredHeight()),"Myapp ");
         }
-/*
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-*/
     }
 
     public void addFriendsArrayList() {
-        Log.w("addFriendsArrayList","Myapp ");
 
         VtagClient.getAPI().getFriendsList(new Callback<FriendsListModel>() {
             @Override
             public void onResponse(Response<FriendsListModel> hashtagModelResponse) {
                 FriendsListModel tagModel11 = hashtagModelResponse.getResult();
+                int count = 0;
                 for (RelationDetails i : tagModel11.followers) {
                     UserModel temp = new UserModel();
                     temp.id = i.id;
                     temp.name = i.username;
                     temp.pic = i.pic;
-                    Log.w("The name is "+temp.name,"Myapp ");
                     followerArrayList.add(temp);
+                    count++;
                 }
+                count = 0;
+
                 for (RelationDetails i : tagModel11.following) {
                     UserModel temp = new UserModel();
                     temp.id = i.id;
                     temp.name = i.username;
                     temp.pic = i.pic;
-                    Log.w("The name is "+temp.name,"Myapp ");
                     followingArrayList.add(temp);
+                    count++;
                 }
-/*
+
+                /*
                 mfollowerListAdapter.clear();
                 mfollowerListAdapter.addAll(followerArrayList);
 
                 mfollowingListAdapter.clear();
                 mfollowingListAdapter.addAll(followingArrayList);
-*/
-
+                */
             }
         });
 
