@@ -31,9 +31,9 @@
     <color name="counter_text_color">#FFFFFF</color>
     <color name="black_overlay">#66000000</color>
 
-    <color name="vtag_blue">#FF4080D0</color>
+    <color name="vtag_blue">#FF4686DA</color>
     <color name="vtag_red">#FFC04030</color>
 
-    <color name="white_half_transparent">#66FFFFFF</color>
+    <color name="white_half_transparent">#40FFFFFF</color>
 
 </resources>

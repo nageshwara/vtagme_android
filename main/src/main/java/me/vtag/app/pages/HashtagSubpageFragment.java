@@ -68,7 +68,7 @@ public class HashtagSubpageFragment extends ListFragment {
                 recentSorter.setBootstrapType("default");
                 popularSorter.setBootstrapType("default");
                 mineSorter.setBootstrapType("default");
-                button.setBootstrapType("success");
+                button.setBootstrapType("danger");
             }
         };
 

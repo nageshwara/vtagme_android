@@ -4,7 +4,6 @@
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
     <me.vtag.app.views.QuickReturnListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -16,18 +15,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sticky"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
         <me.vtag.app.views.RelatedTagsHListView
             android:id="@+id/relatedTags"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
             app:hlv_dividerWidth="4dp"
-            android:background="@color/white"
-            android:layout_margin="2dp" />
-
+            app:hlv_overScrollHeader="@color/vtag_red"
+            app:hlv_overScrollFooter="@color/vtag_red"
+            android:background="@color/lightgray"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,28 +37,31 @@
                 android:layout_height="wrap_content"
                 android:text="Recent"
                 android:id="@+id/recent_sorter"
-                bootstrapbutton:bb_type="success"
+                bootstrapbutton:bb_roundedCorners="true"
+                bootstrapbutton:bb_type="danger"
                 android:layout_weight="3"
-                android:paddingLeft="1dp"
-                android:paddingRight="1dp" />
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp" />
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Popular"
                 android:id="@+id/popular_sorter"
+                bootstrapbutton:bb_roundedCorners="true"
                 bootstrapbutton:bb_type="default"
                 android:layout_weight="3"
-                android:paddingLeft="1dp"
-                android:paddingRight="1dp" />
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp" />
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Videos"
                 android:id="@+id/mine_sorter"
+                bootstrapbutton:bb_roundedCorners="true"
                 bootstrapbutton:bb_type="default"
                 android:layout_weight="3"
-                android:paddingLeft="1dp"
-                android:paddingRight="1dp" />
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

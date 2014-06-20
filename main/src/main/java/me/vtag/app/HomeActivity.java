@@ -51,7 +51,7 @@ public class HomeActivity extends SlidingFragmentActivity
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
         slidingMenu.setBehindOffsetRes(R.dimen.navigation_drawer_offset);
         slidingMenu.setShadowWidthRes(R.dimen.navigation_drawer_shadow_width);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.activity_home);
         slidingMenu.setSecondaryMenu(R.layout.right_drawer_layout);
