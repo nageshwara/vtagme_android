@@ -9,6 +9,7 @@ import ly.apps.android.rest.client.annotations.Path;
 import ly.apps.android.rest.client.annotations.QueryParam;
 import ly.apps.android.rest.client.annotations.RestService;
 import me.vtag.app.backend.models.BaseTagModel;
+import me.vtag.app.backend.models.GetgoofModel;
 import me.vtag.app.backend.models.HashtagModel;
 import me.vtag.app.backend.models.PrivatetagModel;
 import me.vtag.app.backend.vos.LoginVO;
@@ -60,4 +61,9 @@ public interface VtagAPI {
     @GET("/publictag/unfollow/{id}")
     void unfollowPublictag(@Path("id") String id, @QueryParam("userid") String userid, Callback<String> callback);
 
+    @GET("/getgoof/{id}")
+    void getComments(@Path("id") String id, Callback<GetgoofModel> callback);
+
+    @GET("/goof/{id}/add")
+    void addComments(@Path("id") String id, @QueryParam("comment") String comment, @QueryParam("time") String time, @QueryParam("shapes") String shapes, Callback<String> callback);
 }

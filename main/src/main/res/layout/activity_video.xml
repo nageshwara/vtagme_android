@@ -37,10 +37,14 @@
             android:layout_height="match_parent"
             android:gravity="center|top"
             android:clickable="true">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/video_queue_container"></FrameLayout>
+                android:id="@+id/video_queue_comments_container"></FrameLayout>
+            </ScrollView>
             <View
                 android:id="@+id/dragview"
                 android:layout_width="match_parent"
