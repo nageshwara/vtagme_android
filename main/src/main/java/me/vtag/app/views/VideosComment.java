@@ -70,18 +70,14 @@ public class VideosComment extends Fragment {
     }
 
     public void fetchComments(String Videoid) {
-        Log.w("fetchComments", "Myapp ");
         VtagClient.getAPI().getComments(Videoid, new Callback<GetgoofModel>() {
             @Override
             public void onResponse(Response<GetgoofModel> hashtagModelResponse) {
                 GetgoofModel tagModel = hashtagModelResponse.getResult();
-                Log.w("this "+hashtagModelResponse.getResult().toString(),"Myapp ");
                 commentslist = tagModel.video.goofs;
-                Log.w("fetchcomments values "+commentslist.get(0).c,"Myapp ");
                 mCommentsListAdapter.clear();
                 mCommentsListAdapter.addAll(commentslist);
                 mCommentsListAdapter.notifyDataSetChanged();
-                Log.w("Came yesterday :(","Myapp ");
 
                 ViewGroup.LayoutParams params = mCommentsListView.getLayoutParams();
                 params.height = ((int) px)*mCommentsListAdapter.getCount();
