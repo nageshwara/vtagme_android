@@ -3,6 +3,7 @@ package me.vtag.app.pages;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class HashtagPageFragment extends BasePageFragment implements
 
     private List<String> mTags;
     private String mTagCacheId;
-    private TagsCompletionView completionView;
+    public TagsCompletionView completionView;
 
     private String mSortType;
     private HashtagModel mHashtagModel;
@@ -65,7 +66,6 @@ public class HashtagPageFragment extends BasePageFragment implements
         fragmentManager.beginTransaction().replace(R.id.tag_details_container, mActiveFragment).commit();
         mActiveFragment.setTagAndSortChangeListener(this, this);
 
-
         completionView = (TagsCompletionView) rootView.findViewById(R.id.tagInputView);
         //here is your list array
         Bundle bundle = getArguments();
@@ -75,8 +75,11 @@ public class HashtagPageFragment extends BasePageFragment implements
             completionView.addObject(tag);
         }
 
-        completionView.setAdapter(new TagAutoCompleteAdapter(getActivity(), R.layout.auto_completion_string_item));
+        completionView.setAdapter(new TagAutoCompleteAdapter(getActivity(), R.layout.auto_completion_string_item,this));
         completionView.setTokenListener(this);
+
+        Log.w(""+completionView.getText().toString(),"Myapp ");
+
         return rootView;
     }
 
@@ -89,6 +92,7 @@ public class HashtagPageFragment extends BasePageFragment implements
 
     @Override
     public void onTokenAdded(Object token) {
+        Log.w("Process added","Myapp ");
         processAdded((String) token);
     }
 
@@ -108,8 +112,10 @@ public class HashtagPageFragment extends BasePageFragment implements
     }
 
     private void processAdded(String tag) {
-        mTags.add(tag);
-        fetchTagModel();
+        if(tag != null) {
+            mTags.add(tag);
+            fetchTagModel();
+        }
     }
 
     private void processRemoved(String tag) {

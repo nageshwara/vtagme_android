@@ -66,4 +66,7 @@ public interface VtagAPI {
 
     @GET("/goof/{id}/add")
     void addComments(@Path("id") String id, @QueryParam("comment") String comment, @QueryParam("time") String time, @QueryParam("shapes") String shapes, Callback<String> callback);
+
+    @GET("/tagsearch/tam")
+    void getTagSuggestion(Callback<String[]> callback);
 }
