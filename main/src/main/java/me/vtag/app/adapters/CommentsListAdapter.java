@@ -66,6 +66,7 @@ public class CommentsListAdapter extends ArrayAdapter<CommentsDescribeModel> {
         Picasso.with(this.getContext()).load("http://lh6.googleusercontent.com/-zL2hGAaDwmU/AAAAAAAAAAI/AAAAAAAB1uE/0DFjl0Aqotw/s120-c/photo.jpg")
                 .into(imgIcon);
 
+        Log.w("THe height of gajira "+Float.toString(convertView.getHeight()),"Myapp ");
 
         return convertView;
     }

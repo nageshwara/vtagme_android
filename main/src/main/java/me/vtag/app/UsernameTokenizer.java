@@ -26,11 +26,11 @@ public class UsernameTokenizer implements MultiAutoCompleteTextView.Tokenizer {
     @Override public int findTokenStart(CharSequence text, int cursor) {
         int i = cursor;
         Log.w("findTokenStart", "Myapp ");
-        while (i > 0 && text.charAt(i - 1) != '@') {
+        while (i > 0 && text.charAt(i - 1) != '#') {
             i--;
         }
 
-        if (i < 1 || text.charAt(i - 1) != '@') {
+        if (i < 1 || text.charAt(i - 1) != '#') {
             return cursor;
         }
 
