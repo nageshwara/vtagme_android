@@ -19,6 +19,7 @@
         android:layout_height="90dp">
 
         <TextView
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Apple"
@@ -26,8 +27,32 @@
             android:textSize="60dp"
             android:textIsSelectable="false" />
         </LinearLayout>
+
     <Button
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:id="@+id/follow"
+        android:text="Follow"/>
+
+    <FrameLayout
+        android:id="@+id/friends_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        />
+
+    <!--
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/followers"
         android:text="Followers"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/following"
+        android:text="Following"/>
+
+-->
 </LinearLayout>

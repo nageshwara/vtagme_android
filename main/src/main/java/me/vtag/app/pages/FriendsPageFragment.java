@@ -38,17 +38,14 @@ public class FriendsPageFragment extends Fragment{
         mMainView = inflater.inflate(R.layout.friends_page_list,container,false);
 
         UserModel temp = new UserModel();
-        temp.id = "111";
-        temp.name = "Christian Bane";
-        temp.pic = "http://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpf1/t1.0-9/1888611_807802405903486_858173511_n.jpg";
 
         mfollowingListView = (ListView) mMainView.findViewById(R.id.FollowingList);
-        mfollowingListAdapter = new FriendsListAdapter(getActivity(), 0, followingArrayList);
+        mfollowingListAdapter = new FriendsListAdapter(getActivity(), 0, followingArrayList, followingArrayList);
         mfollowingListView.setAdapter(mfollowingListAdapter);
 
         mfollowerListView = (ListView) mMainView.findViewById(R.id.FollowerList);
-        mfollowerListAdapter = new FriendsListAdapter(getActivity(), 0, followerArrayList);
-        mfollowerListView.setAdapter(mfollowerListAdapter);
+        mfollowerListAdapter = new FriendsListAdapter(getActivity(), 0, followerArrayList, followingArrayList);
+            mfollowerListView.setAdapter(mfollowerListAdapter);
 
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, r.getDisplayMetrics()) + 0.5f;
@@ -96,7 +93,7 @@ public class FriendsPageFragment extends Fragment{
                     UserModel temp = new UserModel();
                     temp.id = i.id;
                     temp.name = i.username;
-                    temp.pic = i.pic;
+                    temp.pic = "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xfa1/t1.0-9/1501697_10154020611835165_1705118862_n.jpg"; //i.pic;
                     followerArrayList.add(temp);
                     count++;
                 }
@@ -106,7 +103,7 @@ public class FriendsPageFragment extends Fragment{
                     UserModel temp = new UserModel();
                     temp.id = i.id;
                     temp.name = i.username;
-                    temp.pic = i.pic;
+                    temp.pic = "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xfa1/t1.0-9/1501697_10154020611835165_1705118862_n.jpg"; //i.pic;
                     followingArrayList.add(temp);
                     count++;
                 }

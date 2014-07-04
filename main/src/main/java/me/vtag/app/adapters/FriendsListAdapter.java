@@ -26,12 +26,14 @@ import me.vtag.app.pages.UserPageFragment;
 public class FriendsListAdapter extends ArrayAdapter<UserModel> {
     private Context context;
     private ArrayList<UserModel> usermodels;
+    private ArrayList<UserModel> followingusermodels;
     private UserPageFragment mUserPageFragment = new UserPageFragment();
 
-    public FriendsListAdapter(Context context, int layoutResourceId, ArrayList<UserModel> usermodels){
+    public FriendsListAdapter(Context context, int layoutResourceId, ArrayList<UserModel> usermodels, ArrayList<UserModel> followingusermodels){
         super(context, layoutResourceId, usermodels);
         this.context = context;
         this.usermodels = usermodels;
+        this.followingusermodels = followingusermodels;
     }
 
     @Override
@@ -55,7 +57,7 @@ public class FriendsListAdapter extends ArrayAdapter<UserModel> {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.panel_list_item, null);
+            convertView = mInflater.inflate(R.layout.users_list, null);
         }
 
 //        Log.w("Came to PanelListAdapter", "Myapp ");
@@ -67,9 +69,7 @@ public class FriendsListAdapter extends ArrayAdapter<UserModel> {
 
         //imgIcon.setImageResource(usermodels.get(position).getIcon());
         if (usermodels.get(position).pic != null) {
-            Log.w("Pic "+usermodels.get(position).pic, "Myapp ");
             Picasso.with(this.getContext()).load(usermodels.get(position).pic)
-                    .fit().centerCrop()
                     .into(imgIcon);
         }
 
@@ -78,7 +78,7 @@ public class FriendsListAdapter extends ArrayAdapter<UserModel> {
             @Override
             public void onClick(View view) {
                 Log.w("You clicked this user","Myapp ");
-                mUserPageFragment.addUser(usermodels.get(position));
+                mUserPageFragment.addUser(usermodels.get(position),followingusermodels);
                 ((HomeActivity) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.container, mUserPageFragment).addToBackStack(null).commit();
             }
         });

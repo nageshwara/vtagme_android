@@ -34,7 +34,7 @@ public class HashtagModel extends BaseTagModel {
         }
     }
 
-    public void unfollow(final VtagmeCallback callback) {
+    public void unfollow(final VtagmeCallback callback  ) {
         if (following) {
             VtagClient.getAPI().unfollowTag(tag, VtagApplication.getInstance().authPreferences.getUser(), new Callback<String>() {
                 @Override

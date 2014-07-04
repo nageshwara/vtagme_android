@@ -63,4 +63,10 @@ public interface VtagAPI {
 
     @GET("/friends?mobile=true")
     void getFriendsList(Callback<FriendsListModel> callback);
+
+    @GET("/user/follow/{id}")
+    void followUser(@Path("id") String id, Callback<String> callback);
+
+    @GET("/user/unfollow/{id}")
+    void unfollowUser(@Path("id") String id, Callback<String> callback);
 }
