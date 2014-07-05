@@ -18,6 +18,7 @@ public class VideoMetaModel implements Parcelable {
 
     public String typeid;
     public String type;
+    public String created_at;
 
     public int describeContents() {
         return 0;

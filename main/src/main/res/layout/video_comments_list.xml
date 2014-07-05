@@ -6,34 +6,9 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="false">
-        <com.beardedhen.androidbootstrap.FontAwesomeText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fontawesometext:fa_icon="fa-rss"
-            android:textSize="24sp"
-            android:textColor="@color/black"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="5dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_alignParentTop="true"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:text="Comments"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp" />
-    </RelativeLayout>
 
     <MultiAutoCompleteTextView
         android:paddingBottom="10dp"
-        android:paddingTop="10dp"
         android:id="@+id/multiAutoCompleteTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -42,26 +17,6 @@
         android:ems="10" >
     </MultiAutoCompleteTextView>
 
-    <!--
-        <me.vtag.app.views.CommentBoxTagSuggestionView
-            android:id="@+id/comments_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/tag_prompt"
-            android:textColor="@color/black"
-            android:textSize="22dp"
-            android:background="@color/vtag_blue"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            />
-    -->
-    <!--
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Comment Here"
-            android:id="@+id/comments_input" />
-    -->
     <Button
         android:layout_width="85dp"
         android:layout_height="35dp"

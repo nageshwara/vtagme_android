@@ -27,10 +27,22 @@
         sothree:shadowHeight="1dp"
         sothree:dragView="@+id/dragview"
         >
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/video_details_container"></FrameLayout>
+            >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/video_details_container"></FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/video_comments_container"></FrameLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,7 +55,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/video_queue_comments_container"></FrameLayout>
+                android:id="@+id/video_queue_container"></FrameLayout>
             </ScrollView>
             <View
                 android:id="@+id/dragview"

@@ -21,8 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             app:hlv_dividerWidth="4dp"
-            app:hlv_overScrollHeader="@color/vtag_red"
-            app:hlv_overScrollFooter="@color/vtag_red"
             android:background="@color/lightgray"
             android:paddingTop="8dp"
             android:paddingBottom="4dp"

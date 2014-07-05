@@ -10,16 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
-import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
-import me.vtag.app.backend.models.CommentModel;
-import me.vtag.app.backend.models.CommentsDescribeModel;
-import me.vtag.app.backend.models.PanelListItemModel;
-import me.vtag.app.backend.models.UserModel;
 
 /**
  * Created by anuraag on 19/6/14.

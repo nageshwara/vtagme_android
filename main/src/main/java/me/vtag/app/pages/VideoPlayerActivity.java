@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -21,10 +19,8 @@ import me.vtag.app.backend.models.VideoModel;
 import me.vtag.app.pages.players.BasePlayerFragment;
 import me.vtag.app.pages.players.OnPlayerStateChangedListener;
 import me.vtag.app.pages.players.VtagPlayerFragment;
-import me.vtag.app.pages.players.YoutubePlayerFragment;
 import me.vtag.app.views.QueueFragment;
 import me.vtag.app.views.VideoDetailsFragment;
-import me.vtag.app.views.VideoQueueAndCommentsFragment;
 import me.vtag.app.views.VideosComment;
 
 public class VideoPlayerActivity extends ActionBarActivity {
@@ -33,7 +29,6 @@ public class VideoPlayerActivity extends ActionBarActivity {
     private SlidingUpPanelLayout mSlidingPanelLayout;
     private BasePlayerFragment mCurrentPlayerFragment;
     private FrameLayout mPlayerContainer;
-    private VideoQueueAndCommentsFragment mVideoQueueAndCommentsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,25 +38,12 @@ public class VideoPlayerActivity extends ActionBarActivity {
         mPlayerContainer = (FrameLayout)findViewById(R.id.player_wrapper);
         mSlidingPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
-        mVideoQueueAndCommentsFragment = new VideoQueueAndCommentsFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.video_queue_comments_container,mVideoQueueAndCommentsFragment)
-                .commit();
-
-/*
         QueueFragment queueFragment = VtagApplication.getInstance().getQueueFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.video_queue_container, queueFragment)
                 .commit();
-*/
+
         Intent i = getIntent();
-/*
-        mVideosComment = new VideosComment();
-        mVideosComment.fetchComments("5233675348213760");//((VideoModel) i.getParcelableExtra("video")).id);   //
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.video_comments_container,mVideosComment)
-                .commit();
-*/
         playVideo((VideoModel) i.getParcelableExtra("video"));
     }
 
@@ -97,11 +79,14 @@ public class VideoPlayerActivity extends ActionBarActivity {
         VideoDetailsFragment detailsFragment = new VideoDetailsFragment();
         detailsFragment.setArguments(detailsArgs);
 
+        VideosComment videosComment = new VideosComment();
+        videosComment.setArguments(detailsArgs);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.movieplayer, mCurrentPlayerFragment)
                 .replace(R.id.video_details_container, detailsFragment)
+                .replace(R.id.video_comments_container, videosComment)
                 .commit();
-
     }
 
     private OnPlayerStateChangedListener mOnPlayerStateChangedListener = null;

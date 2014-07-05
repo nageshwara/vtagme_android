@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tokenautocomplete.TokenCompleteTextView;
@@ -49,7 +48,7 @@ public class CommentBoxTagSuggestionView extends TokenCompleteTextView {
         fulltext.setText(this.FullText);
         TextView tagtext = (TextView) view.findViewById(R.id.name);
         tagtext.setText(p);
-        Parent.ET.setText(FullText+" "+p);
+        Parent.mTagAutoCompletionView.setText(FullText+" "+p);
         return null;
     }
 

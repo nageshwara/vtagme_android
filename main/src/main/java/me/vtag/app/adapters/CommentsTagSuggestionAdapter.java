@@ -8,7 +8,6 @@ import android.widget.Filterable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,7 +18,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import me.vtag.app.backend.VtagClient;
-import me.vtag.app.pages.HashtagPageFragment;
 import me.vtag.app.views.VideosComment;
 
 /**
@@ -62,12 +60,12 @@ public class CommentsTagSuggestionAdapter extends ArrayAdapter<String> implement
                 if (constraint != null && constraint.length() > 2 && tag.startsWith("#")==true) {
                     Log.w("Rottai "+constraint.toString(),"Myapp ");
                     // Retrieve the autocomplete results.
-                    Log.w("Sottai "+mHashtagPageFragment.ET.getText(),"Myapp ");
+                    Log.w("Sottai "+mHashtagPageFragment.mTagAutoCompletionView.getText(),"Myapp ");
                     resultList = autocomplete(tag.substring(1));
 
                     int length = constraint.length();
                     // Assign the data to the FilterResults
-//                    mHashtagPageFragment.ET.FullText = constraint.toString().substring(0,length-tag.length());
+//                    mHashtagPageFragment.mTagAutoCompletionView.FullText = constraint.toString().substring(0,length-tag.length());
                     filterResults.values = resultList;
                     filterResults.count = resultList.size();
                     if (filterResults.count == 0) {

@@ -16,6 +16,8 @@ import me.vtag.app.pages.VideoPlayerActivity;
 public class VideoModel implements Parcelable {
     public String id;
     public List<String> hashtags;
+    public List<String> privatetags;
+    public List<CommentModel> goofs;
     public VideoMetaModel video;
 
     @Override
@@ -27,6 +29,8 @@ public class VideoModel implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
         parcel.writeStringList(hashtags);
+        parcel.writeStringList(privatetags);
+        parcel.writeTypedList(goofs);
         parcel.writeParcelable(video, i);
     }
 
@@ -44,9 +48,13 @@ public class VideoModel implements Parcelable {
     public VideoModel() {}
     private VideoModel(Parcel in) {
         hashtags = new ArrayList<>();
+        privatetags = new ArrayList<>();
+        goofs = new ArrayList<>();
 
         id = in.readString();
         in.readStringList(hashtags);
+        in.readStringList(privatetags);
+        in.readTypedList(goofs, CommentModel.CREATOR);
         video = in.readParcelable(VideoMetaModel.class.getClassLoader());
     }
 

@@ -13,22 +13,19 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
 import me.vtag.app.backend.models.CommentModel;
-import me.vtag.app.backend.models.CommentsDescribeModel;
-import me.vtag.app.backend.models.PanelListItemModel;
-import me.vtag.app.backend.models.UserModel;
 
 /**
  * Created by anuraag on 19/6/14.
  */
-public class CommentsListAdapter extends ArrayAdapter<CommentsDescribeModel> {
+public class CommentsListAdapter extends ArrayAdapter<CommentModel> {
     private Context context;
-    private ArrayList<CommentsDescribeModel> usermodels;
+    private List<CommentModel> usermodels;
 
-    public CommentsListAdapter(Context context, int layoutResourceId, ArrayList<CommentsDescribeModel> usermodels){
+    public CommentsListAdapter(Context context, int layoutResourceId, List<CommentModel> usermodels){
         super(context, layoutResourceId, usermodels);
         this.context = context;
         this.usermodels = usermodels;
@@ -40,7 +37,7 @@ public class CommentsListAdapter extends ArrayAdapter<CommentsDescribeModel> {
     }
 
     @Override
-    public CommentsDescribeModel getItem(int position) {
+    public CommentModel getItem(int position) {
         return usermodels.get(position);
     }
 
