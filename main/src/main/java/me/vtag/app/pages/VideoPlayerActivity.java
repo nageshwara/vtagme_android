@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,7 @@ public class VideoPlayerActivity extends ActionBarActivity {
         mSlidingPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
         QueueFragment queueFragment = VtagApplication.getInstance().getQueueFragment();
+        Log.w("VideoPlayerActivity","Myapp ");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.video_queue_container, queueFragment)
                 .commit();

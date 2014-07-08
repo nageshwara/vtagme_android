@@ -23,6 +23,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/tagListView"
         android:layout_gravity="center_horizontal"
-        android:divider="@null"
-        android:dividerHeight="0dp" />
+        android:divider="#ccc"
+        android:dividerHeight="5sp" />
 </RelativeLayout>
