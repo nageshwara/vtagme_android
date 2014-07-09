@@ -66,7 +66,7 @@ public class BaseVideoListItemView extends FrameLayout implements View.OnClickLi
         views.setText(StringUtil.formatNumber(model.video.views));
         duration.setText(StringUtil.durationFromSeconds(model.video.duration));
         Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(6)
+                //.cornerRadiusDp(4)
                 .scaleType(ImageView.ScaleType.CENTER_CROP)
                 .oval(false)
                 .build();

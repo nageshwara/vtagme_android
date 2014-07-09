@@ -1,115 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/card_background"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="92dp"
-        android:layout_height="92dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="8dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Video Title"
-        android:id="@+id/videoTitleView"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView"
-        android:textSize="14dp"
-        android:textColor="@color/darkgray" />
-
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/imageView"
-        >
-
-        <RelativeLayout
+        android:id="@+id/imageHolder"
+        android:layout_width="114dp"
+        android:layout_height="match_parent"
+        android:padding="4dp">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="106dp"
+            android:layout_height="60dp"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="00:99"
+            android:textColor="@color/white"
+            android:id="@+id/durationtxt"
+            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:id="@+id/videoStats"
-            >
+            android:background="@color/darkgray"
+            android:textSize="10dp"
+            android:padding="2dp"
+            android:layout_margin="2dp"
+            />
+    </RelativeLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentBottom="true"
-                android:id="@+id/videoStats1"
-                >
-                <com.beardedhen.androidbootstrap.FontAwesomeText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    fontawesometext:fa_icon="fa-heart"
-                    android:textSize="12sp"
-                    android:layout_marginRight="2dp"
-                    android:textColor="@color/gray"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="999"
-                    android:id="@+id/likesCount" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@+id/videoStats1"
-                android:layout_marginLeft="4dp"
-                >
-                <com.beardedhen.androidbootstrap.FontAwesomeText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    fontawesometext:fa_icon="fa-eye"
-                    android:textSize="12sp"
-                    android:layout_marginRight="2dp"
-                    android:textColor="@color/gray"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="1,000"
-                    android:id="@+id/viewsCount" />
-            </LinearLayout>
-        </RelativeLayout>
-
+    <RelativeLayout
+        android:id="@+id/detailsHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Video Title"
+            android:id="@+id/videoTitleView"
+            android:textSize="12dp"
+            android:textColor="@color/darkgray"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:id="@+id/videoStats1"
+            android:padding="2dp"
             android:layout_alignParentBottom="true"
-            >
+            android:layout_alignParentLeft="true">
             <com.beardedhen.androidbootstrap.FontAwesomeText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                fontawesometext:fa_icon="fa-youtube-play"
-                android:textSize="12sp"
-                android:layout_marginRight="4dp"
-                android:id="@+id/videoproviderLabel"
+                fontawesometext:fa_icon="fa-heart"
+                android:textSize="10sp"
                 android:textColor="@color/gray"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="00:99"
-                android:id="@+id/durationtxt" />
+                android:text="999"
+                android:layout_marginLeft="2dp"
+                android:textSize="10dp"
+                android:id="@+id/likesCount"
+                android:textColor="@color/gray"
+                />
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/videoStats1">
+            <com.beardedhen.androidbootstrap.FontAwesomeText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fontawesometext:fa_icon="fa-eye"
+                android:textSize="10sp"
+                android:textColor="@color/gray"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="1,000"
+                android:layout_marginLeft="2dp"
+                android:textSize="10dp"
+                android:id="@+id/viewsCount"
+                android:textColor="@color/gray"
+                />
+        </LinearLayout>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

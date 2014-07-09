@@ -1,83 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"		android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="6dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    android:background="@drawable/bg_card">
+    android:background="@drawable/bg_card"
+    android:layout_margin="6dp"
+    >
 
     <RelativeLayout
         android:id="@+id/tag_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="8dp" />
+        xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Video Title"
+            android:id="@+id/tagTitleView"
+            android:textColor="@color/darkgray"
+            android:layout_centerVertical="true"
+            android:textSize="18dp"
+            android:layout_marginLeft="8dp"
+            />
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/tagTitleView"
+            android:layout_centerVertical="true"
+            >
+            <com.beardedhen.androidbootstrap.FontAwesomeText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fontawesometext:fa_icon="fa-heart"
+                android:textSize="12sp"
+                android:layout_marginRight="2dp"
+                android:textColor="@color/gray"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="999"
+                android:id="@+id/followersCount"
+                android:textColor="@color/gray" />
+        </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Video Title"
-        android:id="@+id/tagTitleView"
-        android:layout_toRightOf="@+id/imageView"
-        android:typeface="sans"
-        android:textColor="@color/darkgray"
-        android:layout_centerVertical="true"
-        android:textSize="20dp"
-        android:paddingBottom="20dp" />
-
-    <com.beardedhen.androidbootstrap.FontAwesomeText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        fontawesometext:fa_icon="fa-plus-square"
-        android:textSize="36sp"
-        android:id="@+id/subscribeButton"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        />
-
-
+        <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontawesometext:fa_icon="fa-plus-square"
+            android:textSize="32sp"
+            android:id="@+id/subscribeButton"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            />
     </RelativeLayout>
 
-    <View
-        android:layout_width="320dp"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp">
-
-        </View>
-    <ListView
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ccc"
-        android:divider="@color/black"
-        android:dividerHeight="1dp"
+        android:divider="@drawable/simple_horizontal_divider"
+        android:dividerPadding="4dp"
+        android:showDividers="beginning|middle|end"
         android:id="@+id/video_samples_list"/>
 
     <TextView
         android:id="@+id/more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/blue"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/vtag_blue"
         android:layout_gravity="center"
-        android:text="MORE"/>
+        android:padding="4dp"
+        android:textSize="14dp"
+        android:text="More"/>
 
 </LinearLayout>
