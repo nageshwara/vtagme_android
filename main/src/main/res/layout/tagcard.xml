@@ -6,26 +6,39 @@
     android:background="@drawable/card_background"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="4dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Video Title"
         android:id="@+id/tagTitleView"
-        android:layout_toRightOf="@+id/imageView"
         android:typeface="sans"
         android:textColor="@color/darkgray"
         android:layout_centerVertical="true"
         android:textSize="20dp"
         android:paddingBottom="20dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tagTitleView"
+        >
+        <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontawesometext:fa_icon="fa-heart"
+            android:textSize="12sp"
+            android:layout_marginRight="2dp"
+            android:textColor="@color/gray"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="999"
+            android:id="@+id/followersCount"
+            android:textColor="@color/gray" />
+    </LinearLayout>
 
     <com.beardedhen.androidbootstrap.FontAwesomeText
         android:layout_width="wrap_content"
@@ -49,27 +62,4 @@
         android:layout_alignParentEnd="true"
         android:background="@drawable/abc_ic_menu_moreoverflow_normal_holo_light"
         android:onClick="openContextMenu" /-->
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/imageView"
-        >
-        <com.beardedhen.androidbootstrap.FontAwesomeText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fontawesometext:fa_icon="fa-heart"
-            android:textSize="12sp"
-            android:layout_marginRight="2dp"
-            android:textColor="@color/gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="999"
-            android:id="@+id/followersCount"
-            android:textColor="@color/gray" />
-    </LinearLayout>
 </RelativeLayout>

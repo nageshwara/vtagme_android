@@ -17,6 +17,7 @@ public class VideoModel implements Parcelable {
     public String id;
     public List<String> hashtags;
     public VideoMetaModel video;
+//    public goofs;
 
     @Override
     public int describeContents() {

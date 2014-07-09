@@ -4,39 +4,35 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.beardedhen.androidbootstrap.FontAwesomeText;
-import com.makeramen.RoundedTransformationBuilder;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
-
-import java.util.List;
-import java.util.Random;
 
 import me.vtag.app.HomeActivity;
 import me.vtag.app.R;
 import me.vtag.app.VtagApplication;
-import me.vtag.app.backend.models.BaseTagModel;
 import me.vtag.app.backend.models.HashtagModel;
 import me.vtag.app.backend.models.VideoModel;
-import me.vtag.app.helpers.StringUtil;
 import me.vtag.app.helpers.VtagmeCallback;
 
 /**
  * Created by nageswara on 5/3/14.
  */
 public class HashtagListItemView extends FrameLayout implements View.OnClickListener {
-
     private View view;
     private HashtagModel model;
 
-    private ImageView mImage;
     private TextView mTitle;
     private TextView mFollowers;
     private TextView mVideos;
     private FontAwesomeText mSubscribe;
+    private LinearLayout mVideosSampleList;
+    private BaseVideoListItemView[] mVideoCards;
+
+
+    private static final int NUM_VIDOES_IN_PREVIEW = 3;
 
     public HashtagListItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -54,14 +50,16 @@ public class HashtagListItemView extends FrameLayout implements View.OnClickList
     }
 
     private void initView() {
-        view = inflate(getContext(), R.layout.tagcard, null);
-        addView(view);
+        view = inflate(getContext(), R.layout.home_page_tags_view, this);
         mSubscribe = (FontAwesomeText) view.findViewById(R.id.subscribeButton);
-        mImage = (ImageView) view.findViewById(R.id.imageView);
         mTitle = (TextView) view.findViewById(R.id.tagTitleView);
+
+        mVideosSampleList = (LinearLayout) view.findViewById(R.id.video_samples_list);
+        TextView tagDetails = (TextView) view.findViewById(R.id.more);
+
         mFollowers = (TextView) view.findViewById(R.id.followersCount);
         //mVideos = (TextView) view.findViewById(R.id.videosCount);
-        this.setOnClickListener(this);
+        tagDetails.setOnClickListener(this);
         mSubscribe.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,30 +75,23 @@ public class HashtagListItemView extends FrameLayout implements View.OnClickList
             mSubscribe.setVisibility(INVISIBLE);
         }
 
+        mVideoCards =  new BaseVideoListItemView[NUM_VIDOES_IN_PREVIEW];
+        for (int i=0;i<NUM_VIDOES_IN_PREVIEW;i++) {
+            mVideoCards[i] = new BaseVideoListItemView(getContext());
+            mVideosSampleList.addView(mVideoCards[i]);
+        }
     }
 
     public void setModel(HashtagModel model) {
         this.model = model;
 
         mTitle.setText("#" + model.tag);
-        mFollowers.setText(StringUtil.formatNumber(model.followers));
-        //videos.setText(StringUtil.formatNumber(model.videocount));
-        Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(6)
-                .scaleType(ImageView.ScaleType.CENTER_CROP)
-                .oval(false)
-                .build();
-        Picasso.with(this.getContext()).load(getRandomUrl())
-                .fit().centerCrop()
-                .transform(transformation)
-                .into(mImage);
+        mFollowers.setText(""+model.followers);
+        for (int i = 0; i < NUM_VIDOES_IN_PREVIEW; i++) {
+            VideoModel videoModel  = model.videodetails.get(i);
+            mVideoCards[i].setModel(videoModel);
+        }
         refresh();
-    }
-
-    private String getRandomUrl() {
-        List<VideoModel> videoModelList = model.videodetails;
-        Random random = new Random(videoModelList.size());
-        return videoModelList.get(random.nextInt() % videoModelList.size()).video.thumb;
     }
 
     private void refresh() {
@@ -125,7 +116,6 @@ public class HashtagListItemView extends FrameLayout implements View.OnClickList
                     refresh();
                 }
             };
-            // Show loading circle until we get mesg back from server.
             if (model.following) {
                 model.unfollow(callback);
             }

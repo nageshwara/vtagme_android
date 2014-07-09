@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card"
+    android:layout_margin="6dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/tag_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Video Title"
+            android:id="@+id/tagTitleView"
+            android:textColor="@color/darkgray"
+            android:layout_centerVertical="true"
+            android:textSize="18dp"
+            android:layout_marginLeft="8dp"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/tagTitleView"
+            android:layout_centerVertical="true"
+            >
+            <com.beardedhen.androidbootstrap.FontAwesomeText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fontawesometext:fa_icon="fa-heart"
+                android:textSize="12sp"
+                android:layout_marginRight="2dp"
+                android:textColor="@color/gray"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="999"
+                android:id="@+id/followersCount"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontawesometext:fa_icon="fa-plus-square"
+            android:textSize="32sp"
+            android:id="@+id/subscribeButton"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/simple_horizontal_divider"
+        android:dividerPadding="4dp"
+        android:showDividers="beginning|middle|end"
+        android:id="@+id/video_samples_list"/>
+
+    <TextView
+        android:id="@+id/more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/vtag_blue"
+        android:layout_gravity="center"
+        android:padding="4dp"
+        android:textSize="14dp"
+        android:text="More"/>
+
+</LinearLayout>

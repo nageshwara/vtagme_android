@@ -3,6 +3,7 @@ package me.vtag.app.views;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -65,7 +66,7 @@ public class BaseVideoListItemView extends FrameLayout implements View.OnClickLi
         views.setText(StringUtil.formatNumber(model.video.views));
         duration.setText(StringUtil.durationFromSeconds(model.video.duration));
         Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(6)
+                //.cornerRadiusDp(4)
                 .scaleType(ImageView.ScaleType.CENTER_CROP)
                 .oval(false)
                 .build();
@@ -77,6 +78,7 @@ public class BaseVideoListItemView extends FrameLayout implements View.OnClickLi
         /**
          * If Tag is different, set the tag in the queue.
          */
+        Log.w("Play video "+model.video.title,"Myapp ");
         model.play(getContext());
     }
 }
