@@ -1,7 +1,11 @@
 package me.vtag.app.views;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +104,15 @@ public class QueueFragment extends Fragment {
         if (getActivity() != null) {
             mVideoList = new QueueVideoListAdapter(getActivity(), R.layout.videocard, mTagModel.videodetails);
             mVideoListView.setAdapter(mVideoList);
+/*
+            Resources r = getResources();
+            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 92, r.getDisplayMetrics()) + .5f;
+            Log.w("Size of image "+Float.toString(px),"Myapp ");
+*/
+            ViewGroup.LayoutParams params = mVideoListView.getLayoutParams();
+            params.height = (156)*mVideoList.getCount();
+            mVideoListView.setLayoutParams(params);
+            mVideoListView.requestLayout();
         }
     }
 

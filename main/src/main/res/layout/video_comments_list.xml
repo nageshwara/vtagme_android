@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
+
+    <MultiAutoCompleteTextView
+        android:paddingBottom="10dp"
+        android:id="@+id/multiAutoCompleteTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:completionThreshold="3"
+        android:textColor="@color/black"
+        android:ems="10" >
+    </MultiAutoCompleteTextView>
+
+    <Button
+        android:layout_width="85dp"
+        android:layout_height="35dp"
+        android:text="Submit"
+        android:id="@+id/comments_input_submit"/>
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:id="@+id/comments_listview"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

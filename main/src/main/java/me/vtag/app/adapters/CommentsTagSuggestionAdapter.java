@@ -8,7 +8,6 @@ import android.widget.Filterable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,22 +18,22 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import me.vtag.app.backend.VtagClient;
-import me.vtag.app.pages.HashtagPageFragment;
+import me.vtag.app.views.VideosComment;
 
 /**
- * Created by nageswara on 6/5/14.
+ * Created by anuraag on 24/6/14.
  */
-public class TagAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
+public class CommentsTagSuggestionAdapter extends ArrayAdapter<String> implements Filterable {
     private ArrayList<String> resultList;
     private static final String LOG_TAG = "TagAutoCompleteAdapter";
-    private HashtagPageFragment mHashtagPageFragment;
+    private VideosComment mHashtagPageFragment;
 
-    public TagAutoCompleteAdapter(Context context, int textViewResourceId, HashtagPageFragment mHashtagPageFragment) {
+    public CommentsTagSuggestionAdapter(Context context, int textViewResourceId, VideosComment mHashtagPageFragment) {
         super(context, textViewResourceId);
         this.mHashtagPageFragment = mHashtagPageFragment;
     }
 
-    public TagAutoCompleteAdapter(Context context, int textViewResourceId) {
+    public CommentsTagSuggestionAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
@@ -55,26 +54,23 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<String> implements Filt
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
-/*
                 String[] list = constraint.toString().split(" ");
                 String tag = list[list.length-1];
                 Log.w("The tag is "+tag.substring(1)+" "+Boolean.toString(tag.startsWith("#")),"Myapp ");
-                */
-                if (constraint != null && constraint.length() > 2) {// && tag.startsWith("#")==true) {
+                if (constraint != null && constraint.length() > 2 && tag.startsWith("#")==true) {
                     Log.w("Rottai "+constraint.toString(),"Myapp ");
                     // Retrieve the autocomplete results.
-//                    resultList = autocomplete(tag.substring(1));
+                    Log.w("Sottai "+mHashtagPageFragment.mTagAutoCompletionView.getText(),"Myapp ");
+                    resultList = autocomplete(tag.substring(1));
 
                     int length = constraint.length();
                     // Assign the data to the FilterResults
-//                    mHashtagPageFragment.completionView.FullText = constraint.toString().substring(0,length-tag.length());
+//                    mHashtagPageFragment.mTagAutoCompletionView.FullText = constraint.toString().substring(0,length-tag.length());
                     filterResults.values = resultList;
                     filterResults.count = resultList.size();
-/*
                     if (filterResults.count == 0) {
                         mHashtagPageFragment.onTokenAdded(null);
                     }
-                    */
                 }
                 return filterResults;
             }
