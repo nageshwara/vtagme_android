@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,35 +67,74 @@ public class VideosComment extends Fragment implements
         mTagAutoCompletionView = (MultiAutoCompleteTextView) mMainView.findViewById(R.id.multiAutoCompleteTextView);
         mTagAutoCompletionView.setTokenizer(new UsernameTokenizer());
         mTagAutoCompletionView.addTextChangedListener(this);
+/*
+        mTagAutoCompletionView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                Log.w("key pressed ","Myapp ");
+                if(keyCode == KeyEvent.KEYCODE_DEL) {
+                    Log.w(""+mTagAutoCompletionView.getSelectionStart(),"Myapp ");
+                    Log.w("BackSpace pressed ","Myapp ");
+                }
+                return false;
+            }
+        });
+*/
+        /*
         mTagAutoCompletionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mSuggestionTagSelected = 1;
-                mSelectedTag = (String) adapterView.getItemAtPosition(i);
-                Log.w("Selected string is " + mSelectedTag, "Myapp");
-                int length = mTagAutoCompletionView.getText().length();
-                Log.w("Html set up " + mTagAutoCompletionView.getText().subSequence(0, length - mSelectedTag.length() - 1), "Myapp ");
-                String[] tem = mTagAutoCompletionView.getText().toString().split("#");
-                String temp = tem[0];//+"#";
+
+
                 int j = 1;
-                if (mTagAutoCompletionView.getText().toString().charAt(0) == '#') {
+                mSelectedTag = (String) adapterView.getItemAtPosition(i);
+                String Comment = mTagAutoCompletionView.getText().toString();
+                int lengthOfComment = Comment.length();
+                String[] splitByDoubleHash = Comment.split("##");
+                String NewComment = "";
+                if(!(Comment.substring(0,2).equals("##"))) {
+                    NewComment = splitByDoubleHash[0];
+                }
+                else {
                     j = 0;
                 }
-                for (; j < tem.length; j++) {
-                    String i1 = tem[j];
-                    String[] tem11 = i1.split(" ");
-                    temp = temp + "#<font color='red'>" + tem11[0] + "</font>" + " " + i1.substring(tem11[0].length() + 1);
+
+                int flag = 0;
+                for(;j<splitByDoubleHash.length;j++) {
+                    flag = 1;
+                    NewComment = NewComment + "<font color='red'>##" + splitByDoubleHash[j].split(" ")[0]+ "</font> ";
+                    String[] splitBySingleHash = splitByDoubleHash[j].substring(splitByDoubleHash[j].split(" ")[0].length()+1).split("#");
+                    int k = 1;
+                    if(splitBySingleHash[0].substring(0,1).equals("#")) {
+                        k = 0;
+                    }
+                    for(;k<splitBySingleHash.length;k++) {
+                        NewComment = NewComment + "#<font color='red'>" + splitBySingleHash[k].split(" ")[0] + "</font> ";
+                        NewComment = NewComment + splitBySingleHash[k].substring(splitBySingleHash[k].split(" ")[0].length()+1);
+                    }
                 }
-                if (temp.length() == 1 && temp == "#") {
-                    temp = "#";
+
+                if(flag == 0) {
+                    Log.w("The flag is 0","Myapp ");
+                    String[] splitBySingleHash = Comment.split("#");
+                    int k = 1;
+                    if(!(Comment.substring(0,1).equals("#"))) {
+                        NewComment = splitBySingleHash[0];
+                    }
+                    else {
+                        k = 0;
+                    }
+                    for(;k<splitBySingleHash.length;k++) {
+                        NewComment = NewComment + "<font color='red'>#" + splitBySingleHash[k].split(" ")[0] + "</font> ";
+                        NewComment = NewComment + splitBySingleHash[k].substring(splitBySingleHash[k].split(" ")[0].length()+1);
+                    }
                 }
-                mTagAutoCompletionView.setText(Html.fromHtml(temp), TextView.BufferType.SPANNABLE);
-//                mTagAutoCompletionView.setText(Html.fromHtml(mTagAutoCompletionView.getText().subSequence(0, length - mSelectedTag.length()-1) + "<font color='red'>" + mSelectedTag + "</font>"), TextView.BufferType.SPANNABLE); //13 for the length of <mark></mark>
-                Log.w("" + mTagAutoCompletionView.getText(), "Myapp ");
-                mTagAutoCompletionView.setSelection(length - 1);
+                mTagAutoCompletionView.setText(Html.fromHtml(NewComment), TextView.BufferType.SPANNABLE);
+                Log.w("" + mTagAutoCompletionView.getText() + " length is "+ mTagAutoCompletionView.getText().length() + " newcomment length  "+NewComment.length(), "Myapp ");
+                mTagAutoCompletionView.setSelection(mTagAutoCompletionView.length());
             }
         });
-
+*/
         Button Submit = (Button) mMainView.findViewById(R.id.comments_input_submit);
         Submit.setOnClickListener(new View.OnClickListener() {
 
@@ -111,9 +151,6 @@ public class VideosComment extends Fragment implements
         mCommentsListView = (ListView) mMainView.findViewById(R.id.comments_listview);
 
         mCommentslist = mVideoModel.goofs;
-        CommentModel temp = new CommentModel();
-        temp.c = "apple is bad";
-        mCommentslist.add(temp);
 
         mCommentsListAdapter = new CommentsListAdapter(getActivity(),0, mCommentslist);
         mCommentsListView.setAdapter(mCommentsListAdapter);
@@ -164,7 +201,7 @@ public class VideosComment extends Fragment implements
             Log.w("doInBackground "+newText,"Myapp ");
             try {
                 HttpClient hClient = new DefaultHttpClient();
-                HttpGet hGet = new HttpGet("http://192.168.1.2:8080/tagsearch/"+newText);
+                HttpGet hGet = new HttpGet("http://192.168.1.4:8080/tagsearch/"+newText);
 
                 ResponseHandler<String> rHandler = new BasicResponseHandler();
                 data = hClient.execute(hGet, rHandler);
@@ -201,85 +238,128 @@ public class VideosComment extends Fragment implements
 
     private int CommentsLength = 0;
     private int SpacePressed = 0;
+    private int once = 0,prev_length = 0;
+    private String prevText = "";
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         int cursor = start;
         int length = s.length();
-        Log.w("mSuggestionTagSelected is "+Integer.toString(mSuggestionTagSelected)+"onTextChanged "+s.toString() +" starts at : "+Integer.toString(start)+" s length is "+Integer.toString(s.length()),"Myapp ");
-/*
-        if(mSuggestionTagSelected == 2) {
-            mSuggestionTagSelected = 0;
-            SpacePressed = 1;
+        Log.w("s is "+s+" start "+start+" before "+before+" count "+count,"Myapp");
+        Log.w("is it space ? "+(s.charAt(start+count-1)==' '),"Myapp ");
+        Log.w("The new letter added is "+s.charAt(start+count-1),"Myapp ");
+        Log.w("cursor at "+mTagAutoCompletionView.getSelectionStart(),"Myapp ");
+
+        if(s.length() < prev_length) {
+            Log.w("Backspace pressed","Myapp");
+            int presentPosition = mTagAutoCompletionView.getSelectionStart();
+            String beforeComment,afterComment;
+            Log.w("cursor at "+presentPosition,"Myapp ");
+            for(int i = presentPosition-1;i>=0 ;i--) {
+                if(s.charAt(i) == ' ' || prevText.charAt(presentPosition) == ' ') {
+                    break;
+                }
+                if(s.charAt(i) == '#') {
+                    if(i>=1) {
+                        if (s.charAt(i - 1) == '#') {
+                            beforeComment = s.subSequence(0,i-1).toString();
+                            afterComment = s.subSequence(presentPosition,s.length()).toString();
+                            mTagAutoCompletionView.setText(beforeComment+afterComment);
+                            break;
+                        }
+                    }
+                    beforeComment = s.subSequence(0,i).toString();
+                    afterComment = s.subSequence(presentPosition,s.length()).toString();
+                    mTagAutoCompletionView.setText(beforeComment+afterComment);
+                }
+            }
+            prev_length = s.length();
             return;
         }
-        */
-//        else if(mSuggestionTagSelected == 1) {
-            mSuggestionTagSelected = 2;
-/*
-            Log.w("Prediction Mission accomplished!","Myapp ");
-            String[] hashSplit = s.toString().split("@");
-            String lasthash = hashSplit[hashSplit.length-1];
-            */
-//            String[] hashSplit1 = lasthash.split(" ");
-//            Log.w("hashSplit1 length is "+Integer.toString(hashSplit1.length),"Myapp ");
-//            Log.w("hashSplit1 "+hashSplit1.toString(),"Myapp ");
-//            String lasthash1 = hashSplit1[hashSplit1.length-1];
-            /*
-            Log.w("Selected string is "+mSelectedTag,"Myapp");
+        prev_length = s.length();
 
-            Log.w("Html set up "+s.subSequence(0, length - mSelectedTag.length()),"Myapp ");
-            mTagAutoCompletionView.setText(Html.fromHtml(s.subSequence(0, length - mSelectedTag.length()) + "<mark>" + mSelectedTag + "</mark>"), TextView.BufferType.SPANNABLE); //13 for the length of <mark></mark>
-            */
-//                mTagAutoCompletionView.setText(Html.fromHtml("<font color='red'>are you ?? Working???</font>"), TextView.BufferType.SPANNABLE);
-//            mTagAutoCompletionView.setSelection(length + 13);
-//        }
-            String[] hashSplit = s.toString().split("#");
-        if (hashSplit.length > 1) {
-            String lasthash = hashSplit[hashSplit.length - 1];
-            String[] hashSplit1 = lasthash.split(" ");
-            Log.w("hashSplit1 length is " + Integer.toString(hashSplit1.length), "Myapp ");
-            Log.w("hashSplit1 " + hashSplit1.toString(), "Myapp ");
-            String lasthash1 = hashSplit1[hashSplit1.length - 1];
-            Log.w("Lasthash is " + lasthash, "Myapp");
-/*
-            String[] hashSplit = s.toString().split("<mark>");
-            String lasthash = hashSplit[hashSplit.length-1];
-            String[] hashSplit1 = lasthash.split("</mark>");
-            Log.w("hashSplit1 length is "+Integer.toString(hashSplit1.length),"Myapp ");
-            String lasthash1 = hashSplit1[hashSplit1.length-1];
-            Log.w("Lasthash is "+lasthash,"Myapp");
-*/
-            if (CommentsLength > s.length() && s.length() > 0) {
-                try {
-                    Log.w("Backspace pressed !! " + s.toString(), "Myapp ");
-                    if (SpacePressed == 0 && hashSplit.length > 1 && hashSplit1.length == 1) {
-                        mTagAutoCompletionView.setText(s.subSequence(0, length - lasthash1.length() - 1));
-                        mTagAutoCompletionView.setSelection(length - lasthash1.length() - 1);
-                    }
-                } finally {
-                    //nothing
+        if(s.charAt(start+count-1)==' ' && once == 0) {     //the variable once is used to avoid recursion
+            //what i do here is that, every time a new word is completed (indicated by entering space) i convert
+            //all the words starting with # or ## (ie, hashtags) i put the word(or tag) into the HTML tag (<font></font>)
+            //to highlight the tag.....
+            once = 1;
+            int j = 1;
+            String Comment = mTagAutoCompletionView.getText().toString();
+            int lengthOfComment = Comment.length();
+            String[] splitByDoubleHash = Comment.split("##");
+            String NewComment = "";
+            if(!(Comment.substring(0,2).equals("##")) && splitByDoubleHash.length > 1) {
+//                NewComment = splitByDoubleHash[0];
+
+                String[] splitBySingleHash = splitByDoubleHash[0].split("#");
+                int k = 1;
+                if(!(splitByDoubleHash[0].substring(0,1).equals("#"))) {
+                    NewComment = NewComment + splitBySingleHash[0];
+                }
+                else {
+                    Log.w("First one is # "+splitBySingleHash[1],"Myapp ");
+//                    k = 0;
+                }
+                for(;k<splitBySingleHash.length;k++) {
+                    NewComment = NewComment + "<font color='red'>#" + splitBySingleHash[k].split(" ")[0] + "</font> ";
+                        Log.w("yen   "+splitBySingleHash[k].split(" ")[k].length() + " "+splitBySingleHash[k].length(),"Myapp ");
+                        NewComment = NewComment + splitBySingleHash[k].substring(splitBySingleHash[k].split(" ")[0].length() + 1);
                 }
             }
-        }
-        try {
-            if(length > 1) {
-                if (s.toString().substring(length - 1).equals(" ")) {
-                    SpacePressed = 1;
-                }
-            } else {
-                SpacePressed = 0;
+            else {
+//                j = 0;
             }
-        }
-        finally {
 
+            int flag = 0;
+            for(;j<splitByDoubleHash.length;j++) {
+                flag = 1;
+                NewComment = NewComment + "<font color='red'>##" + splitByDoubleHash[j].split(" ")[0]+ "</font> ";
+                String[] splitBySingleHash = splitByDoubleHash[j].substring(splitByDoubleHash[j].split(" ")[0].length()+1).split("#");
+                int k = 1;
+                if(!(splitByDoubleHash[j].substring(splitByDoubleHash[j].split(" ")[0].length()+1).substring(0,1).equals("#"))) {
+                    NewComment = NewComment + splitBySingleHash[0];
+                }
+                else {
+                    k = 0;
+                }
+                for(;k<splitBySingleHash.length;k++) {
+                    NewComment = NewComment + "<font color='red'>#" + splitBySingleHash[k].split(" ")[0] + "</font> ";
+                    NewComment = NewComment + splitBySingleHash[k].substring(splitBySingleHash[k].split(" ")[0].length()+1);
+                }
+            }
+
+            if(flag == 0) {
+                Log.w("The flag is 0","Myapp ");
+                String[] splitBySingleHash = Comment.split("#");
+                int k = 1;
+                if(!(Comment.substring(0,1).equals("#"))) {
+                    NewComment = splitBySingleHash[0];
+                }
+                else {
+//                    k = 0;
+                }
+                for(;k<splitBySingleHash.length;k++) {
+                    NewComment = NewComment + "<font color='red'>#" + splitBySingleHash[k].split(" ")[0] + "</font> ";
+                    NewComment = NewComment + splitBySingleHash[k].substring(splitBySingleHash[k].split(" ")[0].length()+1);
+                }
+            }
+            mTagAutoCompletionView.setText(Html.fromHtml(NewComment), TextView.BufferType.SPANNABLE);
+            Log.w("" + mTagAutoCompletionView.getText() + " length is "+ mTagAutoCompletionView.getText().length() + " newcomment length  "+NewComment.length(), "Myapp ");
+            mTagAutoCompletionView.setSelection(mTagAutoCompletionView.length());
+
+        }
+        else {
+            once = 0;
         }
 
         CommentsLength = s.length();
+//        Log.w("before isValidToken "+s.charAt(cursor),"Myapp ");
         if (cursor >= s.length()) cursor = s.length()-1;
         if (isValidToken(s, cursor)){
+            Log.w("Valid","Myapp ");
             String token = getToken(s, start);
             new SuggestTagsAsyncTask().execute( token );
         }
+        prevText = mTagAutoCompletionView.getText().toString();
     }
     @Override
     public void afterTextChanged(Editable editable) {
@@ -300,6 +380,8 @@ public class VideosComment extends Fragment implements
      */
     private boolean isValidToken(CharSequence text, int cursor){
         int len = 0;
+        Log.w("isValidToken func and the whole text is "+(String) text.toString(),"Myapp ");
+        Log.w("the letter at cursor is "+text.toString().charAt(cursor),"Myapp ");
         for (int i=cursor; i>=0; i--){
             len++;
             Log.w("Valid? "+text.charAt(i),"Myapp ");
@@ -348,5 +430,4 @@ public class VideosComment extends Fragment implements
         }
         return i;
     }
-
 }
